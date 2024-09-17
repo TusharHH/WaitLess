@@ -4,8 +4,8 @@ const {
     login,
     signup,
     reset_password,
-    update_admin
-} = require('../controllers/Admin.controller.js');
+    update_user
+} = require('../controllers/User.controller.js');
 
 const protect = require('../middlewares/VerifyToken.middleware.js');
 
@@ -15,6 +15,6 @@ route.post('/login', login);
 route.post('/signup', signup);
 route.put('/reset-password', reset_password);
 
-route.put('/update-admin', protect, update_admin);
+route.put('/update_user', protect, update_user);
 
 module.exports = route;

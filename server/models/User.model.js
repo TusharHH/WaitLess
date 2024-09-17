@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const bcrypt = require('bcrypt');
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -14,18 +16,32 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    phoneNumber: {
-        type: String,
-        trim: true
-    },
-    notificationsEnabled: {
-        type: Boolean,
-        default: false
-    },
     tokenHistory: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Token'
-    }]
+    }],
+    authToken:{
+        type: String,
+        default: null
+    }
 }, { timestamps: true });
+
+
+userSchema.statics.hashPassword = async function (password) {
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password, salt);
+};
+
+userSchema.methods.validatePassword = async function (password) {
+    return await bcrypt.compare(password, this.password);
+};
+
+userSchema.pre('save', async function (next) {
+    if (this.isModified('password')) {
+        this.password = await this.constructor.hashPassword(this.password);
+    }
+    next();
+});
+
 
 module.exports = mongoose.model('User', userSchema);
