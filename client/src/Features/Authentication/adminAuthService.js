@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const BACKEND_URL_ADMIN = 'http://localhost:4000/api/v1/admins';
 const BACKEND_URL_USER = 'http://localhost:4000/api/v1/users'
+
 export const loginAdmin = async (email, password) => {
   try {
     const response = await axios.post(`${BACKEND_URL_ADMIN}/login`, { email, password });

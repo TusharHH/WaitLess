@@ -22,13 +22,18 @@ const LoginPage = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-         console.log(role)
-        const success = role === 'user' 
+        console.log(role)
+        const success = role === 'user'
             ? await userLogin(email, password) // Use appropriate login method
-            : await adminLogin(email, password); 
+            : await adminLogin(email, password);
+
+        console.log(success);
 
         if (success) {
             navigate('/dashboard'); // Redirect to dashboard upon successful login
+        }else{
+            console.log('loggin failed!!');
+            
         }
     };
 
@@ -38,27 +43,27 @@ const LoginPage = () => {
             <form onSubmit={handleLogin}>
                 <div>
                     <label>Email:</label>
-                    <input 
-                        type="email" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
-                        required 
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
                     />
                 </div>
                 <div>
                     <label>Password:</label>
-                    <input 
-                        type="password" 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        required 
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
                 </div>
                 <div>
                     <label>Role:</label>
-                    <select 
-                        value={role} 
-                        onChange={(e) => setRole(e.target.value)} 
+                    <select
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
                         required
                     >
                         <option value="admin">Admin</option>

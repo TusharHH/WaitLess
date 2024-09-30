@@ -1,4 +1,4 @@
-import {create} from 'zustand';
+import { create } from 'zustand';
 import { loginUser, signupUser } from '../Features/Authentication/adminAuthService';
 
 export const useUserAuthStore = create((set) => ({
@@ -13,18 +13,20 @@ export const useUserAuthStore = create((set) => ({
     try {
       const response = await loginUser(email, password);
       set({
-        user: response.data.user,
+        user: response.data.data.user,
         isAuthenticated: true,
         isLoading: false,
       });
       // Optionally store the user token in localStorage
       localStorage.setItem('authToken', response.data.data.user.authToken);
+      return true;
     } catch (error) {
       set({
         error: error.response?.data?.message || 'Login failed!',
         isAuthenticated: false,
         isLoading: false,
       });
+      return false;
     }
   },
 
