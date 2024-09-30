@@ -6,12 +6,11 @@ export default function AddService() {
         description:'',
         startTime:'',
         endTime:'',
-        
     });
   return (
     <div className="container">
         <form action="">
-            <input type="text" name="serviceName" id="serviceName" placeholder='Enter Service Name' value={} required />
+            {/* <input type="text" name="serviceName" id="serviceName" placeholder='Enter Service Name' value={} required /> */}
         </form>
     </div>
   )
