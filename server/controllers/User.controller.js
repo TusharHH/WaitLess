@@ -27,7 +27,7 @@ const signup = AsyncHandler(async (req, res) => {
 
 const login = AsyncHandler(async (req, res) => {
     const { email, password } = req.body;
-
+    
     if (!email || !password) {
         return ApiResponse(res, false, "Please provide email and password!", {}, 400);
     }
