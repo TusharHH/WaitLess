@@ -66,11 +66,10 @@ const login = AsyncHandler(async (req, res) => {
     ApiResponse(res, true, "Login successful!", {
         Token: admin.authToken,
         admin: {
-            adminId: admin._id,
             adminName: admin.name,
             adminEmail: admin.email,
+            service
         },
-        service
     }, 200);
 });
 
