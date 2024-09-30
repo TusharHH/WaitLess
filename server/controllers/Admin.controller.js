@@ -39,11 +39,39 @@ const login = AsyncHandler(async (req, res) => {
     }
 
     const token = GenerateToken(admin._id);
+    const service = await Admin.aggregate([
+        {
+            $match: { _id: mongoose.Types.ObjectId(admin._id) }
+        },
+        {
 
+            $lookup: {
+                from: 'services',
+                localField: 'services',
+                foreignField: '_id',
+                as: 'servicesDetails'
+            }
+        },
+        {
+
+            $project: {
+                password: 0,
+                authToken: 0
+            }
+        }
+    ]);
     admin.authToken = token;
     await admin.save();
 
-    ApiResponse(res, true, "Login successful!", { Token: admin.authToken, admin }, 200);
+    ApiResponse(res, true, "Login successful!", {
+        Token: admin.authToken,
+        admin: {
+            adminId: admin._id,
+            adminName: admin.name,
+            adminEmail: admin.email,
+        },
+        service
+    }, 200);
 });
 
 const reset_password = AsyncHandler(async (req, res) => {
@@ -73,7 +101,7 @@ const update_admin = AsyncHandler(async (req, res) => {
     admin.email = email || admin.email;
 
     if (password) {
-        admin.password = password;  
+        admin.password = password;
     }
 
     await admin.save();
