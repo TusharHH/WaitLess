@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import ServiceCard from '../../components/Service/ServiceCard';
 import useAdminStore from '../../store/adminAuthStore';
 
 
@@ -28,6 +28,10 @@ function Dashboard() {
 
             <button onClick={handleLogout}>Logout</button>
             <button onClick={handleLogout}>Add Service</button>
+            <br />
+            <div className="container">
+                <ServiceCard/>
+            </div>
         </div>
     );
 }

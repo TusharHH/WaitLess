@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 
 function ServiceCard({ serviceName, serviceDescription, serviceStartingTime, serviceEndingTime, serviceSlotTime }) {
   return (
-    <div>
+    <div style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px' }}>
       <h3>{serviceName}</h3>
       <p>{serviceDescription}</p>
       <p>Starting Time: {serviceStartingTime}</p>
       <p>Ending Time: {serviceEndingTime}</p>
       <p>Slot Time: {serviceSlotTime} hrs</p>
     </div>
-  )
+  );
 };
 
-ServiceCard.deafultProps = {
+ServiceCard.defaultProps = {
   serviceName: "Service Name",
   serviceDescription: "Service description",
   serviceStartingTime: "0:0",
