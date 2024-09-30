@@ -27,7 +27,7 @@ function Dashboard() {
             <p>admin: {adminName}</p>
 
             <button onClick={handleLogout}>Logout</button>
-
+            <button onClick={handleLogout}>Add Service</button>
         </div>
     );
 }
