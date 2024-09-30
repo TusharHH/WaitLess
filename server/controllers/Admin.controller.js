@@ -41,7 +41,7 @@ const login = AsyncHandler(async (req, res) => {
     const token = GenerateToken(admin._id);
     const service = await Admin.aggregate([
         {
-            $match: { _id: mongoose.Types.ObjectId(admin._id) }
+            $match: { _id: admin._id }
         },
         {
 
