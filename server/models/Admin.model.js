@@ -25,16 +25,16 @@ const adminSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-adminSchema.statics.hashPassword = async function(password) {
+adminSchema.statics.hashPassword = async function (password) {
   const salt = await bcrypt.genSalt(10);
   return await bcrypt.hash(password, salt);
 };
 
-adminSchema.methods.validatePassword = async function(password) {
+adminSchema.methods.validatePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-adminSchema.pre('save', async function(next) {
+adminSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await this.constructor.hashPassword(this.password);
   }

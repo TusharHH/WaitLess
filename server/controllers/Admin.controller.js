@@ -72,6 +72,10 @@ const update_admin = AsyncHandler(async (req, res) => {
     admin.name = name || admin.name;
     admin.email = email || admin.email;
 
+    if (password) {
+        admin.password = password;  
+    }
+
     await admin.save();
 
     ApiResponse(res, true, 'Admin updated successfully', { admin });
