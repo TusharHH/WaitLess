@@ -23,7 +23,7 @@ const useAdminStore = create((set) => ({
                 return false;
             }
 
-            const authAdmin = response.data.data.admin;
+            const authAdmin = response.data.data.adminDetails;
             if (!authAdmin) {
                 set(() => ({ error: 'Something went wrong!', isLoading: false }));
                 return false;

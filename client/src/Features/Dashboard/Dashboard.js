@@ -5,9 +5,9 @@ import useAdminStore from '../../store/adminAuthStore';
 
 
 function Dashboard() {
-
     const { admin, logout, setError } = useAdminStore();
-    const adminName = admin ? admin.name : "No user found!!";
+    const adminData = admin && admin.length > 0 ? admin[0] : null;
+    const adminName = adminData ? adminData.name : "No user found!!";
 
     const navigate = useNavigate();
 

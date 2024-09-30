@@ -39,7 +39,7 @@ const login = AsyncHandler(async (req, res) => {
     }
 
     const token = GenerateToken(admin._id);
-    const service = await Admin.aggregate([
+    const adminDetails = await Admin.aggregate([
         {
             $match: { _id: admin._id }
         },
@@ -65,11 +65,7 @@ const login = AsyncHandler(async (req, res) => {
 
     ApiResponse(res, true, "Login successful!", {
         Token: admin.authToken,
-        admin: {
-            adminName: admin.name,
-            adminEmail: admin.email,
-            service
-        },
+        adminDetails
     }, 200);
 });
 
