@@ -6,15 +6,15 @@ const tokenSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    slot: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Slot',
-        required: true
-    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         default: null
+    },
+    service: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Service',
+        required: true
     },
     registrationQueuePosition: {
         type: Number,
@@ -29,8 +29,12 @@ const tokenSchema = new mongoose.Schema({
         enum: ['in_registration', 'in_service_queue', 'completed', 'cancelled'],
         default: 'in_registration'
     },
-    qrCode: {
-        type: String,
+    queueLength: {
+        type: Number,  
+        required: true
+    },
+    estimatedWaitTime: {
+        type: Number,  
         required: true
     }
 }, { timestamps: true });

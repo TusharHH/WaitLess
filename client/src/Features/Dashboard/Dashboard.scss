@@ -1,0 +1,155 @@
+
+@import '../../index.scss';
+
+.dashboard {
+    padding: 20px;
+    background-color: $background-color;
+    color: $text-color;
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: $primary-color;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+        color: $primary-color;
+        margin-bottom: 15px;
+    }
+
+    p {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+        color: $text-color;
+    }
+
+    .logout-btn {
+        display: block;
+        margin: 0 auto 20px;
+        padding: 10px 25px;
+        background-color: $primary-color;
+        color: $secondary-color;
+        font-size: 1rem;
+        border-radius: 5px;
+        text-align: center;
+
+        &:hover {
+            background-color: darken($primary-color, 10%);
+        }
+    }
+
+    .form-container {
+        margin-bottom: 30px;
+        background-color: lighten($background-color, 5%);
+        padding: 20px;
+        border-radius: 8px;
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            border: 1px solid lighten($background-color, 10%);
+            background-color: lighten($background-color, 5%);
+            color: $text-color;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px 0;
+            background-color: $primary-color;
+            color: $secondary-color;
+            font-size: 1rem;
+            border-radius: 5px;
+
+            &:hover {
+                background-color: darken($primary-color, 10%);
+            }
+        }
+    }
+
+    .service-card {
+        background-color: lighten($background-color, 5%);
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+        h3 {
+            font-size: 1.5rem;
+            color: $primary-color;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .card-actions {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+
+            button {
+                width: 48%;
+                padding: 8px 0;
+                font-size: 0.9rem;
+
+                &:hover {
+                    opacity: 0.9;
+                }
+
+                &.edit-btn {
+                    background-color: #3a7bd5;
+                    color: $secondary-color;
+                }
+
+                &.delete-btn {
+                    background-color: #e74c3c;
+                    color: $secondary-color;
+                }
+            }
+        }
+    }
+}
+
+// Responsive Design
+@media (max-width: $breakpoint-md) {
+    .dashboard {
+        padding: 10px;
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        .form-container {
+            padding: 15px;
+        }
+
+        .service-card {
+            padding: 10px;
+        }
+    }
+}
+
+@media (max-width: $breakpoint-lg) {
+    .dashboard {
+        padding: 15px;
+
+        h1 {
+            font-size: 2.2rem;
+        }
+
+        .form-container {
+            padding: 18px;
+        }
+
+        .service-card {
+            padding: 12px;
+        }
+    }
+}
