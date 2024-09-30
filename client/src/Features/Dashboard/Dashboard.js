@@ -4,6 +4,8 @@ import ServiceCard from '../../components/Service/ServiceCard';
 import useAdminStore from '../../store/adminAuthStore';
 import useServiceStore from '../../store/serviceStore.js';
 
+import './Dashboard.scss';
+
 function Dashboard() {
     const { admin, logout } = useAdminStore();
     const { services, fetchServices, createService, updateService, deleteService, error, loading } = useServiceStore();
@@ -76,14 +78,14 @@ function Dashboard() {
     };
 
     return (
-        <div>
+        <div className='dashboard'>
             <h1>Admin Dashboard</h1>
             <p>admin: {admin?.[0]?.name || 'No user found'}</p>
 
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleLogout} className="logout-btn">Logout</button>
 
             <h2>{isEditing ? 'Edit Service' : 'Create Service'}</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="form-container">
                 <input
                     type="text"
                     name="name"
@@ -138,7 +140,7 @@ function Dashboard() {
                     placeholder="Queue Duration (minutes)"
                     required
                 />
-                <button type="submit">{isEditing ? 'Update' : 'Create'} Service</button>
+                <button type="submit" className="form-btn">{isEditing ? 'Update' : 'Create'} Service</button>
             </form>
 
             <h2>Available Services</h2>
@@ -147,7 +149,7 @@ function Dashboard() {
             <div className="container">
                 {services.length > 0 ? (
                     services.map((service) => (
-                        <div key={service._id}>
+                        <div key={service._id} className="service-card">
                             <ServiceCard
                                 serviceName={service.name}
                                 serviceDescription={service.description}
@@ -155,8 +157,10 @@ function Dashboard() {
                                 serviceEndingTime={service.slots[0]?.endTime || 'N/A'}
                                 serviceSlotTime={service.slotDuration}
                             />
-                            <button onClick={() => handleEdit(service)}>Edit</button>
-                            <button onClick={() => handleDelete(service._id)}>Delete</button>
+                            <div className="card-actions">
+                                <button onClick={() => handleEdit(service)} className="edit-btn">Edit</button>
+                                <button onClick={() => handleDelete(service._id)} className="delete-btn">Delete</button>
+                            </div>
                         </div>
                     ))
                 ) : (
