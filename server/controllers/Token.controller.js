@@ -1,55 +1,44 @@
 const Token = require('../models/Token.model.js');
+const QueueModel = require('../models/Queue.model.js');
 const Service = require('../models/Service.model.js');
+
 const { AsyncHandler, ApiResponse } = require('../utils/Helpers.js');
 
 const createToken = AsyncHandler(async (req, res) => {
-    // find service with service id 
-    // check if service has any queue
-    // find the last count of the queue
-    // create a token number queue count + 1
-    // queue create kardena aur ussme user add kardena 
 
-    const { serviceId, user } = req.body;
-    
+    const { service_id, user_id } = req.body;
 
+    if (!service_id || !user_id) {
+        ApiResponse(res, false, "All feild are mandatory !!", {}, 404);
+    }
 
+    const queue = await QueueModel.findOne({ service: service_id });
 
+    if (!queue) {
+        ApiResponse(res, false, "No queue found !!", {}, 404);
+    }
 
+    const queueLength = queue.users.length;
 
+    const token_number = queueLength + 1;
+    const service = await Service.findById(service_id);
+    const wait = service.queueDuration;
 
+    const token = await Token.create({
+        tokenNumber: token_number,
+        user: user_id,
+        service: service_id,
+        registrationQueuePosition: token_number,
+        serviceQueuePosition: token_number,
+        queueLength: queueLength,
+        estimatedWaitTime: wait * queueLength
+    })
 
+    if (!token) {
+        ApiResponse(res, false, "Token not created !!", {}, 400);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // tushar
-
-    
-
+    ApiResponse(res, true, "Token created succesfully !!", { token, userAhead: queueLength, tokenNumber: queueLength + 1 }, 200);
 
 });
 
