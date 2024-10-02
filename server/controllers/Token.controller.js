@@ -3,47 +3,54 @@ const Service = require('../models/Service.model.js');
 const { AsyncHandler, ApiResponse } = require('../utils/Helpers.js');
 
 const createToken = AsyncHandler(async (req, res) => {
-    const { tokenNumber, registrationQueuePosition, serviceQueuePosition, serviceId } = req.body;
+    // find service with service id 
+    // check if service has any queue
+    // find the last count of the queue
+    // create a token number queue count + 1
+    // queue create kardena aur ussme user add kardena 
 
-    // Extract user from header (assuming it's populated by an authentication middleware)
-    const user = req.user;
+    const { serviceId, user } = req.body;
+    
 
-    if (!tokenNumber || !serviceId || !registrationQueuePosition || !serviceQueuePosition) {
-        return ApiResponse(res, false, "Please provide all required fields!", {}, 400);
-    }
 
-    const existingToken = await Token.findOne({ tokenNumber });
-    if (existingToken) {
-        return ApiResponse(res, false, "Token with this number already exists!", {}, 409);
-    }
 
-    // Fetch the service to calculate queue information
-    const service = await Service.findById(serviceId);
-    if (!service) {
-        return ApiResponse(res, false, "Service not found!", {}, 404);
-    }
 
-    // Aggregation pipeline to calculate queue length and estimate wait time
-    const tokensAhead = await Token.aggregate([
-        { $match: { service: service._id, status: 'in_service_queue' } },
-        { $group: { _id: null, queueLength: { $sum: 1 } } }
-    ]);
 
-    const queueLength = tokensAhead.length ? tokensAhead[0].queueLength : 0;
-    const estimatedWaitTime = (queueLength + 1) * service.queueDuration;  // +1 to include the current user
 
-    const newToken = new Token({
-        tokenNumber,
-        registrationQueuePosition,
-        serviceQueuePosition,
-        user,
-        service: service._id,
-        queueLength,
-        estimatedWaitTime
-    });
 
-    await newToken.save();
-    ApiResponse(res, true, "Token created successfully!", { newToken }, 201);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // tushar
+
+    
+
+
 });
 
 const getAllTokens = AsyncHandler(async (req, res) => {
