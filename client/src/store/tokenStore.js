@@ -3,7 +3,6 @@ import tokenService from '../Features/Token/Token.service.js';
 
 const useTokenStore = create((set) => ({
     token: null,
-    tokens: [],
     error: null,
     isLoading: false,
 
@@ -23,7 +22,6 @@ const useTokenStore = create((set) => ({
 
             set(() => ({ token: response.data.token, isLoading: false }));
             
-            console.log(response.data.token);
             return true;
         } catch (error) {
             set(() => ({ error: error.message, isLoading: false }));

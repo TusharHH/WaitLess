@@ -31,7 +31,6 @@ export const create_token = async (service_id, user_id) => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-        console.log(response);
 
         return response;
     } catch (error) {

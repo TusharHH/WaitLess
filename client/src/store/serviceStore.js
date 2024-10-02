@@ -23,8 +23,6 @@ const useServiceStore = create((set) => ({
                     Authorization: `Bearer ${token}`  // Attach the token
                 }
             });
-            console.log(response);
-
             set({ services: response.data.data, loading: false });
             return response.data.data
         } catch (error) {
@@ -113,13 +111,13 @@ const useServiceStore = create((set) => ({
             const user = JSON.parse(localStorage.getItem('user'));
             const user_id = user._id;
 
-            
+
             const response = await create_token(service_id, user_id);
 
             if (!response) {
                 return false;
             }
-
+            
             return response;
 
 
