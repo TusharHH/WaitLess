@@ -16,3 +16,24 @@ export const get_all_service = async () => {
         throw error;
     }
 };
+
+export const create_token = async (service_id, user_id) => {
+    const token = localStorage.getItem('authToken');
+    try {
+        const response = await axios.post('http://localhost:4000/api/v1/tokens/tokens',
+            {
+                service_id,
+                user_id
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        console.log(response);
+
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};

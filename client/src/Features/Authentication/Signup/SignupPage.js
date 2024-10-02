@@ -27,15 +27,13 @@ const SignupPage = () => {
         try {
             const request = await signup(name, email, password);
 
+            console.log(request);
+            
+
             if (request) {
                 navigate('/dashboard');
             }
         } catch (error) {
-            // if (role === 'admin') {
-            //     setAdminError(error);
-            // } else {
-            //     setUserError(error);
-            // }
              console.log(error);
         }
     };

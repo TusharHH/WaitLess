@@ -7,7 +7,7 @@ function BookService() {
     const [getService, setService] = useState([]);
     const [Errors, setErrors] = useState(null);
 
-    const { getServices, error, isLoading } = useServiceStore();
+    const { getServices, error, isLoading, createToken } = useServiceStore();
 
     const submitHandler = async () => {
         try {
@@ -24,6 +24,9 @@ function BookService() {
     }
 
     const bookSlotHandler = async (service_id) => {
+        const response = await createToken(service_id);
+
+        console.log(response);
         
     }
 

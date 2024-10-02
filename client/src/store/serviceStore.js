@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
-import { get_all_service } from '../Features/Services/serviceService';
+import { create_token, get_all_service } from '../Features/Services/serviceService';
 
 const BACKEND_URL = 'http://localhost:4000/api/v1/services';
 
@@ -24,9 +24,9 @@ const useServiceStore = create((set) => ({
                 }
             });
             console.log(response);
-            
+
             set({ services: response.data.data, loading: false });
-            return response.data.data 
+            return response.data.data
         } catch (error) {
             set({ error: error.response?.data?.message || 'Error fetching services', loading: false });
         }
@@ -89,22 +89,44 @@ const useServiceStore = create((set) => ({
     },
 
     getServices: async () => {
-        set({loading:true,error:null});
+        set({ loading: true, error: null });
         try {
             const response = await get_all_service();
             if (!response) {
-                set({error:"No service available !!"});
+                set({ error: "No service available !!" });
             };
             // console.log(response);
             console.log(response.data.data);
             set({
-                services:response.data.data,
-                loading:false,
-                error:null,
+                services: response.data.data,
+                loading: false,
+                error: null,
             });
             return response.data.data;
         } catch (error) {
             console.log(error);
+        }
+    },
+
+    createToken: async (service_id) => {
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const user_id = user._id;
+
+            const response = await create_token(service_id, user_id);
+
+            if (!response) {
+                return false;
+            }
+
+            console.log(response);
+
+            return response;
+
+
+        } catch (error) {
+            console.log(error);
+
         }
     }
 }));
