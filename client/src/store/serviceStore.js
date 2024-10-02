@@ -89,15 +89,19 @@ const useServiceStore = create((set) => ({
     },
 
     getServices: async () => {
+        set({loading:true,error:null});
         try {
             const response = await get_all_service();
-
             if (!response) {
                 set({error:"No service available !!"});
             };
-
             console.log(response);
-            
+            console.log(response);
+            set({
+                services:response.data.data,
+                loading:false,
+                error:null,
+            });
             return response.data.data;
         } catch (error) {
             console.log(error);
