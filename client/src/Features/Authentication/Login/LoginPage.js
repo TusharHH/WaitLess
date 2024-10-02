@@ -22,15 +22,17 @@ const LoginPage = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        console.log(role)
+
         const success = role === 'user'
             ? await userLogin(email, password) // Use appropriate login method
             : await adminLogin(email, password);
 
-        console.log(success);
-
         if (success) {
-            navigate('/dashboard'); // Redirect to dashboard upon successful login
+            if(role === 'user'){
+                navigate('/u_dashboard');
+            }else{
+                navigate('/dashboard'); // Redirect to dashboard upon successful login
+            }
         }else{
             console.log('loggin failed!!');
             

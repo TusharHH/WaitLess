@@ -20,8 +20,12 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Token'
     }],
-    authToken:{
+    authToken: {
         type: String,
+        default: null
+    },
+    token: {
+        type: Number,
         default: null
     }
 }, { timestamps: true });
