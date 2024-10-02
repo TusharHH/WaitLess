@@ -109,46 +109,49 @@ const update_admin = AsyncHandler(async (req, res) => {
 
 const getUsersInService = async (req, res) => {
     try {
-    const { adminId, serviceId } = req.params;
+        const { adminId, serviceId } = req.query;  
 
-      // Find the admin
-    const admin = await Admin.findById(adminId);
-    if (!admin) {
-        return res.status(404).json({ message: 'Admin not found' });
-    }
+        // Find the admin
+        console.log(adminId);
+        const admin = await Admin.findById(adminId);
+        console.log(admin);
 
-      // Check if the admin has the service
-    const service = await Service.findOne({ _id: serviceId, admin: adminId });
-    if (!service) {
-        return res.status(404).json({ message: 'Service not found or not owned by this admin' });
-    }
+        if (!admin) {
+            return ApiResponse(res, false, "Admin not found !!", {}, 404);
+        }
 
-      // Get the users from the queue for the service
-    const queue = await Queue.findOne({ service: serviceId }).populate('users.user').populate('users.token');
-    
-    if (!queue || queue.users.length === 0) {
-        return res.status(404).json({ message: 'No users found for this service' });
-    }
+        // Check if the admin has the service
+        const service = await Service.findOne({ _id: serviceId, admin: adminId });
+        if (!service) {
+            return ApiResponse(res, false, "Service not found or not owned by this admin", {}, 404);
+        }
 
-      // Extract users' information
-    const users = queue.users.map(entry => ({
-        userId: entry.user._id,
-        name: entry.user.name,
-        email: entry.user.email,
-        token: entry.token.tokenNumber,
-        status: entry.token.status,
-        registrationQueuePosition: entry.token.registrationQueuePosition,
-        serviceQueuePosition: entry.token.serviceQueuePosition
-    }));
+        // Get the users from the queue for the service
+        const queue = await Queue.findOne({ service: serviceId }).populate('users.user').populate('users.token');
 
-    return res.status(200).json({
-        message: `Users for service: ${service.name}`,
-        users
-    });
-    
+        if (!queue || queue.users.length === 0) {
+            return res.status(404).json({ message: 'No users found for this service' });
+        }
+
+        // Extract users' information
+        const users = queue.users.map(entry => ({
+            userId: entry.user._id,
+            name: entry.user.name,
+            email: entry.user.email,
+            token: entry.token.tokenNumber,
+            status: entry.token.status,
+            registrationQueuePosition: entry.token.registrationQueuePosition,
+            serviceQueuePosition: entry.token.serviceQueuePosition
+        }));
+
+        return res.status(200).json({
+            message: `Users for service: ${service.name}`,
+            users
+        });
+
     } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Internal server error' });
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
 };
 

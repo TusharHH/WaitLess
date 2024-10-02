@@ -7,7 +7,7 @@ import useServiceStore from '../../store/serviceStore.js';
 import './Dashboard.scss';
 
 function Dashboard() {
-    const { admin, logout } = useAdminStore();
+    const { admin, logout, getUsers } = useAdminStore();
     const { services, fetchServices, createService, updateService, deleteService, error, loading } = useServiceStore();
     const navigate = useNavigate();
 
@@ -21,6 +21,7 @@ function Dashboard() {
 
     const [isEditing, setIsEditing] = useState(false);
     const [serviceIdToEdit, setServiceIdToEdit] = useState(null);
+    const [queueData, setQueueData] = useState(null);  // State for storing queue data
 
     useEffect(() => {
         fetchServices();
@@ -75,6 +76,15 @@ function Dashboard() {
 
     const handleDelete = async (id) => {
         await deleteService(id);
+    };
+
+    const handleShowQueue = async (serviceId) => {
+        try {
+            const response = await getUsers(serviceId);
+            setQueueData(response.data.users);
+        } catch (error) {
+            console.error('Failed to fetch queue', error);
+        }
     };
 
     return (
@@ -156,6 +166,7 @@ function Dashboard() {
                                 serviceStartingTime={service.slots[0]?.startTime || 'N/A'}
                                 serviceEndingTime={service.slots[0]?.endTime || 'N/A'}
                                 serviceSlotTime={service.slotDuration}
+                                onShowQueue={() => handleShowQueue(service._id)}
                             />
                             <div className="card-actions">
                                 <button onClick={() => handleEdit(service)} className="edit-btn">Edit</button>
@@ -167,6 +178,23 @@ function Dashboard() {
                     <p>No services available.</p>
                 )}
             </div>
+
+            {queueData && (
+                <div className="queue-info">
+                    <h3>Users in Queue</h3>
+                    {queueData.length > 0 ? (
+                        <ul>
+                            {queueData.map((user, index) => (
+                                <li key={index}>
+                                    {user.name} (Position: {user.serviceQueuePosition})
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No one in the queue</p>
+                    )}
+                </div>
+            )}
         </div>
     );
 }

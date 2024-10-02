@@ -7,9 +7,8 @@ const TokenDetails = () => {
 
     const user = JSON.parse(localStorage.getItem('user'));
 
-    console.log(user);
-    console.log(user._id);
-    
+    console.log(token);
+
 
     const handleFetchToken = async () => {
         await fetchTokenById(user._id);

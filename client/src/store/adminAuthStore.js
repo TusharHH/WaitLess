@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { loginAdmin, signupAdmin } from '../Features/Authentication/adminAuthService';
+import axios from 'axios';
 
 const useAdminStore = create((set) => ({
     admin: null,
@@ -78,6 +79,23 @@ const useAdminStore = create((set) => ({
         localStorage.removeItem('admin');
         localStorage.removeItem('token');  // Remove the token
     },
+    getUsers: async (serviceId) => {
+        try {
+            const admin = JSON.parse(localStorage.getItem('admin'));
+            const adminId = admin[0]._id;
+
+            const response = await axios.get('http://localhost:4000/api/v1/admins/getUsers', {
+                params: {
+                    adminId,
+                    serviceId
+                }
+            });
+            console.log(response);
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }));
 
 export default useAdminStore;

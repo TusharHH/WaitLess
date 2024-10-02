@@ -11,7 +11,6 @@ const useTokenStore = create((set) => ({
 
     fetchTokenById: async (id) => {
 
-        console.log("clicked 3!!");
         set(() => ({ isLoading: true }));
 
         try {

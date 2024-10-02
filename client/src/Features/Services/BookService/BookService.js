@@ -23,6 +23,10 @@ function BookService() {
         }
     }
 
+    const bookSlotHandler = async (service_id) => {
+        
+    }
+
     return (
         <div>
             <button onClick={submitHandler}>See Services</button>
@@ -50,7 +54,7 @@ function BookService() {
                                     </li>
                                 ))}
                             </ul>
-                            <Link to='/token'><button>Book Slots</button></Link>
+                            <button onClick={() => { bookSlotHandler(service._id) }}>Book Slots</button>
                             {/* Display admin name and email */}
                             {service.admin && (
                                 <div>
