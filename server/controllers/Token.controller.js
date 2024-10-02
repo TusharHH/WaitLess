@@ -70,7 +70,7 @@ const getTokenById = AsyncHandler(async (req, res) => {
         return ApiResponse(res, false, "User ID not provided!", {}, 400);
     }
 
-    const token = await Token.findOne({ user: id }).populate('service').populate('user');
+    const token = await Token.find({ user: id }).populate('service').populate('user');
 
     if (!token) {
         return ApiResponse(res, false, "No token found for this user!", {}, 404);

@@ -113,13 +113,12 @@ const useServiceStore = create((set) => ({
             const user = JSON.parse(localStorage.getItem('user'));
             const user_id = user._id;
 
+            
             const response = await create_token(service_id, user_id);
 
             if (!response) {
                 return false;
             }
-
-            console.log(response);
 
             return response;
 

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import useServiceStore from '../../../store/serviceStore';
 
 function BookService() {
     const [getService, setService] = useState([]);
     const [Errors, setErrors] = useState(null);
+
+    const navigate = useNavigate();
 
     const { getServices, error, isLoading, createToken } = useServiceStore();
 
@@ -23,11 +25,15 @@ function BookService() {
         }
     }
 
-    const bookSlotHandler = async (service_id) => {
-        const response = await createToken(service_id);
+    const bookSlotHandler = async (id) => {
+        const response = await createToken(id);
 
-        console.log(response);
-        
+        localStorage.setItem('service_id', id);
+
+        if (response) {
+            navigate('/token');
+        }
+
     }
 
     return (
