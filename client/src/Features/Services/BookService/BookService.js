@@ -1,39 +1,72 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import useServiceStore from '../../../store/serviceStore';
 
 function BookService() {
-
-    const [getService, setService] = useState();
-    const [Errors, setErrors] = useState();
+    const [getService, setService] = useState([]);
+    const [Errors, setErrors] = useState(null);
 
     const { getServices, error, isLoading } = useServiceStore();
 
     const submitHandler = async () => {
         try {
             const list = await getServices();
-
             if (!list) {
-                setErrors("Front-end error !!");
+                setErrors("No services available.");
+            } else {
+                setService(list);
             }
-
-            console.log("list:::", list);
-            setService(list);
-
         } catch (error) {
+            setErrors("Error fetching services.");
             console.log(error);
         }
     }
 
     return (
         <div>
-            <button onClick={submitHandler}>see more</button>
-            {/* {start ? getService.map((index, values) => (
-                <p key={index}>{values}</p>
-            )) : <p>Wait</p>} */}
-            {/* <p>service::{getService.name || "name"}</p> 
-            <p>service::{getService.adminDetails.name || "kiska"}</p>  */}
+            <button onClick={submitHandler}>See Services</button>
+
+            {/* Show loading state */}
+            {isLoading && <p>Loading...</p>}
+
+            {/* Show error if present */}
+            {Errors && <p style={{ color: 'red' }}>{Errors}</p>}
+
+            {/* Display services if available */}
+            <div>
+                {getService.length > 0 ? (
+                    getService.map((service, index) => (
+                        <div key={index} style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
+                            <h3>{service.name}</h3>
+                            <p>{service.description}</p>
+                            <p>Queue Duration: {service.queueDuration} minutes</p>
+                            <p>Slot Duration: {service.slotDuration} minutes</p>
+                            <h4>Available Slots:</h4>
+                            <ul>
+                                {service.slots.map((slot, idx) => (
+                                    <li key={idx}>
+                                        {slot.startTime} - {slot.endTime} (Available: {slot.available ? 'Yes' : 'No'})
+                                    </li>
+                                ))}
+                            </ul>
+                            <Link to='/token'><button>Book Slots</button></Link>
+                            {/* Display admin name and email */}
+                            {service.admin && (
+                                <div>
+                                    <h4>Service Provider:</h4>
+                                    <p>Name: {service.admin.name}</p>
+                                    <p>Email: {service.admin.email}</p>
+                                </div>
+                            )}
+                        </div>
+                    ))
+                ) : (
+                    !isLoading && <p>No services available.</p>
+                )}
+            </div>
         </div>
-    )
+    );
 }
 
-export default BookService
+export default BookService;

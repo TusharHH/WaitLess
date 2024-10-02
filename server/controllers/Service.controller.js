@@ -87,14 +87,16 @@ const get_services_with_admin = AsyncHandler(async (req, res) => {
 });
 
 const get_all_service = AsyncHandler(async (req, res) => {
-    const service = await Service.find();
-    
-    if(!service){
-        ApiResponse(res, false, 'No service found !!');
+    // Fetch services and populate the admin details (name and email)
+    const services = await Service.find().populate('admin', 'name email');
+
+    if (!services || services.length === 0) {
+        return ApiResponse(res, false, 'No service found !!');
     }
 
-    ApiResponse(res, true, 'Service send successfully !!', service);
+    ApiResponse(res, true, 'Service sent successfully !!', services);
 });
+
 
 const delete_service = AsyncHandler(async (req, res) => {
     const { id } = req.params;
