@@ -67,7 +67,6 @@ const getTokenById = AsyncHandler(async (req, res) => {
     ApiResponse(res, true, "Token retrieved successfully!", { token }, 200);
 });
 
-
 const updateToken = AsyncHandler(async (req, res) => {
     const { id } = req.params;
     const { tokenNumber, service, user, registrationQueuePosition, serviceQueuePosition, status } = req.body;
