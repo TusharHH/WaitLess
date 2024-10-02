@@ -17,8 +17,9 @@ export const useUserAuthStore = create((set) => ({
         isAuthenticated: true,
         isLoading: false,
       });
-      // Optionally store the user token in localStorage
+      // Store the token and user object in localStorage
       localStorage.setItem('authToken', response.data.data.user.authToken);
+      localStorage.setItem('user', JSON.stringify(response.data.data.user)); // Store user object as a string
       return true;
     } catch (error) {
       set({
@@ -40,8 +41,9 @@ export const useUserAuthStore = create((set) => ({
         isAuthenticated: true,
         isLoading: false,
       });
-      // Optionally store the user token in localStorage
+      // Store the token and user object in localStorage
       localStorage.setItem('authToken', response.data.newUser.authToken);
+      localStorage.setItem('user', JSON.stringify(response.data.newUser)); // Store user object as a string
     } catch (error) {
       set({
         error: error.response?.data?.message || 'Registration failed!',
@@ -55,13 +57,15 @@ export const useUserAuthStore = create((set) => ({
   logout: () => {
     set({ user: null, isAuthenticated: false });
     localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
   },
 
   // Check for existing authentication
   checkAuth: () => {
     const token = localStorage.getItem('authToken');
-    if (token) {
-      set({ isAuthenticated: true });
+    const user = JSON.parse(localStorage.getItem('user')); // Parse the stored user object
+    if (token && user) {
+      set({ isAuthenticated: true, user });
     } else {
       set({ isAuthenticated: false });
     }
