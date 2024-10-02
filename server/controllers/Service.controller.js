@@ -86,8 +86,13 @@ const get_services_with_admin = AsyncHandler(async (req, res) => {
     ApiResponse(res, true, 'Services with admin details fetched successfully', services);
 });
 
-const get_all_service = AsyncHandler(async (res) => {
+const get_all_service = AsyncHandler(async (req, res) => {
     const service = await Service.find();
+    
+    if(!service){
+        ApiResponse(res, false, 'No service found !!');
+    }
+
     ApiResponse(res, true, 'Service send successfully !!', service);
 });
 

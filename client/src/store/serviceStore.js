@@ -90,17 +90,17 @@ const useServiceStore = create((set) => ({
 
     getServices: async () => {
         try {
-            const response = get_all_service();
+            const response = await get_all_service();
 
             if (!response) {
                 set({error:"No service available !!"});
             };
 
-
-
-            return true;
+            console.log(response);
+            
+            return response.data.data;
         } catch (error) {
-
+            console.log(error);
         }
     }
 }));

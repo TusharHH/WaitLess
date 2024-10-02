@@ -6,19 +6,19 @@ function BookService() {
     const [getService, setService] = useState();
     const [Errors, setErrors] = useState();
 
-    const { fetchServices, error, isLoading } = useServiceStore();
+    const { getServices, error, isLoading } = useServiceStore();
 
     const submitHandler = async () => {
         try {
-            const list = await fetchServices();
+            const list = await getServices();
 
             if (!list) {
                 setErrors("Front-end error !!");
             }
 
-            setService(list[0]);
-            console.log("list:::" , list[0]);
-            console.log("service::::",  getService.name);
+            console.log("list:::", list);
+            setService(list);
+
         } catch (error) {
             console.log(error);
         }
@@ -30,8 +30,8 @@ function BookService() {
             {/* {start ? getService.map((index, values) => (
                 <p key={index}>{values}</p>
             )) : <p>Wait</p>} */}
-            <p>service::{getService.name || "name"}</p> 
-            <p>service::{getService.adminDetails.name || "kiska"}</p> 
+            {/* <p>service::{getService.name || "name"}</p> 
+            <p>service::{getService.adminDetails.name || "kiska"}</p>  */}
         </div>
     )
 }
