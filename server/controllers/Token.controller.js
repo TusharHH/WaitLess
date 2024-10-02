@@ -9,21 +9,28 @@ const createToken = AsyncHandler(async (req, res) => {
     const { service_id, user_id } = req.body;
 
     if (!service_id || !user_id) {
-        ApiResponse(res, false, "All feild are mandatory !!", {}, 404);
+        return ApiResponse(res, false, "All fields are mandatory!!", {}, 400);
     }
 
-    const queue = await QueueModel.findOne({ service: service_id });
+    // Find the queue for the service
+    let queue = await QueueModel.findOne({ service: service_id });
 
+    // If no queue exists, create a new one
     if (!queue) {
-        ApiResponse(res, false, "No queue found !!", {}, 404);
+        queue = new QueueModel({
+            service: service_id,
+            users: [] // Initialize with an empty array of users
+        });
+        await queue.save();
     }
 
     const queueLength = queue.users.length;
-
     const token_number = queueLength + 1;
+
     const service = await Service.findById(service_id);
     const wait = service.queueDuration;
 
+    // Create the token
     const token = await Token.create({
         tokenNumber: token_number,
         user: user_id,
@@ -32,15 +39,24 @@ const createToken = AsyncHandler(async (req, res) => {
         serviceQueuePosition: token_number,
         queueLength: queueLength,
         estimatedWaitTime: wait * queueLength
-    })
+    });
 
     if (!token) {
-        ApiResponse(res, false, "Token not created !!", {}, 400);
+        return ApiResponse(res, false, "Token not created!!", {}, 400);
     }
 
-    ApiResponse(res, true, "Token created succesfully !!", { token, userAhead: queueLength, tokenNumber: queueLength + 1 }, 200);
+    // Add the token to the queue's users array
+    queue.users.push({ user: user_id, token: token._id });
+    await queue.save(); // Save the updated queue
 
+    ApiResponse(res, true, "Token created and added to the queue successfully!!", {
+        token,
+        userAhead: queueLength,
+        tokenNumber: token_number
+    }, 200);
 });
+
+
 
 const getAllTokens = AsyncHandler(async (req, res) => {
     const tokens = await Token.find().populate('service').populate('user');
