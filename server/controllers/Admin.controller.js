@@ -1,5 +1,8 @@
 const Admin = require('../models/Admin.model.js');
 const { AsyncHandler, ApiResponse } = require('../utils/Helpers.js');
+const Service = require('../models/Service.model.js');
+const Queue = require('../models/Queue.model.js');
+const User = require('../models/User.model.js');
 
 const GenerateToken = require('../middlewares/GenerateToken.middleware.js');
 
@@ -104,9 +107,55 @@ const update_admin = AsyncHandler(async (req, res) => {
     ApiResponse(res, true, 'Admin updated successfully', { admin });
 });
 
+const getUsersInService = async (req, res) => {
+    try {
+    const { adminId, serviceId } = req.params;
+
+      // Find the admin
+    const admin = await Admin.findById(adminId);
+    if (!admin) {
+        return res.status(404).json({ message: 'Admin not found' });
+    }
+
+      // Check if the admin has the service
+    const service = await Service.findOne({ _id: serviceId, admin: adminId });
+    if (!service) {
+        return res.status(404).json({ message: 'Service not found or not owned by this admin' });
+    }
+
+      // Get the users from the queue for the service
+    const queue = await Queue.findOne({ service: serviceId }).populate('users.user').populate('users.token');
+    
+    if (!queue || queue.users.length === 0) {
+        return res.status(404).json({ message: 'No users found for this service' });
+    }
+
+      // Extract users' information
+    const users = queue.users.map(entry => ({
+        userId: entry.user._id,
+        name: entry.user.name,
+        email: entry.user.email,
+        token: entry.token.tokenNumber,
+        status: entry.token.status,
+        registrationQueuePosition: entry.token.registrationQueuePosition,
+        serviceQueuePosition: entry.token.serviceQueuePosition
+    }));
+
+    return res.status(200).json({
+        message: `Users for service: ${service.name}`,
+        users
+    });
+    
+    } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 module.exports = {
     login,
     signup,
     reset_password,
-    update_admin
+    update_admin,
+    getUsersInService,
 };

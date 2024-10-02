@@ -14,7 +14,7 @@ const route = express.Router();
 route.post('/login', login);
 route.post('/signup', signup);
 route.put('/reset-password', reset_password);
-
+route.get('/')
 route.put('/update-admin', protect, update_admin);
 
 module.exports = route;
