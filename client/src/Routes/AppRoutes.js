@@ -8,6 +8,7 @@ import SignupPage from '../Features/Authentication/Signup/SignupPage';
 import LandingPage from '../Features/Landing/LandingPage';
 
 import AdminLayout from '../Layout/AdminLayout';
+import BookService from '../Features/Services/BookService/BookService';
 
 const AppRoutes = () => {
   return (
@@ -15,6 +16,7 @@ const AppRoutes = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/u_dashboard" element={<BookService />} />
       <Route path="/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
       <Route path="/services" element={<AdminLayout><ServicePage /></AdminLayout>} />
     </Routes>

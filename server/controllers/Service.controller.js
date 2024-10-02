@@ -86,6 +86,11 @@ const get_services_with_admin = AsyncHandler(async (req, res) => {
     ApiResponse(res, true, 'Services with admin details fetched successfully', services);
 });
 
+const get_all_service = AsyncHandler(async (res) => {
+    const service = await Service.find();
+    ApiResponse(res, true, 'Service send successfully !!', service);
+});
+
 const delete_service = AsyncHandler(async (req, res) => {
     const { id } = req.params;
 
@@ -101,5 +106,6 @@ module.exports = {
     create_service,
     update_service,
     get_services_with_admin,
+    get_all_service,
     delete_service
 };

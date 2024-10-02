@@ -30,7 +30,7 @@ const LoginPage = () => {
         console.log(success);
 
         if (success) {
-            navigate('/dashboard'); // Redirect to dashboard upon successful login
+            navigate('/u_dashboard'); // Redirect to dashboard upon successful login
         }else{
             console.log('loggin failed!!');
             

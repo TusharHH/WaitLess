@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
+import { get_all_service } from '../Features/Services/serviceService';
 
 const BACKEND_URL = 'http://localhost:4000/api/v1/services';
 
@@ -17,12 +18,15 @@ const useServiceStore = create((set) => ({
         const token = localStorage.getItem('token');  // Get the token
 
         try {
-            const response = await axios.get(`${BACKEND_URL}/services`, {
+            const response = await axios.get(`${BACKEND_URL}/service`, {
                 headers: {
                     Authorization: `Bearer ${token}`  // Attach the token
                 }
             });
+            console.log(response);
+            
             set({ services: response.data.data, loading: false });
+            return response.data.data 
         } catch (error) {
             set({ error: error.response?.data?.message || 'Error fetching services', loading: false });
         }
@@ -83,6 +87,22 @@ const useServiceStore = create((set) => ({
             set({ error: error.response?.data?.message || 'Error deleting service', loading: false });
         }
     },
+
+    getServices: async () => {
+        try {
+            const response = get_all_service();
+
+            if (!response) {
+                set({error:"No service available !!"});
+            };
+
+
+
+            return true;
+        } catch (error) {
+
+        }
+    }
 }));
 
 export default useServiceStore;
