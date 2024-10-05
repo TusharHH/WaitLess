@@ -21,12 +21,14 @@ const signup = AsyncHandler(async (req, res) => {
     if (req.files && req.files.avatar) {
         const avatarFilePath = req.files.avatar[0].path;
         const uploadResponse = await uploadOnCloudinary(avatarFilePath);
-        if (uploadResponse && uploadResponse.url) {
+        if (uploadResponse.success) {
             avatar = uploadResponse.url;
+        } else {
+            return ApiResponse(res, false, uploadResponse.message, {}, 500);
         }
     }
 
-    const newUser = new User({ name, email, password,avatar:avatar });
+    const newUser = new User({ name, email, password, avatar });
     const token = GenerateToken(newUser.email);
 
     newUser.authToken = token;
@@ -34,6 +36,7 @@ const signup = AsyncHandler(async (req, res) => {
 
     ApiResponse(res, true, "User registered successfully!", { newUser }, 201);
 });
+
 
 const login = AsyncHandler(async (req, res) => {
     const { email, password } = req.body;

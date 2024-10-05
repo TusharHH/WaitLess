@@ -18,7 +18,18 @@ const signup = AsyncHandler(async (req, res) => {
         return ApiResponse(res, false, "Admin already exists!", {}, 409);
     }
 
-    const newAdmin = new Admin({ name, email, password });
+    let avatar = null;
+    if (req.files && req.files.avatar) {
+        const avatarFilePath = req.files.avatar[0].path;
+        const uploadResponse = await uploadOnCloudinary(avatarFilePath);
+        if (uploadResponse.success) {
+            avatar = uploadResponse.url;
+        } else {
+            return ApiResponse(res, false, uploadResponse.message, {}, 500);
+        }
+    }
+
+    const newAdmin = new Admin({ name, email, password, avatar });
     await newAdmin.save();
 
     ApiResponse(res, true, "Admin registered successfully!", { newAdmin }, 201);
