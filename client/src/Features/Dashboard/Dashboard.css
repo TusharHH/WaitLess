@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #1c1c1c;
+  color: #ffffff;
+  line-height: 1.5;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.dashboard {
+  padding: 20px;
+  background-color: #1c1c1c;
+  color: #ffffff;
+}
+.dashboard h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #f15a24;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.dashboard h2 {
+  font-size: 1.8rem;
+  color: #f15a24;
+  margin-bottom: 15px;
+}
+.dashboard p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+.dashboard .logout-btn {
+  display: block;
+  margin: 0 auto 20px;
+  padding: 10px 25px;
+  background-color: #f15a24;
+  color: #ffffff;
+  font-size: 1rem;
+  border-radius: 5px;
+  text-align: center;
+}
+.dashboard .logout-btn:hover {
+  background-color: #d4420e;
+}
+.dashboard .form-container {
+  margin-bottom: 30px;
+  background-color: #292929;
+  padding: 20px;
+  border-radius: 8px;
+}
+.dashboard .form-container input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  border: 1px solid #363636;
+  background-color: #292929;
+  color: #ffffff;
+  border-radius: 5px;
+}
+.dashboard .form-container button {
+  width: 100%;
+  padding: 10px 0;
+  background-color: #f15a24;
+  color: #ffffff;
+  font-size: 1rem;
+  border-radius: 5px;
+}
+.dashboard .form-container button:hover {
+  background-color: #d4420e;
+}
+.dashboard .service-card {
+  background-color: #292929;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+.dashboard .service-card h3 {
+  font-size: 1.5rem;
+  color: #f15a24;
+}
+.dashboard .service-card p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+.dashboard .service-card .card-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.dashboard .service-card .card-actions button {
+  width: 48%;
+  padding: 8px 0;
+  font-size: 0.9rem;
+}
+.dashboard .service-card .card-actions button:hover {
+  opacity: 0.9;
+}
+.dashboard .service-card .card-actions button.edit-btn {
+  background-color: #3a7bd5;
+  color: #ffffff;
+}
+.dashboard .service-card .card-actions button.delete-btn {
+  background-color: #e74c3c;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 10px;
+  }
+  .dashboard h1 {
+    font-size: 2rem;
+  }
+  .dashboard .form-container {
+    padding: 15px;
+  }
+  .dashboard .service-card {
+    padding: 10px;
+  }
+}
+@media (max-width: 1024px) {
+  .dashboard {
+    padding: 15px;
+  }
+  .dashboard h1 {
+    font-size: 2.2rem;
+  }
+  .dashboard .form-container {
+    padding: 18px;
+  }
+  .dashboard .service-card {
+    padding: 12px;
+  }
+}/*# sourceMappingURL=Dashboard.css.map */
