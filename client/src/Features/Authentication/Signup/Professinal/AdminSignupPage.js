@@ -19,7 +19,7 @@ const ProfessionalSignupPage = () => {
         try {
             const success = await adminSignup(name, email, password);
             if (success) {
-                navigate('/dashboard'); 
+                navigate('/otp'); 
             }
         } catch (error) {
             console.log(error);
