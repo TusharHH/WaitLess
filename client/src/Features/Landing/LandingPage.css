@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #1c1c1c;
+  color: #ffffff;
+  line-height: 1.5;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px 5%;
+  background-color: #1c1c1c;
+}
+.navbar .logo img {
+  height: 50px;
+}
+.navbar .nav-buttons {
+  display: flex;
+  gap: 15px;
+}
+.navbar .nav-buttons button {
+  background-color: #f15a24;
+  color: #ffffff;
+  padding: 10px 50px;
+  border-radius: 30px;
+  font-weight: 500;
+  font-size: 1rem;
+}
+.navbar .nav-buttons button:hover {
+  background-color: #d4420e;
+}
+.navbar .nav-buttons .signup-btn {
+  background-color: transparent;
+  border: 2px solid #f15a24;
+  color: #f15a24;
+}
+.navbar .nav-buttons .signup-btn:hover {
+  background-color: #f15a24;
+  color: #ffffff;
+}
+
+.hero-section {
+  text-align: center;
+  margin-top: 6rem;
+  padding: 0 20px;
+}
+.hero-section h1 {
+  font-size: 3.5rem;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.hero-section h1 span.health {
+  color: #f15a24;
+  font-weight: bold;
+}
+.hero-section h1 span.schedule {
+  color: #7e7e7e;
+  font-weight: bold;
+}
+.hero-section p {
+  font-size: 2.5rem;
+  color: #7e7e7e;
+  margin-bottom: 60px;
+  font-style: italic;
+}
+.hero-section .cta-btn {
+  background-color: #f15a24;
+  color: #ffffff;
+  padding: 15px 50px;
+  margin-bottom: 1rem;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease-in-out;
+}
+.hero-section .cta-btn:hover {
+  background-color: #d4420e;
+}
+.hero-section .features {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+  gap: 20px;
+}
+.hero-section .features .feature-item {
+  padding: 15px;
+  border-radius: 5px;
+  color: #f15a24;
+  text-align: center;
+  font-weight: 500;
+  transition: background-color 0.3s ease-in-out;
+  width: 250px;
+  color: #7e7e7e;
+}
+
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+  .hero-section .cta-btn {
+    padding: 12px 40px;
+    font-size: 1rem;
+  }
+  .hero-section .features {
+    flex-direction: column;
+    align-items: center;
+  }
+  .navbar {
+    flex-direction: column;
+  }
+  .navbar .nav-buttons {
+    margin-top: 10px;
+  }
+  .navbar .nav-buttons button {
+    padding: 8px 15px;
+  }
+}
+@media (max-width: 1024px) {
+  .cta-btn {
+    padding: 10px 30px;
+    font-size: 1rem;
+  }
+}/*# sourceMappingURL=LandingPage.css.map */

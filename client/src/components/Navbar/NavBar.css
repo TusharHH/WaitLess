@@ -1,0 +1,147 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #1c1c1c;
+  color: #ffffff;
+  line-height: 1.5;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #1c1c1c;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.navbar img {
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+}
+.navbar ul {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+  margin-right: auto;
+  padding-left: 40px;
+}
+.navbar ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.navbar ul li a:hover {
+  color: #f15a24;
+}
+.navbar .navbar-items {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.navbar .navbar-items p {
+  font-size: 1rem;
+  color: #f15a24;
+  padding-top: 10px;
+  margin-right: 10px;
+}
+.navbar .navbar-items .user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-right: 10px;
+}
+.navbar .navbar-items .logout-btn {
+  background-color: #f15a24;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.navbar .navbar-items .logout-btn:hover {
+  background-color: #d4420e;
+}
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+  }
+  .navbar ul {
+    flex-direction: column;
+    gap: 10px;
+    margin-right: 0;
+    padding-left: 0;
+  }
+  .navbar .navbar-items {
+    margin-top: 10px;
+  }
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 15px;
+}
+.auth-buttons button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid #f15a24;
+  background-color: transparent;
+  color: #f15a24;
+  font-weight: 600;
+}
+.auth-buttons button:hover {
+  background-color: #f15a24;
+  color: #ffffff;
+}
+.auth-buttons button.login-btn {
+  background-color: #f15a24;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+  }
+  .navbar h1 {
+    font-size: 1.2rem;
+  }
+  .navbar ul {
+    flex-direction: column;
+    align-items: center;
+  }
+  .navbar ul .navbar-items {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+@media (max-width: 1024px) {
+  .navbar ul li {
+    font-size: 0.9rem;
+  }
+}/*# sourceMappingURL=NavBar.css.map */

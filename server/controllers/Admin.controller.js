@@ -127,8 +127,8 @@ const reset_password = AsyncHandler(async (req, res) => {
 });
 
 const update_admin = AsyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const { name, email, password } = req.body;
+
+    const { name, email, password, id } = req.body;
 
     const admin = await Admin.findById(id);
     if (!admin) {
@@ -141,6 +141,21 @@ const update_admin = AsyncHandler(async (req, res) => {
     if (password) {
         admin.password = password;
     }
+
+    if (req.files && req.files.avatar) {
+        const avatarFilePath = req.files.avatar[0].path;
+        const uploadResponse = await uploadOnCloudinary(avatarFilePath);
+        if (uploadResponse.success) {
+            if (admin.avatar) {
+                const publicId = admin.avatar.split('/').pop().split('.')[0];
+                await cloudinary.uploader.destroy(publicId);
+            }
+            admin.avatar = uploadResponse.url;
+        } else {
+            return ApiResponse(res, false, uploadResponse.message, {}, 500);
+        }
+    }
+
 
     await admin.save();
 
