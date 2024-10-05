@@ -16,9 +16,11 @@ function Dashboard() {
         description: '',
         slots: [{ startTime: '', endTime: '' }],
         slotDuration: '',
-        queueDuration: ''
+        queueDuration: '',
+        tags: []  // New field for tags
     });
 
+    const [tagInput, setTagInput] = useState('');  // State for handling tag input
     const [isEditing, setIsEditing] = useState(false);
     const [serviceIdToEdit, setServiceIdToEdit] = useState(null);
     const [queueData, setQueueData] = useState(null);  // State for storing queue data
@@ -45,6 +47,22 @@ function Dashboard() {
         setServiceData({ ...serviceData, slots: updatedSlots });
     };
 
+    // Handle adding tags to service
+    const handleAddTag = () => {
+        if (tagInput.trim()) {
+            setServiceData({ ...serviceData, tags: [...serviceData.tags, tagInput.trim()] });
+            setTagInput('');  // Clear the tag input
+        }
+    };
+
+    // Remove tag function
+    const handleRemoveTag = (indexToRemove) => {
+        setServiceData({
+            ...serviceData,
+            tags: serviceData.tags.filter((_, index) => index !== indexToRemove)
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (isEditing) {
@@ -58,7 +76,8 @@ function Dashboard() {
             description: '',
             slots: [{ startTime: '', endTime: '' }],
             slotDuration: '',
-            queueDuration: ''
+            queueDuration: '',
+            tags: []  // Clear tags after submission
         });
     };
 
@@ -68,7 +87,8 @@ function Dashboard() {
             description: service.description,
             slots: service.slots,
             slotDuration: service.slotDuration,
-            queueDuration: service.queueDuration
+            queueDuration: service.queueDuration,
+            tags: service.tags || []  // Handle tags
         });
         setIsEditing(true);
         setServiceIdToEdit(service._id);
@@ -150,6 +170,26 @@ function Dashboard() {
                     placeholder="Queue Duration (minutes)"
                     required
                 />
+
+                {/* Tag Input */}
+                <div className="tags-input">
+                    <input
+                        type="text"
+                        value={tagInput}
+                        onChange={(e) => setTagInput(e.target.value)}
+                        placeholder="Enter tag"
+                    />
+                    <button type="button" onClick={handleAddTag}>Add Tag</button>
+                    <div className="tags-list">
+                        {serviceData.tags.map((tag, index) => (
+                            <div key={index} className="tag-item">
+                                {tag}
+                                <button type="button" onClick={() => handleRemoveTag(index)}>x</button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
                 <button type="submit" className="form-btn">{isEditing ? 'Update' : 'Create'} Service</button>
             </form>
 
@@ -167,6 +207,7 @@ function Dashboard() {
                                 serviceEndingTime={service.slots[0]?.endTime || 'N/A'}
                                 serviceSlotTime={service.slotDuration}
                                 onShowQueue={() => handleShowQueue(service._id)}
+                                tags={service.tags} 
                             />
                             <div className="card-actions">
                                 <button onClick={() => handleEdit(service)} className="edit-btn">Edit</button>

@@ -2,17 +2,17 @@ const mongoose = require('mongoose');
 
 const slotSchema = new mongoose.Schema({
   startTime: {
-    type: String, 
+    type: String,
     required: true,
     trim: true
   },
   endTime: {
-    type: String, 
+    type: String,
     required: true,
     trim: true
   },
   available: {
-    type: Boolean, 
+    type: Boolean,
     default: true
   }
 });
@@ -28,21 +28,25 @@ const serviceSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  slots: [slotSchema], 
+  slots: [slotSchema],
   slotDuration: {
-    type: Number, 
+    type: Number,
     required: true
   },
   queueDuration: {
-    type: Number, 
+    type: Number,
     required: true,
     default: 10
   },
-  admin: {  
+  admin: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Admin',
     required: true
-  }
+  },
+  tags: [{
+    type: String,
+    trim: true
+  }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Service', serviceSchema);

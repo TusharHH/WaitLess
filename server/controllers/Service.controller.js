@@ -4,7 +4,7 @@ const Admin = require('../models/Admin.model.js');
 const { AsyncHandler, ApiResponse } = require('../utils/Helpers.js');
 
 const create_service = AsyncHandler(async (req, res) => {
-    const { name, description, slots, slotDuration, queueDuration } = req.body;
+    const { name, description, slots, slotDuration, queueDuration, tags } = req.body;  // Accept tags from request
     const adminId = req.admin._id;
 
     if (!name || !slots || !slotDuration || !queueDuration) {
@@ -22,6 +22,7 @@ const create_service = AsyncHandler(async (req, res) => {
         slots,
         slotDuration,
         queueDuration,
+        tags,  // Add tags to the service
         admin: adminId
     });
 
@@ -36,7 +37,7 @@ const create_service = AsyncHandler(async (req, res) => {
 
 const update_service = AsyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { name, description, slots, slotDuration, queueDuration } = req.body;
+    const { name, description, slots, slotDuration, queueDuration, tags } = req.body;
 
     const service = await Service.findById(id);
     if (!service) {
@@ -48,6 +49,7 @@ const update_service = AsyncHandler(async (req, res) => {
     service.slots = slots || service.slots;
     service.slotDuration = slotDuration || service.slotDuration;
     service.queueDuration = queueDuration || service.queueDuration;
+    service.tags = tags || service.tags;  // Update tags
 
     await service.save();
 

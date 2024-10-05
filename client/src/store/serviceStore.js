@@ -93,8 +93,6 @@ const useServiceStore = create((set) => ({
             if (!response) {
                 set({ error: "No service available !!" });
             };
-            // console.log(response);
-            console.log(response.data.data);
             set({
                 services: response.data.data,
                 loading: false,

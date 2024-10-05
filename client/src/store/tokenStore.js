@@ -21,7 +21,7 @@ const useTokenStore = create((set) => ({
             }
 
             set(() => ({ token: response.data.token, isLoading: false }));
-            
+
             return true;
         } catch (error) {
             set(() => ({ error: error.message, isLoading: false }));
@@ -41,7 +41,7 @@ const useTokenStore = create((set) => ({
             }
 
             set(() => ({ tokens: response.data.tokens, isLoading: false }));
-            
+
             return true;
         } catch (error) {
             set(() => ({ error: error.message, isLoading: false }));
