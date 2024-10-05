@@ -60,7 +60,8 @@
       gap: 15px;
       margin-top: 20px;
 
-      .edit-btn, .delete-btn {
+      .edit-btn,
+      .delete-btn {
         padding: 10px 20px;
         font-size: 1rem;
         border-radius: 5px;
@@ -83,4 +84,177 @@
       }
     }
   }
+
+  /* Added Styles Start Here */
+
+  /* Admin Services Section */
+  .admin-services {
+    background-color: lighten($background-color, 10%);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+
+    h2 {
+      color: $primary-color;
+      margin-bottom: 15px;
+    }
+
+    .service-card {
+      background-color: gray;
+      padding: 15px;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+
+      h3 {
+        margin-top: 0;
+        color: $primary-color;
+      }
+
+      p {
+        margin: 5px 0;
+        color: $text-color;
+
+        strong {
+          color: $light-color;
+        }
+      }
+
+      .slots {
+        margin-top: 10px;
+
+        h4 {
+          margin-bottom: 5px;
+          color: $primary-color;
+        }
+
+        .slot {
+          background-color: orange;
+          padding: 10px;
+          border-radius: 4px;
+          margin-bottom: 10px;
+
+          p {
+            margin: 3px 0;
+            color: $text-color;
+
+            strong {
+              color: $light-color;
+            }
+          }
+        }
+      }
+    }
+
+    /* Responsive Design for Service Cards */
+    @media (max-width: 600px) {
+      .service-card {
+        padding: 10px;
+
+        h3 {
+          font-size: 1.2rem;
+        }
+
+        p {
+          font-size: 0.9rem;
+        }
+
+        .slots {
+          h4 {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  /* User Tokens Section */
+  .user-tokens {
+    background-color: lighten($background-color, 10%);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+
+    h2 {
+      color: $primary-color;
+      margin-bottom: 15px;
+    }
+
+    .fetch-tokens-btn {
+      padding: 10px 20px;
+      background-color: $button-bg;
+      color: $button-text;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: 20px;
+
+      &:hover {
+        background-color: darken($button-bg, 10%);
+      }
+    }
+
+    .latest-token,
+    .token-history {
+      margin-bottom: 20px;
+
+      h3 {
+        color: $primary-color;
+        margin-bottom: 10px;
+      }
+
+      .token-card {
+        background-color: gray;
+        padding: 15px;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+
+        p {
+          margin: 5px 0;
+          color: $text-color;
+
+          strong {
+            color: $light-color;
+          }
+        }
+      }
+    }
+
+    .error {
+      color: $error-color;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    /* Responsive Design for Tokens */
+    @media (max-width: 600px) {
+      .fetch-tokens-btn {
+        width: 100%;
+        padding: 8px 16px;
+        font-size: 0.9rem;
+      }
+
+      .token-card {
+        padding: 10px;
+
+        p {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+  /* Admin Services and User Tokens Common Styles */
+  .service-card,
+  .token-card {
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+  }
+
+  /* Added Styles End Here */
 }
