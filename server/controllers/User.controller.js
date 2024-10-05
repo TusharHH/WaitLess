@@ -1,6 +1,7 @@
 const User = require('../models/User.model.js');
 
 const { AsyncHandler, ApiResponse } = require('../utils/Helpers.js');
+const { uploadOnCloudinary } = require("../utils/cloudinary.js");
 
 const GenerateToken = require('../middlewares/GenerateToken.middleware.js');
 
@@ -16,7 +17,16 @@ const signup = AsyncHandler(async (req, res) => {
         return ApiResponse(res, false, "User already exists!", {}, 409);
     }
 
-    const newUser = new User({ name, email, password });
+    let avatar = null;
+    if (req.files && req.files.avatar) {
+        const avatarFilePath = req.files.avatar[0].path;
+        const uploadResponse = await uploadOnCloudinary(avatarFilePath);
+        if (uploadResponse && uploadResponse.url) {
+            avatar = uploadResponse.url;
+        }
+    }
+
+    const newUser = new User({ name, email, password,avatar:avatar });
     const token = GenerateToken(newUser.email);
 
     newUser.authToken = token;
