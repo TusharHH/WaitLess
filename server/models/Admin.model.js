@@ -22,6 +22,9 @@ const adminSchema = new mongoose.Schema({
   }],
   authToken: {
     type: String,
+  },
+  otp:{
+    type: Number,
   }
 }, { timestamps: true });
 
