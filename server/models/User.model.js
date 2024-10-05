@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    avatar: {
+        type: String, // cloudinary url
+        required: true,
+    },
     tokenHistory: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Token'

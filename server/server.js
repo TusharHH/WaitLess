@@ -4,6 +4,8 @@ const cors = require('cors');
 
 const connection = require('./connection.js');
 
+
+
 const adminRoutes = require('./routes/Admin.routes.js');
 const serviceRoutes = require('./routes/Service.routes.js');
 const userRoutes = require('./routes/User.routes.js');
@@ -11,7 +13,11 @@ const tokenRoutes = require('./routes/Token.route.js');
 const queueRoutes = require('./routes/Queue.routes.js');
 
 const app = express();
-dotenv.config();
+dotenv.config({
+  path:'./.env'
+});
+app.use(express.urlencoded({extended: true, limit: "16kb"}))
+app.use(express.static("public"))
 
 connection();
 
