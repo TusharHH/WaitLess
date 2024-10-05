@@ -9,57 +9,57 @@
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
 
-h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #333;
-    text-align: center;
-}
-
-p {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.otp-input {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    gap: 10px;
-}
-
-.otp-field {
-    width: 50px;
-    height: 50px;
-    text-align: center;
-    font-size: 24px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    transition: border-color 0.3s ease;
-
-    &:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #333;
+        text-align: center;
     }
-}
 
-.verify-btn {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    p {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 20px;
+        text-align: center;
+    }
 
-    &:hover {
-        background-color: #0056b3;
+    .otp-input {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        gap: 10px;
+    }
+
+    .otp-field {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        font-size: 24px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+    }
+
+    .verify-btn {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #0056b3;
+        }
     }
 }
 

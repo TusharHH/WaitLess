@@ -62,8 +62,8 @@ const signup = AsyncHandler(async (req, res) => {
             return ApiResponse(res, false, uploadResponse.message, {}, 500);
         }
     }
-    
-    
+
+
     const newAdmin = new Admin({ name, email, password, avatar });
     const token = GenerateToken(newAdmin.email);
     // console.log(token);
@@ -233,6 +233,54 @@ const verifyOtp = AsyncHandler(async (req, res) => {
     res.json({ message: 'OTP verified successfully.' });
 });
 
+const sendFeedback = AsyncHandler(async (req, res) => {
+    const { senderId, senderType, feedbackMessage } = req.body;
+
+    if (!senderId || !senderType || !feedbackMessage) {
+        return ApiResponse(res, false, 'Sender ID, sender type, and feedback message are required.', {}, 400);
+    }
+
+    let sender;
+    let senderName;
+    let senderEmail;
+
+    if (senderType === 'admin') {
+        sender = await Admin.findById(senderId);
+        if (!sender) {
+            return ApiResponse(res, false, 'Admin not found.', {}, 404);
+        }
+        senderName = sender.name;
+        senderEmail = sender.email;
+    } else if (senderType === 'user') {
+        sender = await User.findById(senderId);
+        if (!sender) {
+            return ApiResponse(res, false, 'User not found.', {}, 404);
+        }
+        senderName = sender.name;
+        senderEmail = sender.email;
+    } else {
+        return ApiResponse(res, false, 'Invalid sender type. Must be either "admin" or "user".', {}, 400);
+    }
+
+
+    const subject = `Feedback from ${senderType === 'admin' ? 'Admin' : 'User'}: ${senderName}`;
+    const htmlContent = `
+        <h2>Feedback from ${senderName} (${senderEmail})</h2>
+        <p>${feedbackMessage}</p>
+    `;
+
+    try {
+        const supportEmail = "tusharhhasule99@gmail.com"; 
+        await sendMail(supportEmail, subject, htmlContent);
+
+        return ApiResponse(res, true, 'Feedback sent successfully.', {}, 200);
+    } catch (error) {
+        console.error('Error sending feedback:', error);
+        return ApiResponse(res, false, 'Failed to send feedback.', {}, 500);
+    }
+});
+
+
 module.exports = {
     login,
     signup,
@@ -241,4 +289,5 @@ module.exports = {
     getUsersInService,
     send_otp,
     verifyOtp,
+    sendFeedback
 };

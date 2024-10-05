@@ -56,8 +56,6 @@ const createToken = AsyncHandler(async (req, res) => {
     }, 200);
 });
 
-
-
 const getAllTokens = AsyncHandler(async (req, res) => {
     const tokens = await Token.find().populate('service').populate('user');
     ApiResponse(res, true, "Tokens retrieved successfully!", { tokens }, 200);

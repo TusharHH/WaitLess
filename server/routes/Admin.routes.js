@@ -7,7 +7,8 @@ const {
     update_admin,
     getUsersInService,
     verifyOtp,
-    send_otp
+    send_otp,
+    sendFeedback
 } = require('../controllers/Admin.controller.js');
 
 const protect = require('../middlewares/VerifyToken.middleware.js');
@@ -16,9 +17,9 @@ const { upload } = require('../middlewares/multer.middleware.js');
 const route = express.Router();
 
 route.post('/login', login);
-route.post('/signup', upload.fields([ 
+route.post('/signup', upload.fields([
     {
-        name: 'avatar',  
+        name: 'avatar',
         maxCount: 1
     }
 ]), signup);
@@ -27,5 +28,6 @@ route.put('/update-admin', protect, update_admin);
 route.get('/getUsers', getUsersInService);
 route.post('/verify-otp', verifyOtp);
 route.post('/send-otp', send_otp);
+route.post('/feedback', sendFeedback);
 
 module.exports = route;

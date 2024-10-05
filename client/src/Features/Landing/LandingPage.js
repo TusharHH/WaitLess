@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Logo from '../../assets/Images/logo-removebg.png';
 import './LandingPage.scss';
 
 const LandingPage = () => {
@@ -9,16 +8,6 @@ const LandingPage = () => {
 
     return (
         <div className="landing-container">
-
-            <header className="navbar">
-                <div className="logo">
-                    <img src={Logo} alt='waitless' />
-                </div>
-                <div className="nav-buttons">
-                    <button className="signup-btn" onClick={() => navigate('/signup')}>Signup</button>
-                    <button className="login-btn" onClick={() => navigate('/login')}>Login</button>
-                </div>
-            </header>
 
             <section className="hero-section">
                 <h1>

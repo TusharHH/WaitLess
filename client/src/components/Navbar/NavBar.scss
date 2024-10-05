@@ -24,12 +24,15 @@
         padding-left: 40px;
 
         li {
-            color: $secondary-color;
-            cursor: pointer;
-            font-size: 1rem;
+            a {
+                color: $secondary-color;
+                text-decoration: none;
+                cursor: pointer;
+                font-size: 1rem;
 
-            &:hover {
-                color: $primary-color;
+                &:hover {
+                    color: $primary-color;
+                }
             }
         }
     }
@@ -42,6 +45,7 @@
         p {
             font-size: 1rem;
             color: $light-color;
+            padding-top: 10px;
             margin-right: 10px;
         }
 

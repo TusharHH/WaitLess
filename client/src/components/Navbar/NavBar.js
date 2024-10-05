@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import useAdminStore from '../../store/adminAuthStore';
 import useUserStore from '../../store/userAuthStore';
@@ -10,7 +10,6 @@ import ProfilePic from '../../assets/Images/man.png';
 import './NavBar.scss';
 
 const NavBar = () => {
-
   const { logout: adminLogout, setError: setAdminError, admin, error: adminError } = useAdminStore();
   const { logout: userLogout, setError: setUserError, user, error: userError } = useUserStore();
 
@@ -20,7 +19,6 @@ const NavBar = () => {
   const name = loggedInUser ? loggedInUser.name : "No user found!";
   const avatarUrl = loggedInUser?.avatar || ProfilePic;
   const error = adminError || userError;
-
 
   const handleLogout = async () => {
     try {
@@ -35,37 +33,51 @@ const NavBar = () => {
     navigate('/');
   };
 
+  const url = admin ? "dashboard" : 'u_dashboard';
+
   return (
     <nav className="navbar">
-      <div>
+      <div className="navbar-logo">
         <img
           src={Logo}
           alt="Logo"
         />
       </div>
-      <div>
+      <div className="navbar-links">
         <ul>
-          <li>Home</li>
-          <li>Service</li>
-          <li>Doctors</li>
-          <li>About Us</li>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to={url}>Services</Link></li>
+          <li><Link to="/doctors">Doctors</Link></li>
+          <li><Link to="/feedback">Contact Us</Link></li>
         </ul>
       </div>
-      <div>
-
+      <div className="navbar-user">
         <ul className="navbar-items">
-          {loggedInUser ? <p>{name}</p> : <p>{error}</p>}
-          <li>
-            <img
-              src={avatarUrl}
-              alt="User Avatar"
-              className="user-avatar"
-              onClick={()=>{navigate('/profile')}}
-            />
-          </li>
-          <li onClick={handleLogout} className="logout-btn">
-            Logout
-          </li>
+          {loggedInUser ? (
+            <>
+              <p>{name}</p>
+              <li>
+                <img
+                  src={avatarUrl}
+                  alt="User Avatar"
+                  className="user-avatar"
+                  onClick={() => { navigate('/profile') }}
+                />
+              </li>
+              <li onClick={handleLogout} className="logout-btn">
+                Logout
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link to="/signup" className="signup-btn">Signup</Link>
+              </li>
+              <li>
+                <Link to="/login" className="login-btn">Login</Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </nav>
