@@ -15,11 +15,13 @@ import SignupOptions from '../Features/Authentication/Signup/sigupOtions/SignupO
 import ClientSignupPage from '../Features/Authentication/Signup/ClientOptions/ClientSignupPage';
 import ProfessionalSignupPage from '../Features/Authentication/Signup/Professinal/AdminSignupPage';
 import OtpInput from '../components/Otp/Otp';
+import Profile from '../components/Profile/Profile';
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="/otp" element={<OtpInput />} />
       <Route path="/login" element={<LoginOptions />} />
       <Route path="/client-login" element={<ClientLogin />} />

@@ -20,8 +20,6 @@ const NavBar = () => {
   const name = loggedInUser ? loggedInUser.name : "No user found!";
   const avatarUrl = loggedInUser?.avatar || ProfilePic;
   const error = adminError || userError;
-  // console.log(loggedInUser);
-  // console.log(avatarUrl); 
 
 
   const handleLogout = async () => {
@@ -62,6 +60,7 @@ const NavBar = () => {
               src={avatarUrl}
               alt="User Avatar"
               className="user-avatar"
+              onClick={()=>{navigate('/profile')}}
             />
           </li>
           <li onClick={handleLogout} className="logout-btn">
