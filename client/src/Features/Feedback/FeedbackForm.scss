@@ -1,0 +1,95 @@
+@import '../../index.scss';
+
+.feedback-form-container {
+    background-color: $background-color; 
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 30px auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    
+    .form-title {
+        text-align: center;
+        color: $primary-color;
+        margin-bottom: 20px;
+    }
+    
+    .error-message {
+        color: $error-color; 
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .success-message {
+        color: $light-color; 
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        color: black;
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                margin-bottom: 5px;
+                color: $light-color;
+            }
+
+            select,
+            textarea {
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid $tertiary-color; 
+                background-color: $secondary-color; 
+                color: black;
+                font-size: 1rem;
+
+                &:focus {
+                    border-color: $primary-color; 
+                    outline: none;
+                }
+            }
+
+            textarea {
+                resize: none;
+                height: 120px; 
+            }
+        }
+
+        .submit-button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: $button-bg;
+            color: $button-text;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: $hover-bg;
+            }
+        }
+    }
+}
+
+@media (max-width: $breakpoint-md) {
+    .feedback-form-container {
+        padding: 15px;
+
+        .form-title {
+            font-size: 1.5rem;
+        }
+
+        .submit-button {
+            font-size: 0.9rem;
+        }
+    }
+}
