@@ -14,8 +14,8 @@ const Profile = () => {
   const [hasClicked, setHasClicked] = useState(false);
 
   useEffect(() => {
-    if (admin && admin.length > 0) {
-      setProfileData(admin[0]);
+    if (true) {
+      setProfileData(admin);
     } else if (user) {
       setProfileData(user);
     }
@@ -55,16 +55,16 @@ const Profile = () => {
         </ul>
 
         {/* Services Section */}
-        {admin && profileData.servicesDetails && profileData.servicesDetails.length > 0 ? (
+        {admin && profileData.services && profileData.services.length > 0 ? (
           <div className="admin-services">
             <h2>Services Created</h2>
-            {profileData.servicesDetails.map((service) => (
+            {profileData.services.map((service) => (
               <div key={service._id} className="service-card">
                 <h3>{service.name}</h3>
                 <p>{service.description}</p>
                 <p><strong>Slot Duration:</strong> {service.slotDuration} minutes</p>
                 <p><strong>Queue Duration:</strong> {service.queueDuration} minutes</p>
-                <p><strong>Tags:</strong> {service.tags.join(', ')}</p>
+                <p><strong>Tags:</strong> {service.tags?.join(', ')}</p>
 
                 <div className="slots">
                   <h4>Slots:</h4>

@@ -93,26 +93,24 @@ const login = AsyncHandler(async (req, res) => {
     const token = GenerateToken(admin._id);
 
     const adminDetails = await Admin.findById(admin._id)
-    .populate({
-        path: 'services',
-        select: '_id name description slotDuration queueDuration', 
-        populate: {
-            path: 'slots',
-            select: '_id startTime endTime available' 
-        }
-    })
-    .select('-password -authToken'); 
+        .populate({
+            path: 'services',
+            select: '_id name description slotDuration queueDuration',
+            populate: {
+                path: 'slots',
+                select: '_id startTime endTime available'
+            }
+        })
+        .select('-password -authToken');
 
     admin.authToken = token;
     await admin.save();
 
-    // Send response
     ApiResponse(res, true, "Login successful!", {
         Token: admin.authToken,
         adminDetails
     }, 200);
 });
-
 
 const reset_password = AsyncHandler(async (req, res) => {
     const { email, password } = req.body;
@@ -216,9 +214,13 @@ const verifyOtp = AsyncHandler(async (req, res) => {
 
     if (!email || !otp) return res.status(400).json({ message: 'Email and OTP are required.' });
 
+    console.log(otp);
     const user = await Admin.findOne({ email });
+    console.log(user.otp);
     if (!user) return res.status(400).json({ message: 'User not found.' });
-    if (user.otp !== otp) return res.status(400).json({ message: 'Invalid OTP.' });
+    if (user.otp != otp) return res.status(400).json({ message: 'Invalid OTP.' });
+
+
 
     user.otp = null;
     await user.save();
