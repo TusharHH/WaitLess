@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { loginAdmin, signupAdmin } from '../Features/Authentication/adminAuthService';
+import { loginAdmin, signupAdmin, updateAdmin } from '../Features/Authentication/adminAuthService';
 import axios from 'axios';
 
 const getStoredUser = () => {
@@ -15,6 +15,7 @@ const getStoredUser = () => {
 };
 
 const useAdminStore = create((set) => ({
+    admins:[],
     admin: getStoredUser(),
     token: null,
     error: null,
@@ -143,7 +144,48 @@ const useAdminStore = create((set) => ({
         } catch (error) {
             console.log(error);
         }
+    },
+
+    updateAdmin: async (name, email, password) => {
+        set({ isLoading: true, error: null });
+        try {
+        const response = await updateAdmin({ name, email, password }, getStoredUser()._id,{
+            headers: {
+                Authorization: `Bearer ${response.data.data.Token}`  // Attach the token
+            }
+        });
+        set({
+            user: response.data.data.updatedUser,
+            isLoading: false,
+        });
+        localStorage.setItem('user', JSON.stringify(response.data.data.updatedUser));
+        return true;
+    } catch (error) {
+        set({
+        error: error.response?.data?.message || 'Update failed!',
+        isLoading: false,
+        });
+        return false;
     }
+    },
+    
+    fetchAdmins: async () => {
+        set({ isLoading: true, error: null });
+    
+    try {
+        const response = await axios.get('http://localhost:4000/api/v1/admins/admins');
+        console.log(response.data);
+        set({
+        admins: response.data.data.admins,
+        isLoading: false,
+        });
+    } catch (error) {
+        set({
+        error: error.response?.data?.message || 'Failed to fetch admins',
+        isLoading: false,
+        });
+    }
+    },
 }));
 
 export default useAdminStore;

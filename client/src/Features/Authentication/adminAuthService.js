@@ -42,3 +42,21 @@ export const signupUser = async (name, email, password) => {
     throw error;
   }
 };
+
+export const updateUser = async (name,email,password,id) =>{
+  try {
+    const response = await axios.put(`${BACKEND_URL_USER}/update_user,`,name,email,password,id);
+    return response;
+  } catch (error) {
+    throw(error);
+  }
+};
+
+export const updateAdmin = async (name,email,password,id) =>{
+  try {
+    const response = await axios.put(`${BACKEND_URL_ADMIN}/update_user,`,name,email,password,id);
+    return response;
+  } catch (error) {
+    throw(error);
+  }
+};

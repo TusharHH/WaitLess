@@ -17,6 +17,7 @@ import ProfessionalSignupPage from '../Features/Authentication/Signup/Professina
 import OtpInput from '../components/Otp/Otp';
 import Profile from '../components/Profile/Profile';
 import FeedbackForm from '../Features/Feedback/FeedbackForm';
+import FindDoctor from '../Features/FindDoctor/FindDoctor';
 
 const AppRoutes = () => {
   return (
@@ -25,6 +26,7 @@ const AppRoutes = () => {
       <Route path="/feedback" element={<FeedbackForm />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/otp" element={<OtpInput />} />
+      <Route path="/find-doctor" element={<FindDoctor />} />
       <Route path="/login" element={<LoginOptions />} />
       <Route path="/client-login" element={<ClientLogin />} />
       <Route path="/professional-login" element={<AdminLogin />} />

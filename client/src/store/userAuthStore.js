@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { loginUser, signupUser } from '../Features/Authentication/adminAuthService';
+import { loginUser, signupUser, updateUser } from '../Features/Authentication/adminAuthService';
 
 const getStoredUser = () => {
   const storedUser = localStorage.getItem("user");
@@ -15,6 +15,7 @@ const getStoredUser = () => {
 
 export const useUserAuthStore = create((set) => ({
   user: getStoredUser(),
+  admins: [],
   error: null,
   isLoading: false,
   isAuthenticated: false,
@@ -86,6 +87,34 @@ export const useUserAuthStore = create((set) => ({
   resetError: () => {
     set({ error: null });
   },
+
+  updateUser: async (name, email, password) => {
+    set({ isLoading: true, error: null });
+    try {
+      // console.log(response.data.newUser.authToken)
+      console.log(getStoredUser()._id)
+      const id = getStoredUser()._id;
+    const response = await updateUser( name, email, password ,id ,{
+        headers: {
+            Authorization: `Bearer ${getStoredUser()._id}`  // Attach the token
+        }
+    });
+    set({
+    user: response.data.updatedUser,
+    isLoading: false,
+    });
+    localStorage.setItem('user', JSON.stringify(response.data.data.updatedUser));
+    return true;
+} catch (error) {
+    set({
+    error: error.response?.data?.message || 'Update failed!',
+    isLoading: false,
+    });
+    return false;
+}
+},
+
+
 }));
 
 export default useUserAuthStore;

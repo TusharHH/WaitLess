@@ -275,7 +275,15 @@ const sendFeedback = AsyncHandler(async (req, res) => {
 
 const getAllAdmins = AsyncHandler(async (req, res) => {
 
-    const admins = await Admin.find();
+    const admins = await Admin.find()
+    .populate({
+        path: 'services',
+        select: '_id name description slotDuration queueDuration', 
+        populate: {
+            path: 'slots',
+            select: '_id startTime endTime available' 
+        }
+    });
 
     if (!admins) {
         ApiResponse(res, false, "Something went wrong !!", {}, 400);
