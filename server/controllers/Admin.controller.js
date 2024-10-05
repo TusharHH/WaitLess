@@ -91,35 +91,28 @@ const login = AsyncHandler(async (req, res) => {
     }
 
     const token = GenerateToken(admin._id);
-    const adminDetails = await Admin.aggregate([
-        {
-            $match: { _id: admin._id }
-        },
-        {
 
-            $lookup: {
-                from: 'services',
-                localField: 'services',
-                foreignField: '_id',
-                as: 'servicesDetails'
-            }
-        },
-        {
-
-            $project: {
-                password: 0,
-                authToken: 0
-            }
+    const adminDetails = await Admin.findById(admin._id)
+    .populate({
+        path: 'services',
+        select: '_id name description slotDuration queueDuration', 
+        populate: {
+            path: 'slots',
+            select: '_id startTime endTime available' 
         }
-    ]);
+    })
+    .select('-password -authToken'); 
+
     admin.authToken = token;
     await admin.save();
 
+    // Send response
     ApiResponse(res, true, "Login successful!", {
         Token: admin.authToken,
         adminDetails
     }, 200);
 });
+
 
 const reset_password = AsyncHandler(async (req, res) => {
     const { email, password } = req.body;
