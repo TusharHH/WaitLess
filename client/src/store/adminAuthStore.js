@@ -113,6 +113,36 @@ const useAdminStore = create((set) => ({
         } catch (error) {
             console.log(error);
         }
+    },
+
+    sendOtp: async (email, type) => {
+        try {
+            const response = await axios.post('http://localhost:4000/api/v1/admins/send-otp', { email, type });
+
+            if (!response) {
+                return false;
+            }
+
+            return true;
+
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+    verfiyOtp: async (otp) => {
+        try {
+            const response = await axios.post('http://localhost:4000/api/v1/admins/send-otp', { otp });
+
+            if (!response) {
+                return false;
+            }
+
+            return true;
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 }));
 

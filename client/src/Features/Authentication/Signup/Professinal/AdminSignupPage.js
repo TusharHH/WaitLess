@@ -28,7 +28,7 @@ const ProfessionalSignupPage = () => {
             if (success) {
                 console.log(success);
                 console.log(adminSignup);
-                navigate('/dashboard');
+                navigate('/otp');
             }
         } catch (error) {
             console.log(error);

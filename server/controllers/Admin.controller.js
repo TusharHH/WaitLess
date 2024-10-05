@@ -5,40 +5,40 @@ const Queue = require('../models/Queue.model.js');
 const User = require('../models/User.model.js');
 
 const { uploadOnCloudinary } = require("../utils/cloudinary.js");
-// const sendMail = require('../middlewares/sendMail.js');
+const sendMail = require('../middlewares/sendMail.js');
 
 const GenerateToken = require('../middlewares/GenerateToken.middleware.js');
 
-// const signupOtpTemplate = require('../templates/signupOtpTemplate.js');
-// const loginOtpTemplate = require('../templates/loginOtpTemplate.js');
-// const resetPasswordOtpTemplate = require('../templates/resetPasswordOtpTemplate.js');
+const signupOtpTemplate = require('../templates/signupOtpTemplate.js');
+const loginOtpTemplate = require('../templates/loginOtpTemplate.js');
+const resetPasswordOtpTemplate = require('../templates/resetPasswordOtpTemplate.js');
 
-// const sendOtpEmail = async (user, type) => {
-//     const otp = Math.floor(100000 + Math.random() * 900000);
-//     Admin.otp = otp;
+const sendOtpEmail = async (user, type) => {
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    user.otp = otp;
 
-//     let subject, htmlContent;
+    let subject, htmlContent;
 
-//     switch (type) {
-//         case 'signup':
-//             subject = 'Complete Your Signup - OTP Verification';
-//             htmlContent = signupOtpTemplate(otp, user.name);
-//             break;
-//         case 'login':
-//             subject = 'Login Verification OTP';
-//             htmlContent = loginOtpTemplate(otp, user.name);
-//             break;
-//         case 'reset-password':
-//             subject = 'Password Reset OTP';
-//             htmlContent = resetPasswordOtpTemplate(otp, user.name);
-//             break;
-//         default:
-//             throw new Error('Invalid OTP type');
-//     }
+    switch (type) {
+        case 'signup':
+            subject = 'Complete Your Signup - OTP Verification';
+            htmlContent = signupOtpTemplate(otp, user.name);
+            break;
+        case 'login':
+            subject = 'Login Verification OTP';
+            htmlContent = loginOtpTemplate(otp, user.name);
+            break;
+        case 'reset-password':
+            subject = 'Password Reset OTP';
+            htmlContent = resetPasswordOtpTemplate(otp, user.name);
+            break;
+        default:
+            throw new Error('Invalid OTP type');
+    }
 
-//     await Admin.save();
-//     await sendMail(Admin.email, subject, htmlContent);
-// };
+    await user.save();
+    await sendMail(user.email, subject, htmlContent);
+};
 
 const signup = AsyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
@@ -204,36 +204,34 @@ const getUsersInService = async (req, res) => {
     }
 };
 
-// const send_otp = asyncHandler(async (req, res) => {
-//     console.log("mail sent");
-//     console.log(req.body);
+const send_otp = AsyncHandler(async (req, res) => {
 
-//     const { email, type } = req.body;
+    const { email, type } = req.body;
 
-//     if (!email) return res.status(400).json({ message: 'Email is required.' });
+    if (!email) return res.status(400).json({ message: 'Email is required.' });
 
-//     const user = await Admin.findOne({ email });
-//     if (!user) return res.status(400).json({ message: 'User not found.' });
+    const user = await Admin.findOne({ email });
+    if (!user) return res.status(400).json({ message: 'User not found.' });
 
-//     await sendOtpEmail(user, type);
+    await sendOtpEmail(user, type);
 
-//     res.json({ message: `OTP sent for ${type}.` });
-// });
+    res.json({ message: `OTP sent for ${type}.` });
+});
 
-// const verifyOtp = asyncHandler(async (req, res) => {
-//     const { email, otp } = req.body;
+const verifyOtp = AsyncHandler(async (req, res) => {
+    const { email, otp } = req.body;
 
-//     if (!email || !otp) return res.status(400).json({ message: 'Email and OTP are required.' });
+    if (!email || !otp) return res.status(400).json({ message: 'Email and OTP are required.' });
 
-//     const user = await Admin.findOne({ email });
-//     if (!user) return res.status(400).json({ message: 'User not found.' });
-//     if (user.otp !== otp) return res.status(400).json({ message: 'Invalid OTP.' });
+    const user = await Admin.findOne({ email });
+    if (!user) return res.status(400).json({ message: 'User not found.' });
+    if (user.otp !== otp) return res.status(400).json({ message: 'Invalid OTP.' });
 
-//     user.otp = null;
-//     await user.save();
+    user.otp = null;
+    await user.save();
 
-//     res.json({ message: 'OTP verified successfully.' });
-// });
+    res.json({ message: 'OTP verified successfully.' });
+});
 
 module.exports = {
     login,
@@ -241,6 +239,6 @@ module.exports = {
     reset_password,
     update_admin,
     getUsersInService,
-    // send_otp,
-    // verifyOtp,
+    send_otp,
+    verifyOtp,
 };

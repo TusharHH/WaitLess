@@ -17,8 +17,7 @@ const adminSchema = new mongoose.Schema({
     required: true
   },
   avatar: {
-    type: String, // cloudinary url
-    required: true,
+    type: String, 
   },
   services: [{
     type: mongoose.Schema.Types.ObjectId,

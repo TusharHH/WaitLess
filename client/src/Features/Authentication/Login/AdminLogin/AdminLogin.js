@@ -9,7 +9,7 @@ const AdminLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     
-    const { login: adminLogin, isLoading: adminLoading, error: adminError, clearError: clearAdminError } = useAdminStore();
+    const { login: adminLogin, isLoading: adminLoading, error: adminError, clearError: clearAdminError, sendOtp } = useAdminStore();
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -18,7 +18,8 @@ const AdminLogin = () => {
         const success = await adminLogin(email, password);
 
         if (success) {
-            navigate('/dashboard');
+            await sendOtp(email, "login");
+            navigate('/otp');
         } else {
             console.log('Login failed for professional!');
         }

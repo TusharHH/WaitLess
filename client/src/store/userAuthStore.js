@@ -19,7 +19,6 @@ export const useUserAuthStore = create((set) => ({
   isLoading: false,
   isAuthenticated: false,
 
-  // User Login function
   login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
@@ -29,9 +28,9 @@ export const useUserAuthStore = create((set) => ({
         isAuthenticated: true,
         isLoading: false,
       });
-      // Store the token and user object in localStorage
+   
       localStorage.setItem('authToken', response.data.data.user.authToken);
-      localStorage.setItem('user', JSON.stringify(response.data.data.user)); // Store user object as a string
+      localStorage.setItem('user', JSON.stringify(response.data.data.user)); 
       return true;
     } catch (error) {
       set({
