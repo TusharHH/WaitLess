@@ -16,10 +16,13 @@ const NavBar = () => {
 
   const navigate = useNavigate();
 
-  const loggedInUser = admin || user;
+  const loggedInUser = Array.isArray(admin) ? admin[0] : admin || user;
   const name = loggedInUser ? loggedInUser.name : "No user found!";
-  const avatarUrl = loggedInUser?.avatarUrl || ProfilePic;
+  const avatarUrl = loggedInUser?.avatar || ProfilePic;
   const error = adminError || userError;
+  // console.log(loggedInUser);
+  // console.log(avatarUrl); 
+
 
   const handleLogout = async () => {
     try {
