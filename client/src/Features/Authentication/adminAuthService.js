@@ -12,9 +12,13 @@ export const loginAdmin = async (email, password) => {
   }
 };
 
-export const signupAdmin = async (name, email, password) => {
+export const signupAdmin = async (formData) => {
   try {
-    const response = await axios.post(`${BACKEND_URL_ADMIN}/signup`, { name, email, password });
+    const response = await axios.post(`${BACKEND_URL_ADMIN}/signup`, formData,{
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response;
   } catch (error) {
     throw error;

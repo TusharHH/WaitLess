@@ -62,8 +62,12 @@ const signup = AsyncHandler(async (req, res) => {
             return ApiResponse(res, false, uploadResponse.message, {}, 500);
         }
     }
-
+    
+    
     const newAdmin = new Admin({ name, email, password, avatar });
+    const token = GenerateToken(newAdmin.email);
+    // console.log(token);
+    newAdmin.authToken = token;
     await newAdmin.save();
 
     ApiResponse(res, true, "Admin registered successfully!", { newAdmin }, 201);

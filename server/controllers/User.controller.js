@@ -30,7 +30,7 @@ const signup = AsyncHandler(async (req, res) => {
 
     const newUser = new User({ name, email, password, avatar });
     const token = GenerateToken(newUser.email);
-
+    
     newUser.authToken = token;
     await newUser.save();
 

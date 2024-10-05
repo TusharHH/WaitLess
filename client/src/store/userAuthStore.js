@@ -1,8 +1,20 @@
 import { create } from 'zustand';
 import { loginUser, signupUser } from '../Features/Authentication/adminAuthService';
 
+const getStoredUser = () => {
+  const storedUser = localStorage.getItem("user");
+  try {
+      return storedUser ? JSON.parse(storedUser) : null;
+  } catch (error) {
+      console.error("Error parsing stored user data:", error);
+      // If data is invalid, remove it from localStorage
+      localStorage.removeItem("user");
+      return null;
+  }
+};
+
 export const useUserAuthStore = create((set) => ({
-  user: null,
+  user: getStoredUser(),
   error: null,
   isLoading: false,
   isAuthenticated: false,

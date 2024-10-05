@@ -26,8 +26,10 @@ function Dashboard() {
     const [queueData, setQueueData] = useState(null);  // State for storing queue data
 
     useEffect(() => {
-        fetchServices();
-    }, [fetchServices]);
+        if (admin) {  // Fetch services only if admin exists
+            fetchServices();
+        }
+    }, [fetchServices, admin]);
 
     const handleLogout = async () => {
         logout();
