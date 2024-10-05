@@ -1,25 +1,38 @@
 // ProfessionalSignupPage.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {useForm} from 'react-hook-form'
 
 import useAdminStore from '../../../../store/adminAuthStore';
 import '../SignupPage.scss';
 
 const ProfessionalSignupPage = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    // const [name, setName] = useState('');
+    // const [email, setEmail] = useState('');
+    // const [password, setPassword] = useState('');
+    // const [avatar, setAvatar] = useState(null);
     
-    const { signup: adminSignup, isLoading: adminLoading, error: adminError } = useAdminStore();
+    const { signup: adminSignup,login:adminLogin, isLoading: adminLoading, error: adminError } = useAdminStore();
+    const {register,handleSubmit,formState:{errors}} = useForm();
     const navigate = useNavigate();
 
-    const handleSignup = async (e) => {
-        e.preventDefault();
-
+    const onSubmit = async (data) => {
+        // e.preventDefault();
+        const formData = new FormData();  // Create a FormData object
+        formData.append('name', data.name);
+        formData.append('email', data.email);
+        formData.append('password', data.password);
+        formData.append('avatar',data.avatar[0]);
         try {
-            const success = await adminSignup(name, email, password);
-            if (success) {
-                navigate('/otp'); 
+            const signupSuccess = await adminSignup(formData);
+            if (signupSuccess) {
+                // Login after successful signup
+                const email = data.email;
+                const password = data.password;
+                const loginSuccess = await adminLogin(email,password);
+                if (loginSuccess) {
+                    navigate('/otp');
+                }
             }
         } catch (error) {
             console.log(error);
@@ -30,13 +43,13 @@ const ProfessionalSignupPage = () => {
         <div className="signup-page">
             <div className="signup-container">
                 <h2>Signup as Professional</h2>
-                <form onSubmit={handleSignup}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="labelName">
                         <label>Name:</label>
                         <input 
                             type="text" 
-                            value={name} 
-                            onChange={(e) => setName(e.target.value)} 
+                            placeholder='Enter your name'
+                            {...register('name', { required: 'Name is required' })}
                             required 
                         />
                     </div>
@@ -44,23 +57,41 @@ const ProfessionalSignupPage = () => {
                         <label>Email:</label>
                         <input 
                             type="email" 
-                            value={email} 
-                            onChange={(e) => setEmail(e.target.value)} 
-                            required 
+                            {...register('email', {
+                                required: 'Email is required',
+                                pattern: {
+                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                    message: 'Invalid email address',
+                                },
+                            })}
                         />
                     </div>
                     <div className="labelPassword">
                         <label>Password:</label>
                         <input 
                             type="password" 
-                            value={password} 
-                            onChange={(e) => setPassword(e.target.value)} 
-                            required 
+                            {...register('password', { required: 'Password is required' })}
+                        />
+                    </div>
+                    <div className="labelAvatar">
+                        <label>Avatar File:</label>
+                        <input 
+                            type="file" 
+                            accept='image/*'
+                            {...register('avatar', { required: 'Avatar is required' })}
                         />
                     </div>
                     <button type="submit" disabled={adminLoading}>Sign Up</button>
-                    {adminError && <p className="error">{adminError}</p>}
+                    {adminError && <p className="error">{adminError.message || "An error occurred"}</p>}
                 </form>
+                {/* {isLoading && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                        <ClipLoader size={50} color="#ffffff" />
+                        <p>Registering your account...</p>
+                    </div>
+                )}
+
+                {adminError && <p className="text-red-500">{adminError}</p>} */}
             </div>
         </div>
     );

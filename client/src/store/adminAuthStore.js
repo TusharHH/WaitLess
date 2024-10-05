@@ -55,33 +55,39 @@ const useAdminStore = create((set) => ({
         }
     },
 
-    signup: async (name, email, password) => {
-        set(() => ({ isLoading: true }));
+    signup: async (formData) => {
+        set(() => ({ isLoading: true ,error:null}));
 
         try {
-            const response = await signupAdmin(name, email, password);
-
-            if (response.success === false) {
-                set(() => ({ error: response.message, isLoading: false }));
-                return false;
-            }
-
+            const response = await signupAdmin(formData);
             const authAdmin = response.data.data.newAdmin;
-            const token = response.data.data.Token;  // Capture the token
+            const token = response.data.data.newAdmin.authToken; 
+            console.log(response.data.data.newAdmin);
+            console.log(token);
+            // Capture the token
+            // if (!authAdmin || !token) {
+            //     set(() => ({ error: 'Something went wrong!', isLoading: false }));
+            //     return false;
+            // }
+            set({
+                admin:authAdmin,
+                error: null, 
+                isLoading: false,
+                token:token,
+            });
 
-            if (!authAdmin || !token) {
-                set(() => ({ error: 'Something went wrong!', isLoading: false }));
-                return false;
-            }
-
-            set(() => ({ admin: authAdmin, token, isLoading: false }));
+            // set(() => ({ admin: authAdmin, token, isLoading: false }));
             localStorage.setItem('admin', JSON.stringify(authAdmin));
             localStorage.setItem('token', token);  // Store the token
-
             return true;
 
         } catch (error) {
-            set(() => ({ error: error }));
+            // Handling specific cases like 409 Conflict
+            if (error.response?.status === 409) {
+                set(() => ({ error: 'Admin with this email already exists', isLoading: false }));
+            } else {
+                set(() => ({ error: error.message || 'An error occurred', isLoading: false }));
+            }
             return false;
         }
     },
