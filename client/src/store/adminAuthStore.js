@@ -57,12 +57,12 @@ const useAdminStore = create((set) => ({
     },
 
     signup: async (formData) => {
-        set(() => ({ isLoading: true ,error:null}));
+        set(() => ({ isLoading: true, error: null }));
 
         try {
             const response = await signupAdmin(formData);
             const authAdmin = response.data.data.newAdmin;
-            const token = response.data.data.newAdmin.authToken; 
+            const token = response.data.data.newAdmin.authToken;
             console.log(response.data.data.newAdmin);
             console.log(token);
             // Capture the token
@@ -71,10 +71,10 @@ const useAdminStore = create((set) => ({
             //     return false;
             // }
             set({
-                admin:authAdmin,
-                error: null, 
+                admin: authAdmin,
+                error: null,
                 isLoading: false,
-                token:token,
+                token: token,
             });
 
             // set(() => ({ admin: authAdmin, token, isLoading: false }));
@@ -96,12 +96,12 @@ const useAdminStore = create((set) => ({
     logout: () => {
         set(() => ({ admin: null, token: null }));
         localStorage.removeItem('admin');
-        localStorage.removeItem('token');  // Remove the token
+        localStorage.removeItem('token');   
     },
     getUsers: async (serviceId) => {
         try {
             const admin = JSON.parse(localStorage.getItem('admin'));
-            const adminId = admin[0]._id;
+            const adminId = admin._id;
 
             const response = await axios.get('http://localhost:4000/api/v1/admins/getUsers', {
                 params: {
@@ -120,6 +120,7 @@ const useAdminStore = create((set) => ({
         try {
             const response = await axios.post('http://localhost:4000/api/v1/admins/send-otp', { email, type });
 
+
             if (!response) {
                 return false;
             }
@@ -131,10 +132,12 @@ const useAdminStore = create((set) => ({
         }
     },
 
-    verfiyOtp: async (otp) => {
+    verfiyOtp: async (email, otp) => {
+        console.log(email);
         try {
-            const response = await axios.post('http://localhost:4000/api/v1/admins/send-otp', { otp });
+            const response = await axios.post('http://localhost:4000/api/v1/admins/verify-otp', { email, otp });
 
+            console.log(response);
             if (!response) {
                 return false;
             }

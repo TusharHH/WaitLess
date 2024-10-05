@@ -2,20 +2,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import useAdminStore from '../../../../store/adminAuthStore'; 
+import useAdminStore from '../../../../store/adminAuthStore';
 import '../ClientLogin/clientLogin.scss';
 
 const AdminLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
-    const { login: adminLogin, isLoading: adminLoading, error: adminError, clearError: clearAdminError, sendOtp } = useAdminStore();
+
+    const { login, isLoading: adminLoading, error: adminError, clearError: clearAdminError, sendOtp } = useAdminStore();
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        const success = await adminLogin(email, password);
+        const success = await login(email, password);
 
         if (success) {
             await sendOtp(email, "login");

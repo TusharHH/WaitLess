@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import useAdminStore from '../../store/adminAuthStore';
 import useUserAuthStore from '../../store/userAuthStore';
 import useTokenStore from '../../store/tokenStore';
+import useUserAuthStore from '../../store/userAuthStore';
+import useTokenStore from '../../store/tokenStore';
 import Man from '../../assets/Images/man.png';
 import './Profile.scss';
 
@@ -28,6 +30,8 @@ const Profile = () => {
   useEffect(() => {
     if (isAdmin) {
       setProfileData(currentUser);
+    if (true) {
+      setProfileData(admin);
     } else if (user) {
       setProfileData(user);
     }
@@ -35,7 +39,6 @@ const Profile = () => {
 
   const pic = profileData?.avatar || Man;
 
-  // Fetch tokens for user
   const handleFetchToken = async () => {
     if (user) {
       await fetchTokenById(user._id);
@@ -67,12 +70,11 @@ const Profile = () => {
       setIsEditModalOpen(false);
       // Optionally, show a success message
     }
+    console.log('Edit button clicked');
   };
 
-  // Delete profile function
   const handleDelete = () => {
     console.log('Delete button clicked');
-    // Implement delete functionality here
   };
 
   return (
@@ -106,6 +108,9 @@ const Profile = () => {
                 .join(', ') || 'N/A'}
             </li>
           )}
+          <li><strong>Name:</strong> {profileData?.name}</li>
+          <li><strong>Email:</strong> {profileData?.email}</li>
+          <li><strong>Created At:</strong> {new Date(profileData?.createdAt).toLocaleDateString()}</li>
         </ul>
 
         <div className="profile-actions">
@@ -150,10 +155,46 @@ const Profile = () => {
               </div>
             </div>
           ))}
-        </div>
-      )}
+        {/* Services Section */}
+        {admin && profileData.services && profileData.services.length > 0 ? (
+          <div className="admin-services">
+            <h2>Services Created</h2>
+            {profileData.services.map((service) => (
+              <div key={service._id} className="service-card">
+                <h3>{service.name}</h3>
+                <p>{service.description}</p>
+                <p><strong>Slot Duration:</strong> {service.slotDuration} minutes</p>
+                <p><strong>Queue Duration:</strong> {service.queueDuration} minutes</p>
+                <p><strong>Tags:</strong> {service.tags?.join(', ')}</p>
 
-      {/* Render Token History for User */}
+                <div className="slots">
+                  <h4>Slots:</h4>
+                  {service.slots && service.slots.length > 0 ? (
+                    service.slots.map((slot, index) => (
+                      <div key={slot._id} className="slot">
+                        <p><strong>Start Time:</strong> {slot.startTime}</p>
+                        <p><strong>End Time:</strong> {slot.endTime}</p>
+                        <p><strong>Available:</strong> {slot.available ? 'Yes' : 'No'}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No slots available.</p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No services created.</p>
+        )}
+
+        <div className="profile-actions">
+          <button className="edit-btn" onClick={handleEdit}>Edit</button>
+          <button className="delete-btn" onClick={handleDelete}>Delete</button>
+        </div>
+      </div>
+
+      {/* Token History */}
       {user && (
         <div className="user-tokens">
           <h2>Token History</h2>

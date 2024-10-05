@@ -11,6 +11,7 @@ const OtpInput = () => {
     const [otp, setOtp] = useState(new Array(6).fill(""));
     const navigate = useNavigate();
 
+
     const handleChange = (element, index) => {
         if (isNaN(element.value)) return;
 
@@ -26,14 +27,20 @@ const OtpInput = () => {
 
     const handleSubmit = async () => {
 
-        const newOtp = await verfiyOtp(otp);
+        try {
+            const admin = JSON.parse(localStorage.getItem('admin'));
+            const email = admin.email;
+            const otpString = otp.join('');
+            const niceOtp = await verfiyOtp(email, otpString);
 
-        if (!newOtp) {
-            console.log("otp not matched !!");
-            console.log(newOtp);
+            if (niceOtp) {
+                navigate('/dashboard');
+            }
+
+        } catch (error) {
+            console.log(error);
         }
 
-        navigate('/dashboard');
     };
 
     return (

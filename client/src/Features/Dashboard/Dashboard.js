@@ -9,7 +9,7 @@ import './Dashboard.scss';
 function Dashboard() {
     const { admin, logout, getUsers } = useAdminStore();
     const { services, fetchServices, createService, updateService, deleteService, error, loading } = useServiceStore();
-    const navigate = useNavigate();
+    const navigate = useNavigate();    
 
     const [serviceData, setServiceData] = useState({
         name: '',
@@ -103,6 +103,7 @@ function Dashboard() {
     const handleShowQueue = async (serviceId) => {
         try {
             const response = await getUsers(serviceId);
+            console.log(response);
             setQueueData(response.data.users);
         } catch (error) {
             console.error('Failed to fetch queue', error);
@@ -112,7 +113,7 @@ function Dashboard() {
     return (
         <div className='dashboard'>
             <h1>Admin Dashboard</h1>
-            <p>admin: {admin?.[0]?.name || 'No user found'}</p>
+            <p>admin: {admin?.name || 'No user found'}</p>
 
             <button onClick={handleLogout} className="logout-btn">Logout</button>
 
