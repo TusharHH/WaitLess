@@ -90,6 +90,7 @@ const useServiceStore = create((set) => ({
         set({ loading: true, error: null });
         try {
             const response = await get_all_service();
+            
             if (!response) {
                 set({ error: "No service available !!" });
             };

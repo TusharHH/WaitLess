@@ -4,10 +4,10 @@ import useServiceStore from '../../../store/serviceStore';
 import { useNavigate } from 'react-router-dom';
 
 function BookService() {
-    const [getService, setService] = useState([]);   
-    const [filteredServices, setFilteredServices] = useState([]);  
+    const [getService, setService] = useState([]);
+    const [filteredServices, setFilteredServices] = useState([]);
     const [Errors, setErrors] = useState(null);
-    const [query, setQuery] = useState('');  
+    const [query, setQuery] = useState('');
 
     const { getServices, error, isLoading, createToken } = useServiceStore();
 
@@ -19,7 +19,7 @@ function BookService() {
             'description',
             'admin.name',
             'admin.email',
-            'tags', 
+            'tags',
         ],
         threshold: 0.3,
     };
@@ -27,6 +27,7 @@ function BookService() {
     const submitHandler = async () => {
         try {
             const list = await getServices();
+
             if (!list) {
                 setErrors("No services available.");
             } else {
@@ -41,11 +42,11 @@ function BookService() {
 
     useEffect(() => {
         if (query === '') {
-            setFilteredServices(getService); 
+            setFilteredServices(getService);
         } else {
             const fuse = new Fuse(getService, fuseOptions);
             const result = fuse.search(query);
-            setFilteredServices(result.map(({ item }) => item)); 
+            setFilteredServices(result.map(({ item }) => item));
         }
     }, [query, getService]);
 
