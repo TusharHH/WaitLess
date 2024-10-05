@@ -100,7 +100,7 @@ const useAdminStore = create((set) => ({
     getUsers: async (serviceId) => {
         try {
             const admin = JSON.parse(localStorage.getItem('admin'));
-            const adminId = admin[0]._id;
+            const adminId = admin._id;
 
             const response = await axios.get('http://localhost:4000/api/v1/admins/getUsers', {
                 params: {
