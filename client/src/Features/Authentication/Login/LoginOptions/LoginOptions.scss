@@ -1,0 +1,96 @@
+@import "../../../../index.scss";
+
+.login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .logo-header {
+        margin-bottom: 40px;
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            img {
+                height: 80px;
+                width: auto;
+                margin-bottom: 10px;
+            }
+
+            h1 {
+                color: $primary-color;
+                font-size: 2rem;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .login-options {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+
+        .login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 40px;
+            border: 2px solid $button-bg;
+            background-color: transparent;
+            color: $button-text;
+            font-size: 1.2rem;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            width: 250px;
+
+            i {
+                font-size: 1.5rem;
+            }
+
+            &:hover {
+                background-color: $primary-color;
+                color: $secondary-color;
+            }
+
+            &.client-btn {
+                // Specific styling for the client button (if needed)
+            }
+
+            &.professional-btn {
+                // Specific styling for the professional button (if needed)
+            }
+        }
+    }
+}
+
+// Responsive styling for smaller screens
+@media (max-width: $breakpoint-md) {
+    .login-page {
+        .login-options {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .login-btn {
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width: $breakpoint-lg) {
+    .login-page {
+        .logo-header .logo h1 {
+            font-size: 1.8rem;
+        }
+
+        .login-btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+        }
+    }
+}

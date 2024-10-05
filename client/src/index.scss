@@ -4,11 +4,14 @@
 // Color Variables
 $primary-color: #f15a24;
 $secondary-color: #ffffff;
+$tertiary-color: #7e7e7e;
 $background-color: #1c1c1c;
 $text-color: #ffffff;
-$danger-color:#0f0f0f;
-$light-color:orange;
-$error-color:red;
+$light-color: #f15a24;
+$button-bg: #f15a24;
+$button-text: #ffffff;
+$hover-bg: darken($primary-color, 10%);
+$error-color: red;
 
 // Font Family
 $font-family: "Poppins", sans-serif;
