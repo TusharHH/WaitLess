@@ -8,7 +8,8 @@ const {
     getUsersInService,
     verifyOtp,
     send_otp,
-    sendFeedback
+    sendFeedback,
+    getAllAdmins
 } = require('../controllers/Admin.controller.js');
 
 const protect = require('../middlewares/VerifyToken.middleware.js');
@@ -26,6 +27,7 @@ route.post('/signup', upload.fields([
 route.put('/reset-password', reset_password);
 route.put('/update-admin', protect, update_admin);
 route.get('/getUsers', getUsersInService);
+route.get('/admins', getAllAdmins);
 route.post('/verify-otp', verifyOtp);
 route.post('/send-otp', send_otp);
 route.post('/feedback', sendFeedback);

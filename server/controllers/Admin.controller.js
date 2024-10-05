@@ -270,7 +270,7 @@ const sendFeedback = AsyncHandler(async (req, res) => {
     `;
 
     try {
-        const supportEmail = "tusharhhasule99@gmail.com"; 
+        const supportEmail = "tusharhhasule99@gmail.com";
         await sendMail(supportEmail, subject, htmlContent);
 
         return ApiResponse(res, true, 'Feedback sent successfully.', {}, 200);
@@ -278,6 +278,18 @@ const sendFeedback = AsyncHandler(async (req, res) => {
         console.error('Error sending feedback:', error);
         return ApiResponse(res, false, 'Failed to send feedback.', {}, 500);
     }
+});
+
+const getAllAdmins = AsyncHandler(async (req, res) => {
+
+    const admins = await Admin.find();
+
+    if (!admins) {
+        ApiResponse(res, false, "Something went wrong !!", {}, 400);
+    }
+
+    ApiResponse(res, true, "Admins Send successfully !!", { admins }, 200);
+
 });
 
 
@@ -289,5 +301,6 @@ module.exports = {
     getUsersInService,
     send_otp,
     verifyOtp,
-    sendFeedback
+    sendFeedback,
+    getAllAdmins
 };
