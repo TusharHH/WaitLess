@@ -2,8 +2,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import './Otp.scss';
+import useAdminStore from '../../store/adminAuthStore';
 
 const OtpInput = () => {
+
+    const { verfiyOtp } = useAdminStore();
+
     const [otp, setOtp] = useState(new Array(6).fill(""));
     const navigate = useNavigate();
 
@@ -20,8 +24,16 @@ const OtpInput = () => {
         }
     };
 
-    const handleSubmit = () => {
-        navigate('/');
+    const handleSubmit = async () => {
+
+        const newOtp = await verfiyOtp(otp);
+
+        if (!newOtp) {
+            console.log("otp not matched !!");
+            console.log(newOtp);
+        }
+
+        navigate('/dashboard');
     };
 
     return (
