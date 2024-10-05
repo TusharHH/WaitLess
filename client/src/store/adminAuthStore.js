@@ -2,8 +2,20 @@ import { create } from 'zustand';
 import { loginAdmin, signupAdmin } from '../Features/Authentication/adminAuthService';
 import axios from 'axios';
 
+const getStoredUser = () => {
+    const storedUser = localStorage.getItem("admin");
+    try {
+        return storedUser ? JSON.parse(storedUser) : null;
+    } catch (error) {
+        console.error("Error parsing stored user data:", error);
+        // If data is invalid, remove it from localStorage
+        localStorage.removeItem("user");
+        return null;
+    }
+};
+
 const useAdminStore = create((set) => ({
-    admin: null,
+    admin: getStoredUser(),
     token: null,
     error: null,
     isLoading: false,

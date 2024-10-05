@@ -14,7 +14,7 @@ const queueRoutes = require('./routes/Queue.routes.js');
 
 const app = express();
 dotenv.config({
-  path:'./.env'
+  path:'.env'
 });
 app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static("public"))

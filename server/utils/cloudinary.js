@@ -2,6 +2,7 @@ const { v2: cloudinary } = require("cloudinary");
 const fs = require("fs");
 const User = require('../models/User.model.js');
 const { AsyncHandler, ApiResponse } = require('../utils/Helpers.js');
+require('dotenv').config();
 
 cloudinary.config({ 
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
@@ -9,25 +10,25 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET 
 });
 
-const uploadOnCloudinary = AsyncHandler(async (localFilePath, res) => {
+const uploadOnCloudinary = async (localFilePath) => {
     try {
-        if (!localFilePath) return ApiResponse(res, false, "File path missing!", {}, 400);
+        if (!localFilePath) throw new Error("File path missing");
 
         // Upload the file to Cloudinary
+        console.log(localFilePath);
         const response = await cloudinary.uploader.upload(localFilePath, {
             resource_type: "auto"
-        });
-        // File has been uploaded successfully
+        })
         fs.unlinkSync(localFilePath);  // Remove the local file after upload
 
-        return ApiResponse(res, true, "File uploaded successfully!", { url: response.url }, 200);
+        return { success: true, url: response.url };  // Return the URL after upload
 
     } catch (error) {
-        // Log error and return a failure response
         console.error("Cloudinary Upload Error: ", error);
-        return ApiResponse(res, false, "Failed to upload file to Cloudinary", {}, 500);
+        return { success: false, message: "Failed to upload file to Cloudinary" };
     }
-});
+};
+
 
 const deleteOnCloudinary = AsyncHandler(async (publicId, resourceType = 'image', res) => {
     if (!publicId) {
