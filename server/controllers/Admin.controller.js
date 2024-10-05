@@ -7,36 +7,36 @@ const sendMail = require('../middlewares/sendMail.js');
 
 const GenerateToken = require('../middlewares/GenerateToken.middleware.js');
 
-const signupOtpTemplate = require('../templates/signupOtpTemplate.js');
-const loginOtpTemplate = require('../templates/loginOtpTemplate.js');
-const resetPasswordOtpTemplate = require('../templates/resetPasswordOtpTemplate.js');
+// const signupOtpTemplate = require('../templates/signupOtpTemplate.js');
+// const loginOtpTemplate = require('../templates/loginOtpTemplate.js');
+// const resetPasswordOtpTemplate = require('../templates/resetPasswordOtpTemplate.js');
 
-const sendOtpEmail = async (user, type) => {
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    Admin.otp = otp;
+// const sendOtpEmail = async (user, type) => {
+//     const otp = Math.floor(100000 + Math.random() * 900000);
+//     Admin.otp = otp;
 
-    let subject, htmlContent;
+//     let subject, htmlContent;
 
-    switch (type) {
-        case 'signup':
-            subject = 'Complete Your Signup - OTP Verification';
-            htmlContent = signupOtpTemplate(otp, user.name);
-            break;
-        case 'login':
-            subject = 'Login Verification OTP';
-            htmlContent = loginOtpTemplate(otp, user.name);
-            break;
-        case 'reset-password':
-            subject = 'Password Reset OTP';
-            htmlContent = resetPasswordOtpTemplate(otp, user.name);
-            break;
-        default:
-            throw new Error('Invalid OTP type');
-    }
+//     switch (type) {
+//         case 'signup':
+//             subject = 'Complete Your Signup - OTP Verification';
+//             htmlContent = signupOtpTemplate(otp, user.name);
+//             break;
+//         case 'login':
+//             subject = 'Login Verification OTP';
+//             htmlContent = loginOtpTemplate(otp, user.name);
+//             break;
+//         case 'reset-password':
+//             subject = 'Password Reset OTP';
+//             htmlContent = resetPasswordOtpTemplate(otp, user.name);
+//             break;
+//         default:
+//             throw new Error('Invalid OTP type');
+//     }
 
-    await Admin.save();
-    await sendMail(Admin.email, subject, htmlContent);
-};
+//     await Admin.save();
+//     await sendMail(Admin.email, subject, htmlContent);
+// };
 
 const signup = AsyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
