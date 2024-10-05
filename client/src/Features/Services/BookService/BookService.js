@@ -4,10 +4,10 @@ import useServiceStore from '../../../store/serviceStore';
 import { useNavigate } from 'react-router-dom';
 
 function BookService() {
-    const [getService, setService] = useState([]);    // Stores all services
-    const [filteredServices, setFilteredServices] = useState([]);  // Stores filtered services
+    const [getService, setService] = useState([]);   
+    const [filteredServices, setFilteredServices] = useState([]);  
     const [Errors, setErrors] = useState(null);
-    const [query, setQuery] = useState('');  // Search query
+    const [query, setQuery] = useState('');  
 
     const { getServices, error, isLoading, createToken } = useServiceStore();
 
@@ -19,7 +19,7 @@ function BookService() {
             'description',
             'admin.name',
             'admin.email',
-            'tags',  // Add tags to the search keys
+            'tags', 
         ],
         threshold: 0.3,
     };
@@ -31,7 +31,7 @@ function BookService() {
                 setErrors("No services available.");
             } else {
                 setService(list);
-                setFilteredServices(list);  // Initially show all services
+                setFilteredServices(list);
             }
         } catch (error) {
             setErrors("Error fetching services.");
@@ -41,11 +41,11 @@ function BookService() {
 
     useEffect(() => {
         if (query === '') {
-            setFilteredServices(getService);  // Show all services if no query
+            setFilteredServices(getService); 
         } else {
             const fuse = new Fuse(getService, fuseOptions);
             const result = fuse.search(query);
-            setFilteredServices(result.map(({ item }) => item));  // Map over Fuse.js results
+            setFilteredServices(result.map(({ item }) => item)); 
         }
     }, [query, getService]);
 
@@ -59,10 +59,7 @@ function BookService() {
 
     return (
         <div>
-            {/* Button to fetch services */}
             <button onClick={submitHandler}>See Services</button>
-
-            {/* Search bar */}
             <div style={{ margin: '20px 0' }}>
                 <input
                     type="text"
@@ -73,7 +70,6 @@ function BookService() {
                 />
             </div>
 
-            {/* Display filtered services */}
             <div>
                 {filteredServices.length > 0 ? (
                     filteredServices.map((service, index) => (

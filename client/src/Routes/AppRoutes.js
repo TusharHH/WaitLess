@@ -17,8 +17,8 @@ const AppRoutes = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
-      <Route path="/token" element={<Token />} />
-      <Route path="/u_dashboard" element={<BookService />} />
+      <Route path="/token" element={<AdminLayout><Token /></AdminLayout>} />
+      <Route path="/u_dashboard" element={<AdminLayout><BookService /></AdminLayout>} />
       <Route path="/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
       <Route path="/services" element={<AdminLayout><ServicePage /></AdminLayout>} />
     </Routes>
