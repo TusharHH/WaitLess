@@ -12,7 +12,7 @@ const ProfessionalSignupPage = () => {
     // const [password, setPassword] = useState('');
     // const [avatar, setAvatar] = useState(null);
     
-    const { signup: adminSignup, isLoading: adminLoading, error: adminError } = useAdminStore();
+    const { signup: adminSignup,login:adminLogin, isLoading: adminLoading, error: adminError } = useAdminStore();
     const {register,handleSubmit,formState:{errors}} = useForm();
     const navigate = useNavigate();
 
@@ -24,11 +24,15 @@ const ProfessionalSignupPage = () => {
         formData.append('password', data.password);
         formData.append('avatar',data.avatar[0]);
         try {
-            const success = await adminSignup(formData);
-            if (success) {
-                console.log(success);
-                console.log(adminSignup);
-                navigate('/otp');
+            const signupSuccess = await adminSignup(formData);
+            if (signupSuccess) {
+                // Login after successful signup
+                const email = data.email;
+                const password = data.password;
+                const loginSuccess = await adminLogin(email,password);
+                if (loginSuccess) {
+                    navigate('/otp');
+                }
             }
         } catch (error) {
             console.log(error);
