@@ -20,6 +20,6 @@ route.post('/signup', upload.fields([
 ]), signup);
 route.put('/reset-password', reset_password);
 
-route.put('/update_user', protect, update_user);
+route.put('/update_user/:id', update_user);
 
 module.exports = route;
