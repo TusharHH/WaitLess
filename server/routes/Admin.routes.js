@@ -9,7 +9,8 @@ const {
     verifyOtp,
     send_otp,
     sendFeedback,
-    getAllAdmins
+    getAllAdmins,
+    deleteAdmin
 } = require('../controllers/Admin.controller.js');
 
 const protect = require('../middlewares/VerifyToken.middleware.js');
@@ -31,5 +32,9 @@ route.get('/admins', getAllAdmins);
 route.post('/verify-otp', verifyOtp);
 route.post('/send-otp', send_otp);
 route.post('/feedback', sendFeedback);
+route.delete('/admin/:id', deleteAdmin);
+route.put('/admin/:id', upload.single('avatar'), update_admin);
+
+
 
 module.exports = route;

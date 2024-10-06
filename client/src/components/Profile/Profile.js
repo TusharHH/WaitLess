@@ -5,11 +5,13 @@ import useTokenStore from '../../store/tokenStore';
 import Man from '../../assets/Images/man.png';
 import './Profile.scss';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
-  const { admin, updateAdmin } = useAdminStore();
+  const { admin, updateAdmin, deleteAdmin } = useAdminStore();
   const { user, updateUser } = useUserAuthStore();
   const { token, fetchTokenById, isLoading, error } = useTokenStore();
+  const [showDeleteWarning, setShowDeleteWarning] = useState(false);
 
   const [profileData, setProfileData] = useState({});
   const [hasClicked, setHasClicked] = useState(false);
@@ -17,6 +19,8 @@ const Profile = () => {
   const [avatar, setAvatar] = useState(null); // State for avatar image
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
+
+  const navigate = useNavigate();
 
   // Determine if the user is admin or regular user
   const isAdmin = admin;
@@ -91,6 +95,7 @@ const Profile = () => {
       setProfileData(isAdmin ? admin : user); // Update the frontend profile data
     }
   };
+  
   
 
   return (
@@ -171,7 +176,7 @@ const Profile = () => {
 
           {hasClicked && !isLoading && !error && (
             <div>
-              {token && token.length > 0 ? (
+              {token && token?.length > 0 ? (
                 <>
                   <div className="latest-token">
                     <h3>Latest Token</h3>
@@ -254,7 +259,20 @@ const Profile = () => {
           </div>
         </div>
       )}
+
+      {showDeleteWarning && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Are you sure?</h2>
+            <p>Deleting your account will remove all data and this action cannot be undone.</p>
+            <button onClick={handleDelete} className="delete-confirm-btn">Yes, Delete</button>
+            <button onClick={() => setShowDeleteWarning(false)} className="delete-cancel-btn">Cancel</button>
+          </div>
+        </div>
+      )}
+
     </div>
+
   );
 };
 
