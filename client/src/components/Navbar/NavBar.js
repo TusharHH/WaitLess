@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, NavLink } from 'react-router-dom';
 
 import useAdminStore from '../../store/adminAuthStore';
 import useUserStore from '../../store/userAuthStore';
@@ -45,10 +45,11 @@ const NavBar = () => {
       </div>
       <div className="navbar-links">
         <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to={url}>Services</Link></li>
-          <li><Link to="/find-doctor">Doctors</Link></li>
-          <li><Link to="/feedback">Contact Us</Link></li>
+          <li><NavLink to="/" className={({ isActive }) => `${isActive ? 'activeClassName' : 'inactiveClassName'}`}>Home</NavLink></li>
+          <li><NavLink to={url} className={({ isActive }) => `${isActive ? 'activeClassName' : 'inactiveClassName'}`}>Services</NavLink></li>
+          <li><NavLink to="/find-doctor" className={({ isActive }) => `${isActive ? 'activeClassName' : 'inactiveClassName'}`} >Doctors</NavLink></li>
+          <li><NavLink to="/feedback" className={({ isActive }) => `${isActive ? 'activeClassName' : 'inactiveClassName'}`} >Contact Us</NavLink></li>
+          <li><NavLink to="/community" className={({ isActive }) => `${isActive ? 'activeClassName' : 'inactiveClassName'}`} >Community</NavLink></li>
         </ul>
       </div>
       <div className="navbar-user">
