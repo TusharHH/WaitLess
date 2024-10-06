@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './FeedbackForm.scss';
 import useAdminStore from '../../store/adminAuthStore'; 
 
@@ -10,6 +11,15 @@ const FeedbackForm = () => {
   const [success, setSuccess] = useState(null);
 
   const user = localStorage.getItem('user');
+
+  const navigate = useNavigate();
+
+  const User = admin ? admin?.name : user?.name;
+  useEffect(()=>{
+      if(!User){
+          navigate("/signup")
+      }
+  },[User])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

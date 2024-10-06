@@ -3,12 +3,22 @@ import Fuse from 'fuse.js';
 import useServiceStore from '../../../store/serviceStore';
 import { useNavigate } from 'react-router-dom';
 import './BookService.scss';  // Ensure SCSS styles are properly imported
+import useUserAuthStore from '../../../store/userAuthStore';
 
 function BookService() {
     const [services, setServices] = useState([]);
     const [filteredServices, setFilteredServices] = useState([]);
     const [errorMessage, setErrorMessage] = useState(null);
     const [query, setQuery] = useState('');
+
+    const {user} = useUserAuthStore();
+    const admins = JSON.parse(localStorage.getItem('admin'));
+    const User = admins ? admins?.name : user?.name;
+    useEffect(()=>{
+        if(!User){
+            navigate("/signup")
+        }
+    },[User])
 
     const { getServices, error, isLoading, createToken } = useServiceStore();
     const navigate = useNavigate();

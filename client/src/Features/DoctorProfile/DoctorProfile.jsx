@@ -24,7 +24,7 @@ function DoctorProfile() {
     if (error) return <p className="error">{error}</p>;
     if (!admin) return <p>Admin not found</p>;
 
- return (
+return (
         <div className="admin-profile-container">
             {/* Admin Profile Card */}
             <div className="profile-card">

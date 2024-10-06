@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 import Fuse from 'fuse.js'; // Import Fuse.js
 import useAdminStore from '../../store/adminAuthStore'; // Import the admin store
 import './FindDoctor.scss';
 import MAN from '../../assets/Images/man.png';
+import useUserAuthStore from '../../store/userAuthStore';
 
 function FindDoctor() {
     const { admins, fetchAdmins, isLoading, error } = useAdminStore();
@@ -14,6 +16,16 @@ function FindDoctor() {
     useEffect(() => {
         fetchAdmins(); // Fetch admins on component mount
     }, [fetchAdmins]);
+
+    const navigate = useNavigate();
+
+    const {user} = useUserAuthStore();
+    const User = admins ? admins?.name : user?.name;
+    useEffect(()=>{
+        if(!User){
+            navigate("/signup")
+        }
+    },[User])
 
     useEffect(() => {
         // Initialize Fuse.js
