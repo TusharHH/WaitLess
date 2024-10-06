@@ -3,6 +3,12 @@ import axios from 'axios';
 const BACKEND_URL_ADMIN = 'http://localhost:4000/api/v1/admins';
 const BACKEND_URL_USER = 'http://localhost:4000/api/v1/users'
 
+const getToken = () => {
+  const accessToken = localStorage.getItem("Token");
+  console.log(accessToken)
+  return accessToken; // Adjust based on how you store the token
+};
+
 export const loginAdmin = async (email, password) => {
   try {
     const response = await axios.post(`${BACKEND_URL_ADMIN}/login`, { email, password });
@@ -11,6 +17,8 @@ export const loginAdmin = async (email, password) => {
     throw error;
   }
 };
+
+
 
 export const signupAdmin = async (formData) => {
   try {
@@ -45,16 +53,24 @@ export const signupUser = async (name, email, password) => {
 
 export const updateUser = async (name,email,password,id) =>{
   try {
-    const response = await axios.put(`${BACKEND_URL_USER}/update_user,`,name,email,password,id);
+    const response = await axios.put(`${BACKEND_URL_USER}/update_user`,name,email,password,id);
     return response;
   } catch (error) {
     throw(error);
   }
 };
 
-export const updateAdmin = async (name,email,password,id) =>{
+export const updateAdminService = async (adminId,formData) =>{
   try {
-    const response = await axios.put(`${BACKEND_URL_ADMIN}/update_user,`,name,email,password,id);
+    // for (let pair of formData.entries()) {
+    //   console.log(`${pair[0]}: ${pair[1]}`);
+    // }    
+    const response = await axios.patch(`${BACKEND_URL_ADMIN}/update-admin/${adminId}`,formData,{
+      headers: {
+          Authorization: `Bearer ${getToken()}`,  // Attach the token
+          'Content-Type': 'multipart/form-data',  // Make sure the request is multipart
+      },
+  });
     return response;
   } catch (error) {
     throw(error);

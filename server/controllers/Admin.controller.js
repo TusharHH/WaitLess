@@ -3,6 +3,8 @@ const { AsyncHandler, ApiResponse } = require('../utils/Helpers.js');
 const Service = require('../models/Service.model.js');
 const Queue = require('../models/Queue.model.js');
 const User = require('../models/User.model.js');
+const { v2: cloudinary } = require("cloudinary");
+
 
 const { uploadOnCloudinary } = require("../utils/cloudinary.js");
 const sendMail = require('../middlewares/sendMail.js');
@@ -12,6 +14,7 @@ const GenerateToken = require('../middlewares/GenerateToken.middleware.js');
 const signupOtpTemplate = require('../templates/signupOtpTemplate.js');
 const loginOtpTemplate = require('../templates/loginOtpTemplate.js');
 const resetPasswordOtpTemplate = require('../templates/resetPasswordOtpTemplate.js');
+const { upload } = require('../middlewares/multer.middleware.js');
 
 const sendOtpEmail = async (user, type) => {
     const otp = Math.floor(100000 + Math.random() * 900000);
@@ -127,14 +130,16 @@ const reset_password = AsyncHandler(async (req, res) => {
 });
 
 const update_admin = AsyncHandler(async (req, res) => {
-
-    const { name, email, password, id } = req.body;
-
-    const admin = await Admin.findById(id);
+    const { name, email, password } = req.body;
+    const { adminId } = req.params;
+    
+    // Find the admin by ID
+    const admin = await Admin.findById(adminId);
     if (!admin) {
         return ApiResponse(res, false, 'Admin not found', {}, 404);
     }
 
+    // Update the admin fields
     admin.name = name || admin.name;
     admin.email = email || admin.email;
 
@@ -142,42 +147,52 @@ const update_admin = AsyncHandler(async (req, res) => {
         admin.password = password;
     }
 
-    if (req.files && req.files.avatar) {
-        const avatarFilePath = req.files.avatar[0].path;
-        const uploadResponse = await uploadOnCloudinary(avatarFilePath);
-        if (uploadResponse.success) {
-            if (admin.avatar) {
-                const publicId = admin.avatar.split('/').pop().split('.')[0];
-                await cloudinary.uploader.destroy(publicId);
-            }
-            admin.avatar = uploadResponse.url;
-        } else {
-            return ApiResponse(res, false, uploadResponse.message, {}, 500);
+    // Check if there's a new avatar to upload
+    const avatar = req.file?.path;
+    if (avatar) {
+        if (admin.avatar) {
+            const publicId = admin.avatar.split('/').pop().split('.')[0];
+            await cloudinary.uploader.destroy(publicId);
         }
+        const uploadedAvatar = await uploadOnCloudinary(avatar);
+        admin.avatar = uploadedAvatar.url;
     }
 
-
+    // Save the updated admin
     await admin.save();
 
-    ApiResponse(res, true, 'Admin updated successfully', { admin });
+    // Fetch the updated admin details with populated fields
+    const updatedAdminDetails = await Admin.findById(admin._id)
+        .populate({
+            path: 'services',
+            select: '_id name description slotDuration queueDuration',
+            populate: {
+                path: 'slots',
+                select: '_id startTime endTime available'
+            }
+        })
+        .select('-password -authToken'); // Exclude password and token
+
+    // Return the response with the updated admin details
+    ApiResponse(res, true, 'Admin updated successfully', { adminDetails: updatedAdminDetails }, 200);
 });
+
 
 const getUsersInService = async (req, res) => {
     try {
         const { adminId, serviceId } = req.query;
 
+        // Find the admin
+        console.log(adminId);
         const admin = await Admin.findById(adminId);
+        console.log(admin);
 
         if (!admin) {
             return ApiResponse(res, false, "Admin not found !!", {}, 404);
         }
 
-        if (!serviceId) {
-            return ApiResponse(res, false, "Service Id not found !!", {}, 404);
-        }
-
+        // Check if the admin has the service
         const service = await Service.findOne({ _id: serviceId, admin: adminId });
-        
         if (!service) {
             return ApiResponse(res, false, "Service not found or not owned by this admin", {}, 404);
         }

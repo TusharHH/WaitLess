@@ -25,12 +25,7 @@ route.post('/signup', upload.fields([
     }
 ]), signup);
 route.put('/reset-password', reset_password);
-route.put('/update-admin', upload.fields([
-    {
-        name: 'avatar',
-        maxCount: 1
-    }
-]), update_admin);
+route.route('/update-admin/:adminId').patch(upload.single("avatar"), update_admin);
 route.get('/getUsers', getUsersInService);
 route.get('/admins', getAllAdmins);
 route.post('/verify-otp', verifyOtp);

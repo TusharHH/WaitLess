@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { loginAdmin, signupAdmin, updateAdmin } from '../Features/Authentication/adminAuthService';
+import { loginAdmin, signupAdmin, updateAdminService } from '../Features/Authentication/adminAuthService';
 import axios from 'axios';
 
 const getStoredUser = () => {
@@ -9,16 +9,12 @@ const getStoredUser = () => {
     } catch (error) {
         console.error("Error parsing stored user data:", error);
         // If data is invalid, remove it from localStorage
-        localStorage.removeItem("user");
+        localStorage.removeItem("admin");
         return null;
     }
 };
 
-const getToken = () => {
-    const accessToken = localStorage.getItem("Token");
-    // console.log(accessToken)
-    return accessToken; // Adjust based on how you store the token
-};
+
 
 const useAdminStore = create((set) => ({
     admins:[],
@@ -158,22 +154,21 @@ const useAdminStore = create((set) => ({
         }
     },
 
-    updateAdmin: async (formData) => {
-        set({ isLoading: true, error: null });
-        // console.log(getStoredUser);
-        const id= getStoredUser()._id
-        try {
-        const response = await updateAdmin( formData, id,{
-            headers: {
-                Authorization: `Bearer ${getToken}`  // Attach the token
-            }
-        });
-        console.log(response.data)
+updateAdmin: async (adminId,formData) => {
+    set({ isLoading: true, error: null });
+    // for (let pair of formData.entries()) {
+    //     console.log(`${pair[0]}: ${pair[1]}`);
+    // }
+    
+    try {
+        const response = await updateAdminService(adminId,formData);
+        console.log(response.data);
+        const updatedAdmin = response.data.admin
         set({
-            user: response.data.data.updatedUser,
-            isLoading: false,
+        user: updatedAdmin,  // Updated admin data
+        isLoading: false,
         });
-        localStorage.setItem('user', JSON.stringify(response.data.data.updatedUser));
+        localStorage.setItem('admin', JSON.stringify(response.data.data.admin));
         return true;
     } catch (error) {
         set({
@@ -183,6 +178,7 @@ const useAdminStore = create((set) => ({
         return false;
     }
     },
+    
     
     fetchAdmins: async () => {
         set({ isLoading: true, error: null });
