@@ -19,18 +19,18 @@ const Profile = () => {
   const [avatar, setAvatar] = useState(null); // State for avatar image
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
-
   const navigate = useNavigate();
 
   // Determine if the user is admin or regular user
   const isAdmin = admin;
   const currentUser = isAdmin ? admin : user;
 
+  // UseEffect to update profileData when admin or user changes
   useEffect(() => {
     if (currentUser) {
       setProfileData(currentUser);
     }
-  }, [currentUser]);
+  }, [currentUser, admin, user]); // Added admin and user as dependencies
 
   const pic = profileData?.avatar || Man;
 
@@ -51,9 +51,7 @@ const Profile = () => {
     setAvatar(null); // Reset avatar when opening the modal
     setIsEditModalOpen(true);
   };
-  const handleDelete = ()=>{
-    console.log("Delete button clicked")
-  }
+
   // Close Edit Modal
   const handleCloseModal = () => {
     setIsEditModalOpen(false);
@@ -72,33 +70,26 @@ const Profile = () => {
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('email', data.email);
-    
+
     // Only append password if it's provided (non-empty)
     if (data.password) {
       formData.append('password', data.password);
     }
-  
+
     // Only append avatar if a file was selected
     if (avatar) {
       formData.append('avatar', avatar);
     }
-  
-    // Debug FormData content
-    // for (let pair of formData.entries()) {
-    //   console.log(`${pair[0]}: ${pair[1]}`);
-    // }
-  
+
     const success = isAdmin
       ? await updateAdmin(admin._id, formData)
       : await updateUser(formData);
-  
+
     if (success) {
       setIsEditModalOpen(false);
       setProfileData(isAdmin ? admin : user); // Update the frontend profile data
     }
   };
-  
-  
 
   return (
     <div className="profile-container">
@@ -119,7 +110,6 @@ const Profile = () => {
           {isAdmin && (
             <li>
               <strong>Services:</strong>
-              {/* Check if services exist and have length */}
               {profileData?.services && profileData.services.length > 0
                 ? profileData.services.map((service) => service.name).join(', ')
                 : 'N/A'}
@@ -133,7 +123,6 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* Admin Services Section */}
       {isAdmin && profileData?.services && profileData.services.length > 0 && (
         <div className="admin-services">
           <h2>Services Created</h2>
@@ -144,22 +133,6 @@ const Profile = () => {
               <p><strong>Slot Duration:</strong> {service.slotDuration} minutes</p>
               <p><strong>Queue Duration:</strong> {service.queueDuration} minutes</p>
               <p><strong>Tags:</strong> {service.tags?.join(', ')}</p>
-
-              <div className="slots">
-                <h4>Slots:</h4>
-                {/* Check if slots exist and have length */}
-                {service.slots && service.slots.length > 0 ? (
-                  service.slots.map((slot) => (
-                    <div key={slot._id} className="slot">
-                      <p><strong>Start Time:</strong> {slot.startTime}</p>
-                      <p><strong>End Time:</strong> {slot.endTime}</p>
-                      <p><strong>Available:</strong> {slot.available ? 'Yes' : 'No'}</p>
-                    </div>
-                  ))
-                ) : (
-                  <p>No slots available.</p>
-                )}
-              </div>
             </div>
           ))}
         </div>
@@ -208,7 +181,6 @@ const Profile = () => {
         </div>
       )}
 
-      {/* Edit Modal */}
       {isEditModalOpen && (
         <div className="modal-overlay" onClick={handleCloseModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -261,20 +233,7 @@ const Profile = () => {
           </div>
         </div>
       )}
-
-      {showDeleteWarning && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>Are you sure?</h2>
-            <p>Deleting your account will remove all data and this action cannot be undone.</p>
-            <button onClick={handleDelete} className="delete-confirm-btn">Yes, Delete</button>
-            <button onClick={() => setShowDeleteWarning(false)} className="delete-cancel-btn">Cancel</button>
-          </div>
-        </div>
-      )}
-
     </div>
-
   );
 };
 

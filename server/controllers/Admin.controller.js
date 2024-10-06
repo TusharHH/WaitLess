@@ -20,6 +20,8 @@ const { upload } = require('../middlewares/multer.middleware.js');
 const sendOtpEmail = async (user, type) => {
     const otp = Math.floor(100000 + Math.random() * 900000);
     user.otp = otp;
+    console.log("Otp :",otp);
+
 
     let subject, htmlContent;
 
@@ -133,7 +135,7 @@ const reset_password = AsyncHandler(async (req, res) => {
 const update_admin = AsyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
     const { adminId } = req.params;
-    
+
     // Find the admin by ID
     const admin = await Admin.findById(adminId);
     if (!admin) {
@@ -195,7 +197,7 @@ const getUsersInService = async (req, res) => {
 
         // Check if the admin has the service
         const service = await Service.findOne({ _id: serviceId, admin: adminId });
-        
+
         if (!service) {
             return ApiResponse(res, false, "Service not found or not owned by this admin", {}, 404);
         }

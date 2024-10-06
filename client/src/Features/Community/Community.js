@@ -12,7 +12,7 @@ const Community = () => {
     const [messages, setMessages] = useState([]);
 
     const { user } = useUserAuthStore();
-    const { admins } = useAdminStore();
+    const admins = JSON.parse(localStorage.getItem('admin'));
 
     const User = admins ? admins.name : user.name;
 
