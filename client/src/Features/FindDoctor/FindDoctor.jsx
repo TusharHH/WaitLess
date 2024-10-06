@@ -17,15 +17,15 @@ function FindDoctor() {
         fetchAdmins(); // Fetch admins on component mount
     }, [fetchAdmins]);
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const {user} = useUserAuthStore();
-    const User = admins ? admins?.name : user?.name;
-    useEffect(()=>{
-        if(!User){
-            navigate("/signup")
-        }
-    },[User])
+    // const {user} = useUserAuthStore();
+    // const User = admins ? admins?.name : user?.name;
+    // useEffect(()=>{
+    //     if(!User){
+    //         navigate("/signup")
+    //     }
+    // },[User])
 
     useEffect(() => {
         // Initialize Fuse.js
