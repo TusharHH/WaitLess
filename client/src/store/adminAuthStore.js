@@ -14,6 +14,12 @@ const getStoredUser = () => {
     }
 };
 
+const getToken = () => {
+    const accessToken = localStorage.getItem("Token");
+    // console.log(accessToken)
+    return accessToken; // Adjust based on how you store the token
+};
+
 const useAdminStore = create((set) => ({
     admins:[],
     admin: getStoredUser(),
@@ -152,14 +158,17 @@ const useAdminStore = create((set) => ({
         }
     },
 
-    updateAdmin: async (name, email, password) => {
+    updateAdmin: async (formData) => {
         set({ isLoading: true, error: null });
+        // console.log(getStoredUser);
+        const id= getStoredUser()._id
         try {
-        const response = await updateAdmin({ name, email, password }, getStoredUser()._id,{
+        const response = await updateAdmin( formData, id,{
             headers: {
-                Authorization: `Bearer ${response.data.data.Token}`  // Attach the token
+                Authorization: `Bearer ${getToken}`  // Attach the token
             }
         });
+        console.log(response.data)
         set({
             user: response.data.data.updatedUser,
             isLoading: false,

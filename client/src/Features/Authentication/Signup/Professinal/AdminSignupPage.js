@@ -57,6 +57,7 @@ const ProfessionalSignupPage = () => {
                         <label>Email:</label>
                         <input 
                             type="email" 
+                            placeholder='Enter your email'
                             {...register('email', {
                                 required: 'Email is required',
                                 pattern: {
@@ -70,6 +71,7 @@ const ProfessionalSignupPage = () => {
                         <label>Password:</label>
                         <input 
                             type="password" 
+                            placeholder='Enter your password'
                             {...register('password', { required: 'Password is required' })}
                         />
                     </div>

@@ -18,9 +18,11 @@ const Profile = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [avatar, setAvatar] = useState(null); // New state for avatar
 
   // Determine if the user is admin or a regular user
-  const isAdmin = admin && admin.length > 0;
+  const isAdmin = admin;
+  // console.log(isAdmin)
   const currentUser = isAdmin ? admin : user;
 
   useEffect(() => {
@@ -38,6 +40,9 @@ const Profile = () => {
     }
   };
 
+  const handleDelete = ()=>{
+    console.log("hello")
+  }
   // Open Edit Modal
   const handleEdit = () => {
     setName(profileData?.name || '');
@@ -51,20 +56,31 @@ const Profile = () => {
     setIsEditModalOpen(false);
   };
 
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAvatar(file);
+    }
+  };
+
   // Handle Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('password', password);
+    if (avatar) {
+      formData.append('avatar', avatar);
+    }
+
     const success = isAdmin
-      ? await updateAdmin(name, email, password)
-      : await updateUser(name, email, password);
+      ? await updateAdmin(formData)
+      : await updateUser(formData);
 
     if (success) {
       setIsEditModalOpen(false);
     }
-  };
-
-  const handleDelete = () => {
-    console.log('Delete button clicked');
   };
 
   return (
@@ -175,7 +191,7 @@ const Profile = () => {
       {isEditModalOpen && (
         <div className="modal-overlay" onClick={handleCloseModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2>Update Profile</h2>
+            <h2>Edit Profile</h2>
             <form onSubmit={handleSubmit} className="update-form">
               <div className="form-group">
                 <label htmlFor="name">Name:</label>
@@ -210,6 +226,16 @@ const Profile = () => {
                 />
               </div>
 
+              <div className="form-group">
+                <label htmlFor="avatar">Avatar:</label>
+                <input
+                  type="file"
+                  id="avatar"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                />
+              </div>
+
               <button type="submit" className="submit-btn" disabled={isLoading}>
                 {isLoading ? 'Updating...' : 'Submit'}
               </button>
@@ -217,7 +243,6 @@ const Profile = () => {
                 Close
               </button>
             </form>
-            {error && <div className="error">{error}</div>}
           </div>
         </div>
       )}
