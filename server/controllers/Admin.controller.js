@@ -166,17 +166,18 @@ const getUsersInService = async (req, res) => {
     try {
         const { adminId, serviceId } = req.query;
 
-        // Find the admin
-        console.log(adminId);
         const admin = await Admin.findById(adminId);
-        console.log(admin);
 
         if (!admin) {
             return ApiResponse(res, false, "Admin not found !!", {}, 404);
         }
 
-        // Check if the admin has the service
+        if (!serviceId) {
+            return ApiResponse(res, false, "Service Id not found !!", {}, 404);
+        }
+
         const service = await Service.findOne({ _id: serviceId, admin: adminId });
+        
         if (!service) {
             return ApiResponse(res, false, "Service not found or not owned by this admin", {}, 404);
         }

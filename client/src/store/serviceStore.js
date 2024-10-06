@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 import { create_token, get_all_service } from '../Features/Services/serviceService';
+import { json } from 'react-router-dom';
 
 const BACKEND_URL = 'http://localhost:4000/api/v1/services';
 
@@ -15,15 +16,19 @@ const useServiceStore = create((set) => ({
 
     fetchServices: async () => {
         set({ loading: true });
-        const token = localStorage.getItem('token');  // Get the token
-
+        const token = localStorage.getItem('token');
+        const admin = JSON.parse(localStorage.getItem('admin'));
+        const adminId = admin._id;
         try {
             const response = await axios.get(`${BACKEND_URL}/service`, {
                 headers: {
-                    Authorization: `Bearer ${token}`  // Attach the token
+                    Authorization: `Bearer ${token}`
                 }
             });
+            console.log(response.data);
             set({ services: response.data.data, loading: false });
+            
+
             return response.data.data
         } catch (error) {
             set({ error: error.response?.data?.message || 'Error fetching services', loading: false });
@@ -90,7 +95,7 @@ const useServiceStore = create((set) => ({
         set({ loading: true, error: null });
         try {
             const response = await get_all_service();
-            
+
             if (!response) {
                 set({ error: "No service available !!" });
             };
@@ -116,7 +121,7 @@ const useServiceStore = create((set) => ({
             if (!response) {
                 return false;
             }
-            
+
             return response;
 
 

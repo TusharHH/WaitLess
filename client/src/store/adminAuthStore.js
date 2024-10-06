@@ -103,6 +103,9 @@ const useAdminStore = create((set) => ({
             const admin = JSON.parse(localStorage.getItem('admin'));
             const adminId = admin._id;
 
+            console.log(adminId);
+            
+
             const response = await axios.get('http://localhost:4000/api/v1/admins/getUsers', {
                 params: {
                     adminId,

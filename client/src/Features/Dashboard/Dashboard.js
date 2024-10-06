@@ -103,7 +103,7 @@ function Dashboard() {
     const handleShowQueue = async (serviceId) => {
         try {
             const response = await getUsers(serviceId);
-            console.log(response);
+            
             setQueueData(response.data.users);
         } catch (error) {
             console.error('Failed to fetch queue', error);

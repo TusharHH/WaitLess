@@ -57,39 +57,22 @@ const update_service = AsyncHandler(async (req, res) => {
 });
 
 const get_services_with_admin = AsyncHandler(async (req, res) => {
-    const services = await Service.aggregate([
-        {
-            $lookup: {
-                from: 'admins',
-                localField: 'admin',
-                foreignField: '_id',
-                as: 'adminDetails'
-            }
-        },
-        {
-            $unwind: '$adminDetails'
-        },
-        {
-            $project: {
-                name: 1,
-                description: 1,
-                slots: 1,
-                slotDuration: 1,
-                queueDuration: 1,
-                adminDetails: {
-                    _id: 1,
-                    name: 1,
-                    email: 1
-                }
-            }
-        }
-    ]);
+    const { adminId } = req.params;  // Assuming admin ID comes from req.admin
+
+    // Find services associated with the provided adminId and populate admin details
+    const services = await Service.find({ admin: adminId }).populate('admin', '_id name email');
+
+    // Check if any services were found for the given admin ID
+    if (!services || services.length === 0) {
+        return ApiResponse(res, false, 'No services found for this admin', {}, 404);
+    }
 
     ApiResponse(res, true, 'Services with admin details fetched successfully', services);
 });
 
+
+
 const get_all_service = AsyncHandler(async (req, res) => {
-    // Fetch services and populate the admin details (name and email)
     const services = await Service.find().populate('admin', 'name email');
 
     if (!services || services.length === 0) {
