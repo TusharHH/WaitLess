@@ -20,6 +20,11 @@ route.post('/signup', upload.fields([
 ]), signup);
 route.put('/reset-password', reset_password);
 
-route.put('/update_user/:id', update_user);
+route.patch('/update_user/:userId', upload.fields([
+    {
+        name: 'avatar',  
+        maxCount: 1
+    }
+]), update_user);
 
 module.exports = route;

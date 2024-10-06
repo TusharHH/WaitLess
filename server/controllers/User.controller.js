@@ -78,19 +78,36 @@ const reset_password = AsyncHandler(async (req, res) => {
 });
 
 const update_user = AsyncHandler(async (req, res) => {
-    const { id } = req.params;
+    const { userId } = req.params;
+
+    // Use req.body to access form-data fields like name, email, password
     const { name, email, password } = req.body;
 
-    const user = await User.findById(id);
+    // Check if the user exists
+    const user = await User.findById(userId);
     if (!user) {
         return ApiResponse(res, false, 'User not found', {}, 404);
     }
 
-    user.name = name || user.name;
-    user.email = email || user.email; await user.save();
+    // Update the user's fields
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (password) user.password = password;
+
+    // Handle file upload (avatar)
+    if (req.files && req.files['avatar']) {
+        const avatar = req.files['avatar'][0]; // Get the uploaded file
+        // Process the avatar upload to Cloudinary or any other storage
+        const avatarUrl = await uploadOnCloudinary(avatar.path);
+        user.avatar = avatarUrl;
+    }
+
+    // Save the updated user
+    await user.save();
 
     ApiResponse(res, true, 'User updated successfully', { user });
 });
+
 
 
 module.exports = {

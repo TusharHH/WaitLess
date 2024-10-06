@@ -67,28 +67,48 @@ const Profile = () => {
 
   // Handle Form Submission
   const onSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('email', data.email);
+    if(isAdmin){
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('email', data.email);
+      // console.log(data.name)
+      // Only append password if it's provided (non-empty)
+      if (data.password) {
+        formData.append('password', data.password);
+      }
 
-    // Only append password if it's provided (non-empty)
-    if (data.password) {
-      formData.append('password', data.password);
-    }
-
-    // Only append avatar if a file was selected
-    if (avatar) {
-      formData.append('avatar', avatar);
-    }
-
-    const success = isAdmin
+      // Only append avatar if a file was selected
+      if (avatar) {
+        formData.append('avatar', avatar);
+      }
+      const success = isAdmin
       ? await updateAdmin(admin._id, formData)
-      : await updateUser(formData);
+      : await updateUser(user._id,formData);
 
-    if (success) {
-      setIsEditModalOpen(false);
-      setProfileData(isAdmin ? admin : user); // Update the frontend profile data
+      if (success) {
+        setIsEditModalOpen(false);
+        setProfileData(isAdmin ? admin : user); // Update the frontend profile data
+      }
     }
+    else{
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('email', data.email);
+      // console.log(data.name)
+      // Only append password if it's provided (non-empty)
+      if (data.password) {
+        formData.append('password', data.password);
+      }
+      const success = isAdmin
+      ? await updateAdmin(admin._id, formData)
+      : await updateUser(user._id,formData);
+
+      if (success) {
+        setIsEditModalOpen(false);
+        setProfileData(isAdmin ? admin : user); // Update the frontend profile data
+      }
+    }
+
   };
 
   return (
