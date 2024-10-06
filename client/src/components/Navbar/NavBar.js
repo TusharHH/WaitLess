@@ -41,6 +41,7 @@ const NavBar = () => {
         <img
           src={Logo}
           alt="Logo"
+          onClick={() => { navigate('/') }}
         />
       </div>
       <div className="navbar-links">
@@ -48,6 +49,7 @@ const NavBar = () => {
           <li><Link to="/">Home</Link></li>
           <li><Link to={url}>Services</Link></li>
           <li><Link to="/find-doctor">Doctors</Link></li>
+          <li><Link to="/community">Community</Link></li>
           <li><Link to="/feedback">Contact Us</Link></li>
         </ul>
       </div>

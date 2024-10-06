@@ -143,7 +143,7 @@ const useAdminStore = create((set) => ({
         }
     },
 
-    verfiyOtp: async (email, otp) => {
+    verifyOtp: async (email, otp) => {
         console.log(email);
         try {
             const response = await axios.post('http://localhost:4000/api/v1/admins/verify-otp', { email, otp });

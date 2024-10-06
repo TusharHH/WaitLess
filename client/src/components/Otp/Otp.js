@@ -5,12 +5,11 @@ import './Otp.scss';
 import useAdminStore from '../../store/adminAuthStore';
 
 const OtpInput = () => {
-
-    const { verfiyOtp } = useAdminStore();
+    const { verifyOtp } = useAdminStore();
 
     const [otp, setOtp] = useState(new Array(6).fill(""));
+    const [errorMessage, setErrorMessage] = useState(""); // State for error message
     const navigate = useNavigate();
-
 
     const handleChange = (element, index) => {
         if (isNaN(element.value)) return;
@@ -19,28 +18,27 @@ const OtpInput = () => {
         newOtp[index] = element.value;
         setOtp(newOtp);
 
-
         if (element.nextSibling && element.value) {
             element.nextSibling.focus();
         }
     };
 
     const handleSubmit = async () => {
-
         try {
             const admin = JSON.parse(localStorage.getItem('admin'));
             const email = admin.email;
             const otpString = otp.join('');
-            const niceOtp = await verfiyOtp(email, otpString);
+            const niceOtp = await verifyOtp(email, otpString);
 
             if (niceOtp) {
                 navigate('/dashboard');
+            } else {
+                setErrorMessage("Incorrect OTP. Please try again.");
             }
-
         } catch (error) {
             console.log(error);
+            setErrorMessage("An error occurred. Please try again."); 
         }
-
     };
 
     return (
@@ -60,6 +58,7 @@ const OtpInput = () => {
                     />
                 ))}
             </div>
+            {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display error message */}
             <button className="verify-btn" onClick={handleSubmit}>
                 Verify Email
             </button>
@@ -68,3 +67,4 @@ const OtpInput = () => {
 };
 
 export default OtpInput;
+
