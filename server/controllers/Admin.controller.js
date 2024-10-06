@@ -8,7 +8,7 @@ const { v2: cloudinary } = require("cloudinary");
 
 const { uploadOnCloudinary } = require("../utils/cloudinary.js");
 const sendMail = require('../middlewares/sendMail.js');
-const cloudinary = require('cloudinary')
+// const cloudinary = require('cloudinary')
 
 const GenerateToken = require('../middlewares/GenerateToken.middleware.js');
 

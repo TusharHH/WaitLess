@@ -51,7 +51,9 @@ const Profile = () => {
     setAvatar(null); // Reset avatar when opening the modal
     setIsEditModalOpen(true);
   };
-
+  const handleDelete = ()=>{
+    console.log("Delete button clicked")
+  }
   // Close Edit Modal
   const handleCloseModal = () => {
     setIsEditModalOpen(false);
@@ -82,9 +84,9 @@ const Profile = () => {
     }
   
     // Debug FormData content
-    for (let pair of formData.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-    }
+    // for (let pair of formData.entries()) {
+    //   console.log(`${pair[0]}: ${pair[1]}`);
+    // }
   
     const success = isAdmin
       ? await updateAdmin(admin._id, formData)

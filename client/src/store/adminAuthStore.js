@@ -17,7 +17,7 @@ const getStoredUser = () => {
 
 
 const useAdminStore = create((set) => ({
-    admins: [],
+    admins:[],
     admin: getStoredUser(),
     token: null,
     error: null,
@@ -98,16 +98,15 @@ const useAdminStore = create((set) => ({
     logout: () => {
         set(() => ({ admin: null, token: null }));
         localStorage.removeItem('admin');
-        localStorage.removeItem('token');
+        localStorage.removeItem('token');   
     },
-
     getUsers: async (serviceId) => {
         try {
             const admin = JSON.parse(localStorage.getItem('admin'));
             const adminId = admin._id;
 
             console.log(adminId);
-
+            
 
             const response = await axios.get('http://localhost:4000/api/v1/admins/getUsers', {
                 params: {
@@ -183,38 +182,21 @@ updateAdmin: async (adminId,formData) => {
     
     fetchAdmins: async () => {
         set({ isLoading: true, error: null });
-
-        try {
-            const response = await axios.get('http://localhost:4000/api/v1/admins/admins');
-            console.log(response.data);
-            set({
-                admins: response.data.data.admins,
-                isLoading: false,
-            });
-        } catch (error) {
-            set({
-                error: error.response?.data?.message || 'Failed to fetch admins',
-                isLoading: false,
-            });
-        }
-    },
-
-    deleteAdmin: async (adminId) => {
-        try {
-            const response = await axios.delete(`http://localhost:4000/api/v1/admins/admin/${adminId}`);
-            if (response.status === 200) {
-                set((state) => ({
-                    admin: [],
-                }));
-                localStorage.removeItem('admin');
-                return true;
-            }
-        } catch (error) {
-            console.error('Error deleting admin:', error);
-            return false;
-        }
+    
+    try {
+        const response = await axios.get('http://localhost:4000/api/v1/admins/admins');
+        console.log(response.data);
+        set({
+        admins: response.data.data.admins,
+        isLoading: false,
+        });
+    } catch (error) {
+        set({
+        error: error.response?.data?.message || 'Failed to fetch admins',
+        isLoading: false,
+        });
     }
-
+    },
 }));
 
 export default useAdminStore;
