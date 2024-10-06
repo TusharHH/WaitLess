@@ -62,7 +62,7 @@ function BookService() {
 
     return (
         <div className="service-container">
-            <h1>BOOK your first service</h1>
+            <h1>Schedule your first service !</h1>
             <div className="search-bar">
                 <input
                     type="text"
@@ -84,6 +84,13 @@ function BookService() {
                                     <ul>
                                         {service.slots.map((slot, idx) => (
                                             <li key={idx}>{slot.startTime} to {slot.endTime}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div>
+                                    <ul>
+                                        {service.tags.map((tag, idxx) => (
+                                            <p key={idxx} className='tags'>{tag}</p>
                                         ))}
                                     </ul>
                                 </div>

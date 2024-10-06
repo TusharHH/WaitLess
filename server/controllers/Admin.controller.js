@@ -101,7 +101,7 @@ const login = AsyncHandler(async (req, res) => {
     const adminDetails = await Admin.findById(admin._id)
         .populate({
             path: 'services',
-            select: '_id name description slotDuration queueDuration',
+            select: '_id name description slotDuration queueDuration tags',
             populate: {
                 path: 'slots',
                 select: '_id startTime endTime available'
