@@ -71,6 +71,7 @@ const Profile = () => {
       const formData = new FormData();
       formData.append('name', data.name);
       formData.append('email', data.email);
+      formData.append('location', data.location);
       // console.log(data.name)
       // Only append password if it's provided (non-empty)
       if (data.password) {
@@ -126,6 +127,7 @@ const Profile = () => {
         <ul>
           <li><strong>Name:</strong> {profileData?.name}</li>
           <li><strong>Email:</strong> {profileData?.email}</li>
+          <li><strong>Location:</strong>{profileData?.location}</li>
           <li><strong>Created At:</strong> {new Date(profileData?.createdAt).toLocaleDateString()}</li>
           {isAdmin && (
             <li>
@@ -244,6 +246,16 @@ const Profile = () => {
                   id="avatar"
                   accept="image/*"
                   onChange={handleAvatarChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="location">Location</label>
+                <input
+                  type="text"
+                  id="location"
+                  {...register('location', { required: true })}
+                  defaultValue={profileData.location}
                 />
               </div>
 

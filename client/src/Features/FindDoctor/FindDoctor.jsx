@@ -57,6 +57,7 @@ function FindDoctor() {
                         <h3>{admin.name}</h3>
                         <p>Email: {admin.email}</p>
                         <p>Services: {admin.services?.map(service => service.name).join(', ') || 'N/A'}</p>
+                        <p>Location:{admin.location}</p>
                     </div>
                 ))}
             </div>

@@ -19,6 +19,10 @@ const adminSchema = new mongoose.Schema({
   avatar: {
     type: String, 
   },
+  location: {
+    type: String,
+    required: true
+  },
   services: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Service'

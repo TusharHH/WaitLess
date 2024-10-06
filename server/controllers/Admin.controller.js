@@ -47,9 +47,9 @@ const sendOtpEmail = async (user, type) => {
 };
 
 const signup = AsyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password,location } = req.body;
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password ||!location) {
         return ApiResponse(res, false, "Please fill all the fields!", {}, 400);
     }
 
@@ -70,7 +70,7 @@ const signup = AsyncHandler(async (req, res) => {
     }
 
 
-    const newAdmin = new Admin({ name, email, password, avatar });
+    const newAdmin = new Admin({ name, email, password, avatar,location });
     const token = GenerateToken(newAdmin.email);
     // console.log(token);
     newAdmin.authToken = token;
@@ -133,7 +133,7 @@ const reset_password = AsyncHandler(async (req, res) => {
 });
 
 const update_admin = AsyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password,location } = req.body;
     const { adminId } = req.params;
 
     // Find the admin by ID
@@ -146,6 +146,7 @@ const update_admin = AsyncHandler(async (req, res) => {
     // Update the admin fields
     admin.name = name || admin.name;
     admin.email = email || admin.email;
+    admin.location = location || location;
 
     if (password) {
         admin.password = password;

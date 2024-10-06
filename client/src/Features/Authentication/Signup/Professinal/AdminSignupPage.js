@@ -22,6 +22,7 @@ const ProfessionalSignupPage = () => {
         formData.append('name', data.name);
         formData.append('email', data.email);
         formData.append('password', data.password);
+        formData.append('location',data.location);
         formData.append('avatar',data.avatar[0]);
         try {
             const signupSuccess = await adminSignup(formData);
@@ -42,7 +43,7 @@ const ProfessionalSignupPage = () => {
     return (
         <div className="signup-page">
             <div className="signup-container">
-                <h2>Signup as Professional</h2>
+                <h4>Signup as Professional</h4>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="labelName">
                         <label>Name:</label>
@@ -81,6 +82,15 @@ const ProfessionalSignupPage = () => {
                             type="file" 
                             accept='image/*'
                             {...register('avatar', { required: 'Avatar is required' })}
+                        />
+                    </div>
+                    <div className="labelName">
+                        <label>Location:</label>
+                        <input 
+                            type="text" 
+                            placeholder='Enter your location'
+                            {...register('name', { required: 'Name is required' })}
+                            required 
                         />
                     </div>
                     <button type="submit" disabled={adminLoading}>Sign Up</button>
