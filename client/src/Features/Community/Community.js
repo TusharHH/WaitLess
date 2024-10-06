@@ -21,29 +21,42 @@ const Community = () => {
         socket.on('message', (msg) => {
             setMessages((prevMessages) => [...prevMessages, msg]);
         });
-
+    
         // Clean up on component unmount
         return () => {
             socket.off('message');
         };
     }, []);
+    
 
     const sendMessage = (e) => {
         e.preventDefault();
         if (message.trim()) {
-            // Send message to the server
-            socket.emit('message', `${User}:${message}`);
+            // Determine if the sender is an admin or a user
+            const senderType = admins ? 'admin' : 'user';
+            const fullMessage = {
+                sender: User,
+                type: senderType,
+                text: message,
+            };
+            
+            // Send the message object to the server
+            socket.emit('message', fullMessage);
             setMessage(''); // Clear the input field after sending
         }
     };
+    
 
     return (
         <div className="community">
             <h2>Community Chat</h2>
             <div className="chat-box">
                 {messages.map((msg, index) => (
-                    <div key={index} className="chat-message">
-                        {msg}
+                    <div 
+                        key={index} 
+                        className={`chat-message ${msg.type === 'admin' ? 'admin' : 'user'}`}
+                    >
+                        <span className="sender-name">{msg.sender}:</span> {msg.text}
                     </div>
                 ))}
             </div>
@@ -57,6 +70,7 @@ const Community = () => {
                 <button type="submit">Send</button>
             </form>
         </div>
+
     );
 };
 
