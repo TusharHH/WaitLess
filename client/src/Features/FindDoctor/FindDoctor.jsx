@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import {Link} from 'react-router-dom'
+
 import Fuse from 'fuse.js'; // Import Fuse.js
 import useAdminStore from '../../store/adminAuthStore'; // Import the admin store
 import './FindDoctor.scss';
@@ -48,17 +50,20 @@ function FindDoctor() {
 
             <div className="admin-list">
                 {filteredAdmins.map((admin) => (
-                    <div key={admin._id} className="admin-card">
-                        <img
-                            src={admin.avatar || MAN}
-                            alt={admin.name}
-                            className="admin-avatar"
-                        />
-                        <h3>{admin.name}</h3>
-                        <p>Email: {admin.email}</p>
-                        <p>Services: {admin.services?.map(service => service.name).join(', ') || 'N/A'}</p>
-                        <p>Location:{admin.location}</p>
-                    </div>
+                    // <Link to={`/find-doctor/${admin._id}`} key={admin._id}>
+                        <div key={admin._id} className="admin-card">
+                            <img
+                                src={admin.avatar || MAN}
+                                alt={admin.name}
+                                className="admin-avatar"
+                            />
+                            <h3>{admin.name}</h3>
+                            <p>Email: {admin.email}</p>
+                            <p>Services: {admin.services?.map(service => service.name).join(', ') || 'N/A'}</p>
+                            <p>Location:{admin.location}</p>
+                            <Link to={`/find-doctor/${admin._id}`} key={admin._id}><p>Read more</p></Link>
+                        </div>
+                    // </Link>
                 ))}
             </div>
         </div>

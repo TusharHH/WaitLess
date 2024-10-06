@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+$primary-color: #f15a24;
+$secondary-color: #ffffff;
+$tertiary-color: #7e7e7e;
+$background-color: #1c1c1c;
+$text-color: #ffffff;
+$light-color: #f15a24;
+$button-bg: #f15a24;
+$button-text: #ffffff;
+$hover-bg: darken($primary-color, 10%);
+$error-color: red;
+
+// Admin profile container styling
+.admin-profile-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: $background-color;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: $text-color;
+}
+
+// Profile card styling
+.profile-card {
+    display: flex;
+    align-items: center;
+    background-color: #0f0f0f;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 20px;
+    }
+
+    .profile-info {
+        h2 {
+            margin: 0;
+            font-size: 24px;
+            color: $primary-color;
+        }
+
+        p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: $tertiary-color;
+        }
+    }
+}
+
+// Services section styling
+.services-section {
+    h3 {
+        font-size: 20px;
+        color: $light-color;
+        margin-bottom: 10px;
+    }
+
+    .service-card {
+        background-color: #0f0f0f;
+        padding: 15px;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+
+        h4 {
+            margin: 0;
+            font-size: 18px;
+            color: $primary-color;
+        }
+
+        p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: $tertiary-color;
+        }
+    }
+}

@@ -86,3 +86,16 @@ export const updateAdminService = async (adminId,formData) =>{
     throw(error);
   }
 };
+
+export const fetchAdminByIdService = async(adminId)=>{
+  try {
+    const response = await axios.get(`${BACKEND_URL_ADMIN}/${adminId}`,{
+      headers: {
+        Authorization: `Bearer ${getToken()}`,  // Attach the token
+    },
+    });
+    return response;
+  } catch (error) {
+    throw(error);
+  }
+}

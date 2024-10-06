@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import './Community.scss'; // Add some styling later if needed
 
+import { useNavigate } from 'react-router-dom';
+
 import { useUserAuthStore } from '../../store/userAuthStore';
 import useAdminStore from '../../store/adminAuthStore';
 
@@ -14,7 +16,14 @@ const Community = () => {
     const { user } = useUserAuthStore();
     const admins = JSON.parse(localStorage.getItem('admin'));
 
-    const User = admins ? admins.name : user.name;
+    const navigate = useNavigate();
+
+    const User = admins ? admins?.name : user?.name;
+    useEffect(()=>{
+        if(!User){
+            navigate("/signup")
+        }
+    },[User])
 
     useEffect(() => {
         // Listen for incoming messages from the server
@@ -54,9 +63,9 @@ const Community = () => {
                 {messages.map((msg, index) => (
                     <div 
                         key={index} 
-                        className={`chat-message ${msg.type === 'admin' ? 'admin' : 'user'}`}
+                        className={`chat-message ${msg?.type === 'admin' ? 'admin' : 'user'}`}
                     >
-                        <span className="sender-name">{msg.sender}:</span> {msg.text}
+                        <span className="sender-name">{msg?.sender}:</span> {msg?.text}
                     </div>
                 ))}
             </div>

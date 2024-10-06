@@ -350,6 +350,26 @@ const deleteAdmin = AsyncHandler(async (req, res) => {
     ApiResponse(res, true, 'Admin deleted successfully.', {}, 200);
 });
 
+const getAdminById = AsyncHandler(async(req,res)=>{
+    const {adminId}=req.params;
+
+    const admin = await Admin.findById(adminId)
+    .populate({
+        path: 'services',
+        select: '_id name description slotDuration queueDuration tags',
+        populate: {
+            path: 'slots',
+            select: '_id startTime endTime available'
+        }
+    })
+    .select('-password -authToken');
+
+    ApiResponse(res, true, "Admin Fetched successfully !!", {
+        Token: admin.authToken,
+        admin,
+    }, 200);
+})
+
 module.exports = {
     login,
     signup,
@@ -360,5 +380,6 @@ module.exports = {
     verifyOtp,
     sendFeedback,
     getAllAdmins,
-    deleteAdmin
+    deleteAdmin,
+    getAdminById,
 };

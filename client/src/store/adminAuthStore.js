@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { loginAdmin, signupAdmin, updateAdminService } from '../Features/Authentication/adminAuthService';
+import { loginAdmin, signupAdmin, updateAdminService,fetchAdminByIdService } from '../Features/Authentication/adminAuthService';
 import axios from 'axios';
 
 const getStoredUser = () => {
@@ -28,6 +28,7 @@ const useAdminStore = create((set) => ({
     token: null,
     error: null,
     isLoading: false,
+    fetchAdmin:null,
 
     clearError: () => set(() => ({ error: null })),
 
@@ -202,6 +203,26 @@ const useAdminStore = create((set) => ({
             });
         }
     },
+
+    fetchAdminById: async(adminId)=>{
+        set({isLoading:true,error:null});
+        try {
+            const response = await fetchAdminByIdService(adminId);
+            console.log(response.data.data);
+            set({
+                fetchAdmin:response.data.data,
+                isLoading:false,
+                error:null,
+            })
+            return response.data.data.admin
+        } catch (error) {
+            set({
+                error:error.response?.data?.message || 'Failed to fetch admin !!',
+                isLoading:false,
+            })
+        }
+    },
+
 }));
 
 export default useAdminStore;

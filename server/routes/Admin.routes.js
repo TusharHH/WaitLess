@@ -10,7 +10,8 @@ const {
     send_otp,
     sendFeedback,
     getAllAdmins,
-    deleteAdmin
+    deleteAdmin,
+    getAdminById
 } = require('../controllers/Admin.controller.js');
 
 const protect = require('../middlewares/VerifyToken.middleware.js');
@@ -33,6 +34,7 @@ route.post('/verify-otp', verifyOtp);
 route.post('/send-otp', send_otp);
 route.post('/feedback', sendFeedback);
 route.delete('/admin/:id', deleteAdmin);
+route.get('/:adminId',getAdminById);
 // route.put('/admin/:id', upload.single('avatar'), update_admin);
 
 

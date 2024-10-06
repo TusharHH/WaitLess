@@ -19,6 +19,7 @@ import Profile from '../components/Profile/Profile';
 import FeedbackForm from '../Features/Feedback/FeedbackForm';
 import FindDoctor from '../Features/FindDoctor/FindDoctor';
 import Community from '../Features/Community/Community';
+import DoctorProfile from '../Features/DoctorProfile/DoctorProfile';
 
 const AppRoutes = () => {
   return (
@@ -29,6 +30,7 @@ const AppRoutes = () => {
       <Route path="/profile" element={<Profile />} />
       <Route path="/otp" element={<OtpInput />} />
       <Route path="/find-doctor" element={<FindDoctor />} />
+      <Route path="/find-doctor/:adminId" element={<DoctorProfile />} />
       <Route path="/login" element={<LoginOptions />} />
       <Route path="/client-login" element={<ClientLogin />} />
       <Route path="/professional-login" element={<AdminLogin />} />
