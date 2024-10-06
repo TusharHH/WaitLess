@@ -255,6 +255,83 @@
       transform: translateY(-5px);
     }
   }
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background-color: $background-color;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+
+    h2 {
+      margin-bottom: 20px;
+      color: $primary-color;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        color: $light-color;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid orange;
+        border-radius: 5px;
+        color: $text-color;
+        background-color: gray;
+      }
+    }
+
+    .submit-btn,
+    .close-btn {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &.submit-btn {
+        background-color: $button-bg;
+        color: $button-text;
+        margin-bottom: 10px;
+
+        &:hover {
+          background-color: darken($button-bg, 10%);
+        }
+      }
+
+      &.close-btn {
+        background-color: $error-color;
+        color: $button-text;
+
+        &:hover {
+          background-color: darken($error-color, 10%);
+        }
+      }
+    }
+  }
 
   /* Added Styles End Here */
 }
