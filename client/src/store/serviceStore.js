@@ -20,14 +20,14 @@ const useServiceStore = create((set) => ({
         const admin = JSON.parse(localStorage.getItem('admin'));
         const adminId = admin._id;
         try {
-            const response = await axios.get(`${BACKEND_URL}/service`, {
+            const response = await axios.get(`${BACKEND_URL}/service/${adminId}`,{
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
             console.log(response.data);
             set({ services: response.data.data, loading: false });
-            
+
 
             return response.data.data
         } catch (error) {

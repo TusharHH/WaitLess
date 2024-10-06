@@ -1,0 +1,161 @@
+@import '../../../index.scss';
+
+.service-container {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1 {
+        color: $primary-color;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .service-card {
+        background-color: darken($background-color, 5%);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        margin-bottom: 20px;
+        width: 100%;
+        max-width: 800px;
+        color: $text-color;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        @media (min-width: $breakpoint-md) {
+            flex-direction: row;
+        }
+
+        .service-details {
+            flex: 2;
+            padding-right: 20px;
+
+            h3 {
+                color: $primary-color;
+                margin-bottom: 10px;
+            }
+
+            p {
+                color: $tertiary-color;
+                margin-bottom: 10px;
+            }
+
+            .slots {
+                margin-top: 10px;
+
+                h4 {
+                    color: $primary-color;
+                    margin-bottom: 5px;
+                }
+
+                ul {
+                    list-style: none;
+                    padding-left: 0;
+
+                    li {
+                        color: $text-color;
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+
+            .tags {
+                margin-top: 10px;
+
+                h4 {
+                    color: $primary-color;
+                    margin-bottom: 5px;
+                }
+
+                ul {
+                    list-style: none;
+                    display: flex;
+                    flex-wrap: wrap;
+
+                    li {
+                        background-color: $primary-color;
+                        color: $secondary-color;
+                        padding: 5px 10px;
+                        border-radius: 20px;
+                        margin-right: 5px;
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+
+            .provider-info {
+                margin-top: 20px;
+
+                h4 {
+                    color: $primary-color;
+                    margin-bottom: 5px;
+                }
+
+                p {
+                    margin-bottom: 5px;
+                }
+            }
+        }
+
+        .book-slot {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: lighten($background-color, 5%);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+
+            @media (min-width: $breakpoint-md) {
+                padding: 10px 20px;
+            }
+
+            button {
+                background-color: $button-bg;
+                color: $button-text;
+                font-weight: 500;
+                padding: 10px 20px;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: $hover-bg;
+                }
+            }
+        }
+    }
+}
+
+// Responsive input for search
+.search-bar {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+
+    input {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        color: $background-color;
+        background-color: $secondary-color;
+    }
+}
+
+// Media queries for small screens
+@media (max-width: $breakpoint-md) {
+    .service-card {
+        .service-details {
+            padding-right: 0;
+        }
+
+        .book-slot {
+            margin-top: 20px;
+        }
+    }
+}

@@ -1,0 +1,76 @@
+@import '../../index.scss';
+
+.token-container {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+        color: $primary-color;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .token-card {
+        background-color: darken($background-color, 5%);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        margin-bottom: 20px;
+        width: 100%;
+        color: $text-color;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        h3 {
+            color: $primary-color;
+            margin-bottom: 10px;
+        }
+
+        .token-details {
+            p {
+                color: $tertiary-color;
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+    .token-history-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        width: 100%;
+        max-width: 1200px;
+    }
+}
+
+// Media queries for responsiveness
+@media (max-width: $breakpoint-lg) {
+    .token-history-grid {
+        grid-template-columns: repeat(2, 1fr); // 2 columns on medium screens
+    }
+}
+
+@media (max-width: $breakpoint-md) {
+    .token-history-grid {
+        grid-template-columns: repeat(1, 1fr); // 1 column on small screens
+    }
+
+    .token-card {
+        padding: 10px;
+
+        h3 {
+            font-size: 1.2rem;
+        }
+
+        .token-details {
+            p {
+                font-size: 0.9rem;
+            }
+        }
+    }
+}

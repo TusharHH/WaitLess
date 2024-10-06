@@ -6,6 +6,7 @@ const User = require('../models/User.model.js');
 
 const { uploadOnCloudinary } = require("../utils/cloudinary.js");
 const sendMail = require('../middlewares/sendMail.js');
+const cloudinary = require('cloudinary')
 
 const GenerateToken = require('../middlewares/GenerateToken.middleware.js');
 
