@@ -129,12 +129,17 @@ const reset_password = AsyncHandler(async (req, res) => {
 
 const update_admin = AsyncHandler(async (req, res) => {
 
-    const { name, email, password, id } = req.body;
+    const { name, email, password } = req.body;
+    const { id } = req.params;
+
+    console.log(name, email);
+
 
     const admin = await Admin.findById(id);
     if (!admin) {
         return ApiResponse(res, false, 'Admin not found', {}, 404);
     }
+
 
     admin.name = name || admin.name;
     admin.email = email || admin.email;
@@ -143,14 +148,20 @@ const update_admin = AsyncHandler(async (req, res) => {
         admin.password = password;
     }
 
+    if (password) {
+        admin.password = password;
+    }
+
+    // Handle avatar upload
     if (req.files && req.files.avatar) {
         const avatarFilePath = req.files.avatar[0].path;
         const uploadResponse = await uploadOnCloudinary(avatarFilePath);
         if (uploadResponse.success) {
             if (admin.avatar) {
                 const publicId = admin.avatar.split('/').pop().split('.')[0];
-                await cloudinary.uploader.destroy(publicId);
+                await cloudinary.uploader.destroy(publicId); // Optional: Check response for error handling
             }
+            // Update avatar URL in admin model
             admin.avatar = uploadResponse.url;
         } else {
             return ApiResponse(res, false, uploadResponse.message, {}, 500);
@@ -178,7 +189,7 @@ const getUsersInService = async (req, res) => {
         }
 
         const service = await Service.findOne({ _id: serviceId, admin: adminId });
-        
+
         if (!service) {
             return ApiResponse(res, false, "Service not found or not owned by this admin", {}, 404);
         }
@@ -295,14 +306,14 @@ const sendFeedback = AsyncHandler(async (req, res) => {
 const getAllAdmins = AsyncHandler(async (req, res) => {
 
     const admins = await Admin.find()
-    .populate({
-        path: 'services',
-        select: '_id name description slotDuration queueDuration', 
-        populate: {
-            path: 'slots',
-            select: '_id startTime endTime available' 
-        }
-    });
+        .populate({
+            path: 'services',
+            select: '_id name description slotDuration queueDuration',
+            populate: {
+                path: 'slots',
+                select: '_id startTime endTime available'
+            }
+        });
 
     if (!admins) {
         ApiResponse(res, false, "Something went wrong !!", {}, 400);
@@ -312,6 +323,23 @@ const getAllAdmins = AsyncHandler(async (req, res) => {
 
 });
 
+const deleteAdmin = AsyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const admin = await Admin.findById(id);
+    if (!admin) {
+        return ApiResponse(res, false, 'Admin not found.', {}, 404);
+    }
+
+    if (admin.avatar) {
+        const publicId = admin.avatar.split('/').pop().split('.')[0];
+        await cloudinary.uploader.destroy(publicId);
+    }
+
+    await admin.deleteOne();
+
+    ApiResponse(res, true, 'Admin deleted successfully.', {}, 200);
+});
 
 module.exports = {
     login,
@@ -322,5 +350,6 @@ module.exports = {
     send_otp,
     verifyOtp,
     sendFeedback,
-    getAllAdmins
+    getAllAdmins,
+    deleteAdmin
 };

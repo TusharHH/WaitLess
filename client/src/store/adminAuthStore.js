@@ -21,7 +21,7 @@ const getToken = () => {
 };
 
 const useAdminStore = create((set) => ({
-    admins:[],
+    admins: [],
     admin: getStoredUser(),
     token: null,
     error: null,
@@ -102,15 +102,16 @@ const useAdminStore = create((set) => ({
     logout: () => {
         set(() => ({ admin: null, token: null }));
         localStorage.removeItem('admin');
-        localStorage.removeItem('token');   
+        localStorage.removeItem('token');
     },
+
     getUsers: async (serviceId) => {
         try {
             const admin = JSON.parse(localStorage.getItem('admin'));
             const adminId = admin._id;
 
             console.log(adminId);
-            
+
 
             const response = await axios.get('http://localhost:4000/api/v1/admins/getUsers', {
                 params: {
@@ -160,47 +161,64 @@ const useAdminStore = create((set) => ({
 
     updateAdmin: async (formData) => {
         set({ isLoading: true, error: null });
-        // console.log(getStoredUser);
-        const id= getStoredUser()._id
+        const id = getStoredUser()._id; // assuming you are getting the user ID correctly
         try {
-        const response = await updateAdmin( formData, id,{
-            headers: {
-                Authorization: `Bearer ${getToken}`  // Attach the token
-            }
-        });
-        console.log(response.data)
-        set({
-            user: response.data.data.updatedUser,
-            isLoading: false,
-        });
-        localStorage.setItem('user', JSON.stringify(response.data.data.updatedUser));
-        return true;
-    } catch (error) {
-        set({
-        error: error.response?.data?.message || 'Update failed!',
-        isLoading: false,
-        });
-        return false;
-    }
+            const response = await axios.put(`http://localhost:4000/api/v1/admins/admin/${id}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`, // token authentication
+                    'Content-Type': 'multipart/form-data', // ensure multipart for file uploads
+                },
+            });
+            console.log('Form Data:', formData); // check this to ensure all fields are included
+            console.log('Response:', response.data.data.admin); // ensure response structure matches
+
+            set({ admin: response.data.data.admin, isLoading: false });
+            localStorage.setItem('admin', JSON.stringify(response.data.data.admin)); // storing updated admin in localStorage
+            return true;
+        } catch (error) {
+            set({
+                error: error.response?.data?.message || 'Update failed!',
+                isLoading: false,
+            });
+            return false;
+        }
     },
-    
+
+
     fetchAdmins: async () => {
         set({ isLoading: true, error: null });
-    
-    try {
-        const response = await axios.get('http://localhost:4000/api/v1/admins/admins');
-        console.log(response.data);
-        set({
-        admins: response.data.data.admins,
-        isLoading: false,
-        });
-    } catch (error) {
-        set({
-        error: error.response?.data?.message || 'Failed to fetch admins',
-        isLoading: false,
-        });
-    }
+
+        try {
+            const response = await axios.get('http://localhost:4000/api/v1/admins/admins');
+            console.log(response.data);
+            set({
+                admins: response.data.data.admins,
+                isLoading: false,
+            });
+        } catch (error) {
+            set({
+                error: error.response?.data?.message || 'Failed to fetch admins',
+                isLoading: false,
+            });
+        }
     },
+
+    deleteAdmin: async (adminId) => {
+        try {
+            const response = await axios.delete(`http://localhost:4000/api/v1/admins/admin/${adminId}`);
+            if (response.status === 200) {
+                set((state) => ({
+                    admin: [],
+                }));
+                localStorage.removeItem('admin');
+                return true;
+            }
+        } catch (error) {
+            console.error('Error deleting admin:', error);
+            return false;
+        }
+    }
+
 }));
 
 export default useAdminStore;

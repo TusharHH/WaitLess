@@ -4,11 +4,13 @@ import useUserAuthStore from '../../store/userAuthStore';
 import useTokenStore from '../../store/tokenStore';
 import Man from '../../assets/Images/man.png';
 import './Profile.scss';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
-  const { admin, updateAdmin } = useAdminStore();
+  const { admin, updateAdmin, deleteAdmin } = useAdminStore();
   const { user, updateUser } = useUserAuthStore();
   const { token, fetchTokenById, isLoading, error } = useTokenStore();
+  const [showDeleteWarning, setShowDeleteWarning] = useState(false);
 
   const [profileData, setProfileData] = useState({});
   const [hasClicked, setHasClicked] = useState(false);
@@ -19,6 +21,8 @@ const Profile = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [avatar, setAvatar] = useState(null); // New state for avatar
+
+  const navigate = useNavigate();
 
   // Determine if the user is admin or a regular user
   const isAdmin = admin;
@@ -40,9 +44,18 @@ const Profile = () => {
     }
   };
 
-  const handleDelete = ()=>{
-    console.log("hello")
-  }
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm('Are you sure you want to delete your account? This action cannot be undone.');
+    if (confirmDelete && admin) {
+      const success = await deleteAdmin(admin._id);
+      if (success) {
+        alert('Admin deleted successfully.');
+        navigate('/login');
+      } else {
+        alert('Failed to delete admin.');
+      }
+    }
+  };
   // Open Edit Modal
   const handleEdit = () => {
     setName(profileData?.name || '');
@@ -69,19 +82,18 @@ const Profile = () => {
     const formData = new FormData();
     formData.append('name', name);
     formData.append('email', email);
-    formData.append('password', password);
+    formData.append('password', password);  // optional, as the backend will handle empty passwords
+    
     if (avatar) {
       formData.append('avatar', avatar);
     }
-
-    const success = isAdmin
-      ? await updateAdmin(formData)
-      : await updateUser(formData);
-
+  
+    const success = isAdmin ? await updateAdmin(formData) : await updateUser(formData);
     if (success) {
       setIsEditModalOpen(false);
     }
   };
+  
 
   return (
     <div className="profile-container">
@@ -101,7 +113,7 @@ const Profile = () => {
           <li><strong>Created At:</strong> {new Date(profileData?.createdAt).toLocaleDateString()}</li>
           {isAdmin && (
             <li>
-              <strong>Services:</strong> 
+              <strong>Services:</strong>
               {profileData?.services?.map((service) => service.name).join(', ') || 'N/A'}
             </li>
           )}
@@ -109,12 +121,12 @@ const Profile = () => {
 
         <div className="profile-actions">
           <button className="edit-btn" onClick={handleEdit}>Edit</button>
-          <button className="delete-btn" onClick={handleDelete}>Delete</button>
+          <button className="delete-btn" onClick={() => setShowDeleteWarning(true)}>Delete</button>
         </div>
       </div>
 
       {/* Admin Services Section */}
-      {isAdmin && profileData.services && profileData.services.length > 0 && (
+      {isAdmin && profileData?.services && profileData?.services?.length > 0 && (
         <div className="admin-services">
           <h2>Services Created</h2>
           {profileData.services.map((service) => (
@@ -127,7 +139,7 @@ const Profile = () => {
 
               <div className="slots">
                 <h4>Slots:</h4>
-                {service.slots.length > 0 ? (
+                {service.slots?.length > 0 ? (
                   service.slots.map((slot) => (
                     <div key={slot._id} className="slot">
                       <p><strong>Start Time:</strong> {slot.startTime}</p>
@@ -157,7 +169,7 @@ const Profile = () => {
 
           {hasClicked && !isLoading && !error && (
             <div>
-              {token && token.length > 0 ? (
+              {token && token?.length > 0 ? (
                 <>
                   <div className="latest-token">
                     <h3>Latest Token</h3>
@@ -246,7 +258,20 @@ const Profile = () => {
           </div>
         </div>
       )}
+
+      {showDeleteWarning && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Are you sure?</h2>
+            <p>Deleting your account will remove all data and this action cannot be undone.</p>
+            <button onClick={handleDelete} className="delete-confirm-btn">Yes, Delete</button>
+            <button onClick={() => setShowDeleteWarning(false)} className="delete-cancel-btn">Cancel</button>
+          </div>
+        </div>
+      )}
+
     </div>
+
   );
 };
 
