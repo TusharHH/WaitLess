@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { loginUser, signupUser, updateUser } from '../Features/Authentication/adminAuthService';
+import { loginUser, signupUser, updateUserService } from '../Features/Authentication/adminAuthService';
 
 const getStoredUser = () => {
   const storedUser = localStorage.getItem("user");
@@ -88,30 +88,27 @@ export const useUserAuthStore = create((set) => ({
     set({ error: null });
   },
 
-  updateUser: async (name, email, password) => {
+  updateUser: async (userId,formData) => {
     set({ isLoading: true, error: null });
     try {
-      // console.log(response.data.newUser.authToken)
-      console.log(getStoredUser()._id)
-      const id = getStoredUser()._id;
-    const response = await updateUser( name, email, password ,id ,{
-        headers: {
-            Authorization: `Bearer ${getStoredUser()._id}`  // Attach the token
-        }
-    });
-    set({
-    user: response.data.updatedUser,
-    isLoading: false,
-    });
-    localStorage.setItem('user', JSON.stringify(response.data.data.updatedUser));
-    return true;
-} catch (error) {
-    set({
-    error: error.response?.data?.message || 'Update failed!',
-    isLoading: false,
-    });
-    return false;
-}
+      const response = await updateUserService(userId,formData);
+      // console.log("Hi")
+      console.log(response.data.data.user);
+      const updatedUser = response.data.data.user;
+      set({
+        user:updatedUser,
+        isLoading:false,
+      });
+      console.log(updatedUser)
+      localStorage.setItem('user',JSON.stringify(response.data.data.user));
+      return true;
+    } catch (error) {
+      set({
+        error:error.response?.data?.message || "user Update failed",
+        isLoading:false,
+      });
+      return false;
+    }
 },
 
 
