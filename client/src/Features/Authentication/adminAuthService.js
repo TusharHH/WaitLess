@@ -49,7 +49,7 @@ export const loginUser = async (email , password) => {
 
 export const signupUser = async (name, email, password) => {
   try {
-    const response = await axios.post(`${BACKEND_URL_USER}/signup`, { name, email, password });
+    const response = await axios.post(`${BACKEND_URL_USER}/signup`,  {name, email, password} );
     return response;
   } catch (error) {
     throw error;

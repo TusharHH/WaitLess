@@ -29,7 +29,7 @@ export const useUserAuthStore = create((set) => ({
         isAuthenticated: true,
         isLoading: false,
       });
-   
+      // console.log(response.data.data.user)
       localStorage.setItem('authToken', response.data.data.user.authToken);
       localStorage.setItem('user', JSON.stringify(response.data.data.user)); 
       return true;
@@ -48,20 +48,24 @@ export const useUserAuthStore = create((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await signupUser(name, email, password);
+      // console.log(response.data.data.newUser)
       set({
-        user: response.data.newUser,
+        user: response.data.data.newUser,
         isAuthenticated: true,
         isLoading: false,
       });
       // Store the token and user object in localStorage
-      localStorage.setItem('authToken', response.data.newUser.authToken);
-      localStorage.setItem('user', JSON.stringify(response.data.newUser)); // Store user object as a string
+      // console.log(response.data.data.newUser.authToken);
+      localStorage.setItem('authToken', response.data.data.newUser.authToken);
+      localStorage.setItem('user', JSON.stringify(response.data.data.newUser)); // Store user object as a string
+      return true;
     } catch (error) {
       set({
         error: error.response?.data?.message || 'Registration failed!',
         isAuthenticated: false,
         isLoading: false,
       });
+      return false;
     }
   },
 

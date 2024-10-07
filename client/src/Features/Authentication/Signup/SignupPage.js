@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import useAdminStore from '../../../store/adminAuthStore';
 import useUserAuthStore from '../../../store/userAuthStore'; // Import userAuthStore
+// import serviceStore from '../../../store/serviceStore.js'
 import './SignupPage.scss';
 
 const SignupPage = () => {
@@ -15,6 +16,7 @@ const SignupPage = () => {
 
     const { signup: adminSignup, isLoading: adminLoading, error: adminError} = useAdminStore();
     const { signup: userSignup, isLoading: userLoading, error: userError } = useUserAuthStore();
+    // const {getServices}=serviceStore();
 
     const isLoading = role === 'admin' ? adminLoading : userLoading; // Determine loading state based on role
     const error = role === 'admin' ? adminError : userError; // Determine error based on role
@@ -32,6 +34,7 @@ const SignupPage = () => {
 
             if (request) {
                 navigate('/dashboard');
+                // await getServices();
             }
         } catch (error) {
              console.log(error);

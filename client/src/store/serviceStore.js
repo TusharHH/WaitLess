@@ -106,6 +106,7 @@ const useServiceStore = create((set) => ({
             });
             return response.data.data;
         } catch (error) {
+            console.log();
             console.log(error);
         }
     },
