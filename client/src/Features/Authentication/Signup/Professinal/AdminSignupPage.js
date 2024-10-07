@@ -32,7 +32,7 @@ const ProfessionalSignupPage = () => {
                 const password = data.password;
                 const loginSuccess = await adminLogin(email,password);
                 if (loginSuccess) {
-                    navigate('/otp');
+                    navigate('/dashboard');
                 }
             }
         } catch (error) {
@@ -89,7 +89,7 @@ const ProfessionalSignupPage = () => {
                         <input 
                             type="text" 
                             placeholder='Enter your location'
-                            {...register('name', { required: 'Name is required' })}
+                            {...register('location', { required: 'Name is required' })}
                             required 
                         />
                     </div>

@@ -26,7 +26,7 @@ const AdminLogin = () => {
             setSending(true);
             await sendOtp(email, "login");
             setSending(false);
-            navigate('/otp');
+            navigate('/dashboard');
         } else {
             console.log('Login failed for professional!');
         }
