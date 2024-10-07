@@ -15,7 +15,7 @@ const route = express.Router();
 route.post('/service', protect, create_service);
 route.put('/service/:id', protect, update_service);
 route.delete('/service/:id', protect, delete_service);
-route.get('/service/:adminId', protect, get_services_with_admin);
-route.get('/services', protect, get_all_service);
+route.get('/service/:adminId', get_services_with_admin);
+route.get('/services', get_all_service);
 
 module.exports = route;

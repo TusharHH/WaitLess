@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {useForm} from 'react-hook-form'
+import ClipLoader from 'react-spinners/ClipLoader';
 
 import useAdminStore from '../../../../store/adminAuthStore';
 import '../SignupPage.scss';
@@ -15,6 +16,7 @@ const ProfessionalSignupPage = () => {
     const { signup: adminSignup,login:adminLogin, isLoading: adminLoading, error: adminError } = useAdminStore();
     const {register,handleSubmit,formState:{errors}} = useForm();
     const navigate = useNavigate();
+    const [isLoading, setLoading] = useState(false);
 
     const onSubmit = async (data) => {
         // e.preventDefault();
@@ -24,6 +26,8 @@ const ProfessionalSignupPage = () => {
         formData.append('password', data.password);
         formData.append('location',data.location);
         formData.append('avatar',data.avatar[0]);
+
+        setLoading(true);
         try {
             const signupSuccess = await adminSignup(formData);
             if (signupSuccess) {
@@ -38,6 +42,7 @@ const ProfessionalSignupPage = () => {
         } catch (error) {
             console.log(error);
         }
+        setLoading(false);
     };
 
     return (
@@ -96,14 +101,14 @@ const ProfessionalSignupPage = () => {
                     <button type="submit" disabled={adminLoading}>Sign Up</button>
                     {adminError && <p className="error">{adminError.message || "An error occurred"}</p>}
                 </form>
-                {/* {isLoading && (
+                {isLoading && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <ClipLoader size={50} color="#ffffff" />
                         <p>Registering your account...</p>
                     </div>
                 )}
 
-                {adminError && <p className="text-red-500">{adminError}</p>} */}
+                {adminError && <p className="text-red-500">{adminError}</p>}
             </div>
         </div>
     );

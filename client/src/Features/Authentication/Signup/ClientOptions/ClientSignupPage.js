@@ -1,7 +1,7 @@
 // ClientSignupPage.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import ClipLoader from 'react-spinners/ClipLoader';  // Import ClipLoader for spinner
 import '../SignupPage.scss';
 import useUserAuthStore from '../../../../store/userAuthStore'; 
 
@@ -59,8 +59,19 @@ const ClientSignupPage = () => {
                         />
                     </div>
                     <button type="submit" disabled={userLoading}>Sign Up</button>
-                    {userError && <p className="error">{userError}</p>}
+
+                    {userError && <p className="error">{userError.message || "An error occurred"}</p>}
                 </form>
+
+                {/* Render spinner when loading */}
+                {userLoading && (
+                    <div className="spinner-overlay">
+                        <div className="spinner-container">
+                            <ClipLoader size={50} color="#ffffff" />
+                            <p>Creating your account...</p>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
