@@ -10,7 +10,7 @@ const FeedbackForm = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const user = localStorage.getItem('user');
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const navigate = useNavigate();
 

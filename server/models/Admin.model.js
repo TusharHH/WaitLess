@@ -21,7 +21,6 @@ const adminSchema = new mongoose.Schema({
   },
   location: {
     type: String,
-    required: true
   },
   services: [{
     type: mongoose.Schema.Types.ObjectId,
