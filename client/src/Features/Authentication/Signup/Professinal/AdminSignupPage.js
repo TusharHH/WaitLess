@@ -36,7 +36,7 @@ const ProfessionalSignupPage = () => {
                 const password = data.password;
                 const loginSuccess = await adminLogin(email,password);
                 if (loginSuccess) {
-                    navigate('/dashboard');
+                    navigate('/otp');
                 }
             }
         } catch (error) {
