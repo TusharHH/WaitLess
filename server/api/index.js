@@ -12,7 +12,7 @@ const tokenRoutes = require('../routes/Token.route.js');
 const queueRoutes = require('../routes/Queue.routes.js');
 
 // Load environment variables
-dotenv.config({ path: '.env' });
+dotenv.config({ path: '../.env' });
 
 const app = express();
 
@@ -27,7 +27,7 @@ connection();
 
 // Define your API routes
 app.get('/api/hello', (req, res) => {
-  res.status(200).json({ message: 'Hello from Vercel!' });
+    res.status(200).json({ message: 'Hello from Vercel!' });
 });
 
 app.use('/api/v1/admins', adminRoutes);
