@@ -20,7 +20,12 @@ app.use(express.static('public'));
 connection();
 
 app.use(cors());
-app.use(express.json({extended:true}));
+app.use(express.json({ extended: true }));
+
+// Hello Vercel Route
+app.get('/api/hello', (req, res) => {
+  res.status(200).json({ message: 'Hello from Vercel!' });
+});
 
 app.use('/api/v1/admins', adminRoutes);
 app.use('/api/v1/users', userRoutes);
@@ -32,8 +37,7 @@ app.use('/api/v1/queues', queueRoutes);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*', // Allowing all origins for simplicity
-    methods: ['GET', 'POST'],
+    origin: '*'
   },
 });
 
@@ -55,6 +59,7 @@ io.on('connection', (socket) => {
 });
 
 // Start the server
-server.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 4000; // Ensure a fallback port
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
