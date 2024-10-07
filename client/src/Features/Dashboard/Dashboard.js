@@ -202,19 +202,19 @@ function Dashboard() {
             <div className="container">
                 {services.length > 0 ? (
                     services.map((service) => (
-                        <div key={service._id} className="service-card">
+                        <div key={service?._id} className="service-card">
                             <ServiceCard
-                                serviceName={service.name}
-                                serviceDescription={service.description}
-                                serviceStartingTime={service.slots[0]?.startTime || 'N/A'}
-                                serviceEndingTime={service.slots[0]?.endTime || 'N/A'}
-                                serviceSlotTime={service.slotDuration}
-                                onShowQueue={() => handleShowQueue(service._id)}
+                                serviceName={service?.name}
+                                serviceDescription={service?.description}
+                                serviceStartingTime={service?.slots[0]?.startTime || 'N/A'}
+                                serviceEndingTime={service?.slots[0]?.endTime || 'N/A'}
+                                serviceSlotTime={service?.slotDuration}
+                                onShowQueue={() => handleShowQueue(service?._id)}
                                 tags={service.tags} 
                             />
                             <div className="card-actions">
                                 <button onClick={() => handleEdit(service)} className="edit-btn">Edit</button>
-                                <button onClick={() => handleDelete(service._id)} className="delete-btn">Delete</button>
+                                <button onClick={() => handleDelete(service?._id)} className="delete-btn">Delete</button>
                             </div>
                         </div>
                     ))
