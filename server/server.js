@@ -1,9 +1,7 @@
-// server.js
-
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const http = require('http');
+const http = require('http'); // Required for setting up the server with socket.io
 const { Server } = require('socket.io');
 
 const connection = require('./connection.js');
@@ -16,19 +14,13 @@ const queueRoutes = require('./routes/Queue.routes.js');
 const app = express();
 dotenv.config({ path: '.env' });
 
-// Middleware
 app.use(express.urlencoded({ extended: true, limit: '16kb' }));
 app.use(express.static('public'));
-app.use(cors());
-app.use(express.json({ extended: true }));
 
-// Database connection
 connection();
 
-// Define your API routes
-app.get('/api/hello', (req, res) => {
-  res.status(200).json({ message: 'Hello from Vercel!' });
-});
+app.use(cors());
+app.use(express.json({extended:true}));
 
 app.use('/api/v1/admins', adminRoutes);
 app.use('/api/v1/users', userRoutes);
@@ -36,12 +28,12 @@ app.use('/api/v1/services', serviceRoutes);
 app.use('/api/v1/tokens', tokenRoutes);
 app.use('/api/v1/queues', queueRoutes);
 
-// Create HTTP server and integrate with Socket.IO for local development
+// Create HTTP server and integrate with Socket.IO
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*', // Update this based on your needs in a production environment
-    credentials: true
+    origin: '*', // Allowing all origins for simplicity
+    methods: ['GET', 'POST'],
   },
 });
 
@@ -63,7 +55,6 @@ io.on('connection', (socket) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 4000;
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+server.listen(process.env.PORT, () => {
+  console.log(`Server running on port ${process.env.PORT}`);
 });
