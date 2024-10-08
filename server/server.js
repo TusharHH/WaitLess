@@ -19,7 +19,13 @@ app.use(express.static('public'));
 
 connection();
 
-app.use(cors());
+app.use(cors({
+    origin: "*",
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type'],
+    optionsSuccessStatus: 200,
+}));
 app.use(express.json({extended:true}));
 
 app.use('/api/v1/admins', adminRoutes);
