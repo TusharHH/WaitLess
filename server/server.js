@@ -20,7 +20,7 @@ app.use(express.static('public'));
 connection();
 
 app.use(cors({
-    origin: "*",
+    origin: "https://wait-less.vercel.app",
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type'],
