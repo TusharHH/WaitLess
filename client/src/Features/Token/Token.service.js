@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BACKEND_URL = 'http://localhost:4000/api/v1/tokens';
+const BACKEND_URL = 'https://wait-less-backend-2.vercel.app/api/v1/tokens';
 
 const tokenService = {
     getTokenById: async (id) => {

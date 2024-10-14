@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const BACKEND_URL_ADMIN = 'http://localhost:4000/api/v1/admins';
-const BACKEND_URL_USER = 'http://localhost:4000/api/v1/users'
+const BACKEND_URL_ADMIN = 'https://wait-less-backend-2.vercel.app/api/v1/admins';
+const BACKEND_URL_USER = 'https://wait-less-backend-2.vercel.app/api/v1/users'
 
 const getToken = () => {
   const accessToken = localStorage.getItem("Token");

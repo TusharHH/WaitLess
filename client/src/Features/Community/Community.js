@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUserAuthStore } from '../../store/userAuthStore';
 import useAdminStore from '../../store/adminAuthStore';
 
-const socket = io('http://localhost:4000'); // Make sure to replace with your server URL
+const socket = io('https://wait-less-backend-2.vercel.app'); // Make sure to replace with your server URL
 
 const Community = () => {
     const [message, setMessage] = useState('');

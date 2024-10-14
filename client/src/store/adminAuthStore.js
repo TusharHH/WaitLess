@@ -3,10 +3,10 @@ import { loginAdmin, signupAdmin, updateAdminService,fetchAdminByIdService } fro
 import axios from 'axios';
 
 const getStoredUser = () => {
-    const storedUser = localStorage.getItem("admin");
+    const storedUser = localStorage.getItem("user");
     if (!storedUser || storedUser === "undefined") {
         // If no data or invalid data exists, remove and return null
-        localStorage.removeItem("admin");
+        localStorage.removeItem("user");
         return null;
     }
     try {
@@ -14,7 +14,7 @@ const getStoredUser = () => {
     } catch (error) {
         console.error("Error parsing stored user data:", error);
         // If data is invalid, remove it from localStorage and return null
-        localStorage.removeItem("admin");
+        localStorage.removeItem("user");
         return null;
     }
 };
@@ -115,7 +115,7 @@ const useAdminStore = create((set) => ({
             console.log(adminId);
 
 
-            const response = await axios.get('http://localhost:4000/api/v1/admins/getUsers', {
+            const response = await axios.get('https://wait-less-backend-2.vercel.app/api/v1/admins/getUsers', {
                 params: {
                     adminId,
                     serviceId
@@ -130,7 +130,7 @@ const useAdminStore = create((set) => ({
 
     sendOtp: async (email, type) => {
         try {
-            const response = await axios.post('http://localhost:4000/api/v1/admins/send-otp', { email, type });
+            const response = await axios.post('https://wait-less-backend-2.vercel.app/api/v1/admins/send-otp', { email, type });
 
 
             if (!response) {
@@ -147,7 +147,7 @@ const useAdminStore = create((set) => ({
     verifyOtp: async (email, otp) => {
         console.log(email);
         try {
-            const response = await axios.post('http://localhost:4000/api/v1/admins/verify-otp', { email, otp });
+            const response = await axios.post('https://wait-less-backend-2.vercel.app/api/v1/admins/verify-otp', { email, otp });
 
             console.log(response);
             if (!response) {
@@ -190,7 +190,7 @@ const useAdminStore = create((set) => ({
         set({ isLoading: true, error: null });
 
         try {
-            const response = await axios.get('http://localhost:4000/api/v1/admins/admins');
+            const response = await axios.get('https://wait-less-backend-2.vercel.app/api/v1/admins/admins');
             console.log(response.data);
             set({
                 admins: response.data.data.admins,

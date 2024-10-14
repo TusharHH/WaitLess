@@ -3,7 +3,7 @@ import axios from 'axios';
 import { create_token, get_all_service } from '../Features/Services/serviceService';
 import { json } from 'react-router-dom';
 
-const BACKEND_URL = 'http://localhost:4000/api/v1/services';
+const BACKEND_URL = 'https://wait-less-backend-2.vercel.app/api/v1/services';
 
 const useServiceStore = create((set) => ({
     services: [],

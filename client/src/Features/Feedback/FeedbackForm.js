@@ -34,7 +34,7 @@ const FeedbackForm = () => {
     setLoading(true); // Start the loader
 
     try {
-      const response = await fetch('http://localhost:4000/api/v1/admins/feedback', {
+      const response = await fetch('https://wait-less-backend-2.vercel.app/api/v1/admins/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
