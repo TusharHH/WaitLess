@@ -24,9 +24,8 @@ app.use(cors({
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'], 
-    allowedHeaders: ['Content-Type'],
-    optionsSuccessStatus: 200,
 }));
+
 app.use(express.json({ extended: true }));
 
 // Database connection
