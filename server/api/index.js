@@ -19,7 +19,13 @@ const app = express();
 // Middleware
 app.use(express.urlencoded({ extended: true, limit: '16kb' }));
 app.use(express.static('public'));
-app.use(cors());
+app.use(cors({
+    origin: "https://wait-less.vercel.app",
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type'],
+    optionsSuccessStatus: 200,
+}));
 app.use(express.json({ extended: true }));
 
 // Database connection
