@@ -23,6 +23,7 @@ app.use(cors({
     origin: "https://wait-less.vercel.app",
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization'], 
     allowedHeaders: ['Content-Type'],
     optionsSuccessStatus: 200,
 }));
@@ -41,6 +42,7 @@ const io = new Server(server, {
     origin: "https://wait-less.vercel.app",
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization'], 
     allowedHeaders: ['Content-Type'],
     optionsSuccessStatus: 200,
   },
