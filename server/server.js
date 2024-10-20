@@ -38,8 +38,11 @@ app.use('/api/v1/queues', queueRoutes);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'https://wait-less.vercel.app', // Update this based on your needs in a production environment
-    credentials: true
+    origin: "https://wait-less.vercel.app",
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type'],
+    optionsSuccessStatus: 200,
   },
 });
 
