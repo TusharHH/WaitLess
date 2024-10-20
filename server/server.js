@@ -24,9 +24,8 @@ app.use(cors({
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'], 
-    allowedHeaders: ['Content-Type'],
-    optionsSuccessStatus: 200,
 }));
+
 app.use(express.json({extended:true}));
 
 app.use('/api/v1/admins', adminRoutes);
@@ -38,15 +37,14 @@ app.use('/api/v1/queues', queueRoutes);
 // Create HTTP server and integrate with Socket.IO
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: {
-    origin: "https://wait-less.vercel.app",
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization'], 
-    allowedHeaders: ['Content-Type'],
-    optionsSuccessStatus: 200,
-  },
+    cors: {
+        origin: "https://wait-less.vercel.app",
+        credentials: true,
+        methods: ['GET', 'POST'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    },
 });
+
 
 // Socket.IO event handling
 io.on('connection', (socket) => {
